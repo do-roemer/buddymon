@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES2022",
     "lib": [
       "dom",
@@ -23,6 +24,12 @@
       }
     ],
     "paths": {
+      "@buddymon/shared": [
+        "../shared/dist/index.js"
+      ],
+      "@buddymon/shared-types": [
+        "../shared/src/types.ts"
+      ],
       "@/*": [
         "./src/*"
       ]

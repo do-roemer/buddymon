@@ -1,6 +1,6 @@
 "use client";
 
-import type { BuddySpecies, BuddyHat } from "@buddymon/shared";
+import type { BuddySpecies, BuddyHat } from "@buddymon/shared-types";
 
 // Original Claude Code companion ASCII sprites (5 lines, ~12 wide)
 // {E} is replaced with the eye character at render time

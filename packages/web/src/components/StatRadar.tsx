@@ -1,6 +1,6 @@
 "use client";
 
-import type { FighterStats, FighterClass } from "@buddymon/shared";
+import type { FighterStats, FighterClass } from "@buddymon/shared-types";
 
 const CLASS_COLORS: Record<FighterClass, string> = {
   explorer: "#06b6d4",

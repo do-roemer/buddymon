@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import type { FighterCard } from "@buddymon/shared";
+import type { FighterCard } from "@buddymon/shared-types";
 import { BuddyCard } from "@/components/BuddyCard";
 
 interface StoredBuddy {

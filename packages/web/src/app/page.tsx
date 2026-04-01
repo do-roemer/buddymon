@@ -2,7 +2,7 @@ import { getAllBuddies, getRecentBattles } from "@/lib/db";
 import { UploadCard } from "@/components/UploadCard";
 import { Leaderboard } from "@/components/Leaderboard";
 import { BuddySprite } from "@/components/BuddySprite";
-import type { BuddySpecies } from "@buddymon/shared";
+import type { BuddySpecies } from "@buddymon/shared-types";
 
 export const dynamic = "force-dynamic";
 

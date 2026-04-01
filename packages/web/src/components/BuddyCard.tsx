@@ -1,6 +1,6 @@
 "use client";
 
-import type { FighterCard } from "@buddymon/shared";
+import type { FighterCard } from "@buddymon/shared-types";
 import { BuddySprite } from "./BuddySprite";
 import { StatRadar } from "./StatRadar";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import type { BattleResult, BattleAction, FighterCard } from "@buddymon/shared";
+import type { BattleResult, BattleAction, FighterCard } from "@buddymon/shared-types";
 import { BuddySprite } from "./BuddySprite";
 
 interface Props {

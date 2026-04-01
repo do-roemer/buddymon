@@ -1,7 +1,7 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { Redis } from "@upstash/redis";
-import type { BattleResult, FighterCard } from "@buddymon/shared";
+import type { BattleResult, FighterCard } from "@buddymon/shared-types";
 
 export interface StoredBuddy {
   id: string;
