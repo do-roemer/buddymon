@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "buddyName": "Kernblaze",
+  "species": "dragon",
+  "personality": "A volatile dragon who treats every terminal session like a war zone, chaining pipes and processes with reckless abandon. Types 'sudo' before thinking and apologizes to no one.",
+  "baseStats": {
+    "debugging": 22,
+    "patience": 8,
+    "chaos": 71,
+    "wisdom": 35,
+    "snark": 44
+  },
+  "ownerHash": "7c3a91f0e42d8b16a5f09e3d7c821ab4f6e0d953c18b72a4e9f5063d2b81c7a0",
+  "class": "commander",
+  "level": 42,
+  "title": "The Terminal Tyrant",
+  "stats": {
+    "hp": 175,
+    "attack": 55,
+    "defense": 35,
+    "speed": 42,
+    "critChance": 22,
+    "rageMode": true
+  },
+  "moves": [
+    {
+      "name": "Kill -9",
+      "type": "bash",
+      "power": 120,
+      "accuracy": 60,
+      "description": "The nuclear option. Cannot be caught."
+    },
+    {
+      "name": "Cron Job",
+      "type": "bash",
+      "power": 40,
+      "accuracy": 100,
+      "effect": {
+        "kind": "dot",
+        "damagePerTurn": 15,
+        "turns": 3
+      },
+      "description": "Schedules recurring damage"
+    },
+    {
+      "name": "Force Push",
+      "type": "write",
+      "power": 110,
+      "accuracy": 65,
+      "description": "Overwrites everything. No review needed."
+    },
+    {
+      "name": "Delegate",
+      "type": "agent",
+      "power": 65,
+      "accuracy": 90,
+      "description": "Summons a sub-agent to attack"
+    }
+  ],
+  "passive": {
+    "name": "Root Access",
+    "description": "On crit: inflict DoT for 2 turns",
+    "trigger": "on_crit",
+    "effect": {
+      "kind": "dot",
+      "damagePerTurn": 10,
+      "turns": 2
+    }
+  },
+  "spriteKey": "dragon",
+  "dominantLanguage": "Bash",
+  "favoriteHour": 2,
+  "totalSessions": 187,
+  "generatedAt": "2026-04-01T20:45:00.000Z",
+  "signature": "d4e8f2a1b7c3095d6e1f8a4b2c7d9e0f3a5b6c8d1e2f4a7b9c0d3e5f6a8b1c2"
+}

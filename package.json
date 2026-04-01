@@ -1,0 +1,20 @@
+{
+  "name": "buddymon",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "buddy": "node --import tsx packages/cli/src/index.ts buddy",
+    "scan": "node --import tsx packages/cli/src/index.ts scan",
+    "stats": "node --import tsx packages/cli/src/index.ts stats",
+    "export": "node --import tsx packages/cli/src/index.ts export buddymon-card.json",
+    "battle": "node --import tsx packages/cli/src/index.ts battle",
+    "arena": "npm run dev -w @buddymon/web",
+    "build": "npm run build --workspaces",
+    "build:shared": "npm run build -w @buddymon/shared",
+    "build:cli": "npm run build -w @buddymon/cli",
+    "build:web": "npm run build -w @buddymon/web",
+    "test": "npm run test --workspaces --if-present"
+  }
+}

@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+:root {
+  --color-explorer: #06b6d4;
+  --color-builder: #eab308;
+  --color-commander: #ef4444;
+  --color-architect: #a855f7;
+  --color-debugger: #22c55e;
+  --bg-dark: #0a0a1a;
+  --bg-card: #1a1a2e;
+  --bg-card-hover: #252540;
+  --border-subtle: #2a2a4a;
+}
+
+body {
+  background: var(--bg-dark);
+  color: #e0e0e0;
+  font-family: "Press Start 2P", "Courier New", monospace;
+}
+
+/* Pixel-perfect rendering */
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Pixel border */
+.pixel-border {
+  border: 3px solid;
+  box-shadow:
+    inset -2px -2px 0 0 rgba(0, 0, 0, 0.3),
+    inset 2px 2px 0 0 rgba(255, 255, 255, 0.1);
+}
+
+/* HP bar animation */
+.hp-bar-fill {
+  transition: width 0.5s ease-out;
+}
+
+/* Attack shake animation */
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Damage number float */
+@keyframes float-up {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+.animate-damage {
+  animation: float-up 1s ease-out forwards;
+}
+
+/* Crit flash */
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.animate-flash {
+  animation: flash 0.15s ease-in-out 3;
+}
+
+/* Idle bob animation for sprites */
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bob {
+  animation: bob 2s ease-in-out infinite;
+}
+
+/* Shiny shimmer effect */
+@keyframes shimmer {
+  0% {
+    filter: brightness(1) hue-rotate(0deg);
+  }
+  50% {
+    filter: brightness(1.4) hue-rotate(15deg);
+  }
+  100% {
+    filter: brightness(1) hue-rotate(0deg);
+  }
+}
+
+.animate-shiny {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Scanline overlay for retro feel */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+}

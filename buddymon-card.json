@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "buddyName": "Rindwick",
+  "terminalTamer": "Dominik",
+  "species": "capybara",
+  "personality": "A phlegmatic capybara who absorbs your debugging chaos with zen patience, then delivers the solution wrapped in dry, observational snark that makes you unsure whether you're being comforted or roasted.",
+  "baseStats": {
+    "debugging": 20,
+    "patience": 7,
+    "chaos": 92,
+    "wisdom": 20,
+    "snark": 21
+  },
+  "ownerHash": "befac818146e61069a903d0771edd58bed32c4fbbee0bac297358f084af5849f",
+  "class": "explorer",
+  "level": 47,
+  "title": "The Code Archaeologist",
+  "stats": {
+    "hp": 170,
+    "attack": 63,
+    "defense": 39,
+    "speed": 25,
+    "critChance": 18,
+    "rageMode": false
+  },
+  "moves": [
+    {
+      "name": "Source Dive",
+      "type": "read",
+      "power": 100,
+      "accuracy": 70,
+      "description": "Reads the opponent's entire codebase at once"
+    },
+    {
+      "name": "Glob Storm",
+      "type": "read",
+      "power": 50,
+      "accuracy": 100,
+      "effect": {
+        "kind": "debuff",
+        "stat": "defense",
+        "amount": 10,
+        "turns": 2
+      },
+      "description": "Scatters search patterns everywhere"
+    },
+    {
+      "name": "Delegate",
+      "type": "agent",
+      "power": 65,
+      "accuracy": 90,
+      "description": "Summons a sub-agent to attack"
+    },
+    {
+      "name": "Code Wall",
+      "type": "write",
+      "power": 40,
+      "accuracy": 100,
+      "effect": {
+        "kind": "shield",
+        "percent": 25,
+        "turns": 3
+      },
+      "description": "Writes a defensive wall of code"
+    }
+  ],
+  "passive": {
+    "name": "Reconnaissance",
+    "description": "On dodge: debuff enemy defense for 2 turns",
+    "trigger": "on_dodge",
+    "effect": {
+      "kind": "debuff",
+      "stat": "defense",
+      "amount": 10,
+      "turns": 2
+    }
+  },
+  "spriteKey": "capybara",
+  "rarity": "uncommon",
+  "eye": "°",
+  "hat": "crown",
+  "shiny": false,
+  "dominantLanguage": "TypeScript",
+  "favoriteHour": 14,
+  "totalSessions": 333,
+  "generatedAt": "2026-04-01T20:13:54.406Z",
+  "signature": "e5f5eeaac3fa5e95bf80efb8bc8cd01fe74bde608e197e4c1d67437d2842304a"
+}
