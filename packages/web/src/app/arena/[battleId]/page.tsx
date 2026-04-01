@@ -10,7 +10,7 @@ interface Props {
 
 export default async function BattlePage({ params }: Props) {
   const { battleId } = await params;
-  const battle = getBattle(battleId);
+  const battle = await getBattle(battleId);
 
   if (!battle) return notFound();
 

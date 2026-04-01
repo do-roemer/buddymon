@@ -14,7 +14,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const buddy = uploadBuddy(parsed.data);
+    const buddy = await uploadBuddy(parsed.data);
     return NextResponse.json({ buddy });
   } catch {
     return NextResponse.json(

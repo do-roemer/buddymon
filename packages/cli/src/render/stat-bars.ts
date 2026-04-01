@@ -1,10 +1,10 @@
-import chalk from "chalk";
+import chalk, { type ChalkInstance } from "chalk";
 
 const BAR_LENGTH = 20;
 const FILLED = "█";
 const EMPTY = "░";
 
-function makeBar(value: number, max: number, color: chalk.ChalkInstance): string {
+function makeBar(value: number, max: number, color: ChalkInstance): string {
   const filled = Math.round((value / max) * BAR_LENGTH);
   const empty = BAR_LENGTH - filled;
   return color(FILLED.repeat(filled)) + chalk.gray(EMPTY.repeat(empty));
@@ -51,7 +51,7 @@ export function renderHpBar(
   const filled = Math.round(pct * width);
   const empty = width - filled;
 
-  let color: chalk.ChalkInstance;
+  let color: ChalkInstance;
   if (pct > 0.5) color = chalk.green;
   else if (pct > 0.2) color = chalk.yellow;
   else color = chalk.red;

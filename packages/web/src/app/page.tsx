@@ -8,9 +8,11 @@ export const dynamic = "force-dynamic";
 
 const HERO_SPECIES: BuddySpecies[] = ["capybara", "duck", "cat", "dragon", "robot", "ghost", "axolotl"];
 
-export default function Home() {
-  const buddies = getAllBuddies();
-  const recentBattles = getRecentBattles(5);
+export default async function Home() {
+  const [buddies, recentBattles] = await Promise.all([
+    getAllBuddies(),
+    getRecentBattles(5),
+  ]);
 
   return (
     <div className="space-y-8 py-8">

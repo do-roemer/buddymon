@@ -3,8 +3,8 @@ import { Leaderboard } from "@/components/Leaderboard";
 
 export const dynamic = "force-dynamic";
 
-export default function LeaderboardPage() {
-  const buddies = getAllBuddies();
+export default async function LeaderboardPage() {
+  const buddies = await getAllBuddies();
 
   return (
     <div className="space-y-6 py-8">

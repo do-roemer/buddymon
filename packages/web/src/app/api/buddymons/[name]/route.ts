@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: Promise<{ name: string }> },
 ) {
   const { name } = await params;
-  const buddy = getBuddyByName(decodeURIComponent(name));
+  const buddy = await getBuddyByName(decodeURIComponent(name));
 
   if (!buddy) {
     return NextResponse.json(

@@ -8,8 +8,7 @@ import {
 } from "@buddymon/shared";
 import { renderBattleResult } from "../render/battle-log.js";
 import { getTerminalTamer } from "../terminal-tamer.js";
-
-const ARENA_URL = process.env.BUDDYMON_ARENA_URL ?? "http://localhost:3000";
+import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
 
 function looksLikeFilePath(arg: string): boolean {
   return arg.endsWith(".json") || arg.includes("/") || arg.includes("\\");
@@ -23,6 +22,11 @@ async function fetchOpponentByName(name: string) {
       console.error(chalk.gray("  Use 'buddymon list' to see available opponents.\n"));
     } else {
       console.error(chalk.red(`\n  Error: Failed to fetch from arena (${res.status}).\n`));
+    }
+    if (isLocalArenaUrl()) {
+      console.error(chalk.gray("  Start it with 'npm run arena' from the buddymon project directory.\n"));
+    } else {
+      console.error(chalk.gray(`  Check BUDDYMON_ARENA_URL: ${ARENA_URL}\n`));
     }
     process.exit(1);
   }

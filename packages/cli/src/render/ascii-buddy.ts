@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import chalk, { type ChalkInstance } from "chalk";
 import type { FighterClass, BuddySpecies, BuddyRarity, BuddyHat } from "@buddymon/shared";
 
 // Original Claude Code companion sprites (5 lines tall, ~12 wide)
@@ -144,7 +144,7 @@ const HAT_LINES: Record<BuddyHat, string> = {
   tinyduck:  '    ,>      ',
 };
 
-const SPECIES_COLORS: Record<BuddySpecies, chalk.ChalkInstance> = {
+const SPECIES_COLORS: Record<BuddySpecies, ChalkInstance> = {
   capybara: chalk.hex("#C4A882"),
   duck: chalk.yellow,
   goose: chalk.white,
@@ -165,7 +165,7 @@ const SPECIES_COLORS: Record<BuddySpecies, chalk.ChalkInstance> = {
   chonk: chalk.hex("#FFA07A"),
 };
 
-const CLASS_COLORS: Record<FighterClass, chalk.ChalkInstance> = {
+const CLASS_COLORS: Record<FighterClass, ChalkInstance> = {
   explorer: chalk.cyan,
   builder: chalk.yellow,
   commander: chalk.red,
@@ -173,7 +173,7 @@ const CLASS_COLORS: Record<FighterClass, chalk.ChalkInstance> = {
   debugger: chalk.green,
 };
 
-const RARITY_COLORS: Record<BuddyRarity, chalk.ChalkInstance> = {
+const RARITY_COLORS: Record<BuddyRarity, ChalkInstance> = {
   common: chalk.gray,
   uncommon: chalk.green,
   rare: chalk.blue,
@@ -207,15 +207,15 @@ export function renderBuddy(
   return lines.map((line) => color(line)).join("\n");
 }
 
-export function getSpeciesColor(species: BuddySpecies): chalk.ChalkInstance {
+export function getSpeciesColor(species: BuddySpecies): ChalkInstance {
   return SPECIES_COLORS[species] ?? chalk.white;
 }
 
-export function getClassColor(fighterClass: FighterClass): chalk.ChalkInstance {
+export function getClassColor(fighterClass: FighterClass): ChalkInstance {
   return CLASS_COLORS[fighterClass];
 }
 
-export function getRarityColor(rarity: BuddyRarity): chalk.ChalkInstance {
+export function getRarityColor(rarity: BuddyRarity): ChalkInstance {
   return RARITY_COLORS[rarity];
 }
 

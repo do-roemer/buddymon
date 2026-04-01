@@ -20,8 +20,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const buddy1 = getBuddy(buddy1Id);
-    const buddy2 = getBuddy(buddy2Id);
+    const buddy1 = await getBuddy(buddy1Id);
+    const buddy2 = await getBuddy(buddy2Id);
 
     if (!buddy1 || !buddy2) {
       return NextResponse.json(
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     }
 
     const result = resolveBattle(buddy1.card, buddy2.card);
-    const battle = storeBattle(result, buddy1Id, buddy2Id);
+    const battle = await storeBattle(result, buddy1Id, buddy2Id);
 
     return NextResponse.json({ battle });
   } catch {

@@ -96,6 +96,22 @@ Shows all uploaded buddymons with their tamer, species, class, level, and win/lo
 /buddymon leaderboard
 ```
 
+## Deploying the Arena on Vercel
+
+The web app can run on Vercel, but it needs durable external storage for uploads,
+battles, and leaderboard data. The arena now expects an Upstash Redis database via:
+
+```bash
+UPSTASH_REDIS_REST_URL=...
+UPSTASH_REDIS_REST_TOKEN=...
+```
+
+On Vercel, add an Upstash Redis integration from the Marketplace and expose those
+environment variables to the `@buddymon/web` project.
+
+For local development, if those environment variables are not set, the web app
+falls back to `data/db.json` in the repo root.
+
 ## How Stats Work
 
 Your buddy's stats are derived from your Claude Code usage in `~/.claude/`. The more you use Claude Code, the stronger your buddy gets.

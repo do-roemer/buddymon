@@ -51,19 +51,13 @@ cd ~/Desktop/personal_projects/buddymon && node --import tsx packages/cli/src/in
 Tell the user where the file was saved.
 
 ### upload
-Export the fighter card AND upload it to the web arena. Run both steps:
-
-1. Export the card:
+Generate the fighter card and upload it to the web arena:
 ```bash
-cd ~/Desktop/personal_projects/buddymon && node --import tsx packages/cli/src/index.ts export ~/Desktop/personal_projects/buddymon/buddymon-card.json [--tamer "Name"]
+cd ~/Desktop/personal_projects/buddymon && node --import tsx packages/cli/src/index.ts upload [--tamer "Name"]
 ```
 
-2. Upload to the arena (assumes it's running on localhost:3000):
-```bash
-curl -s -X POST http://localhost:3000/api/upload -H 'Content-Type: application/json' -d @/Users/dominik/Desktop/personal_projects/buddymon/buddymon-card.json
-```
-
-If the upload succeeds, tell the user their buddy is in the arena. If it fails (connection refused), tell them to start the arena first with `npm run arena` from the buddymon project directory.
+If the upload succeeds, tell the user their buddy is in the arena. The CLI reads
+`BUDDYMON_ARENA_URL` and defaults to `http://localhost:3000`.
 
 ### list
 List all buddymons in the arena.
@@ -84,11 +78,10 @@ cd ~/Desktop/personal_projects/buddymon && node --import tsx packages/cli/src/in
 If battling by name and the arena is not running, tell the user to start it first or provide a file path instead.
 
 ### leaderboard
-Fetch and display the arena leaderboard (assumes arena is running on localhost:3000):
+Fetch and display the arena leaderboard:
 ```bash
-curl -s http://localhost:3000/api/leaderboard
+cd ~/Desktop/personal_projects/buddymon && node --import tsx packages/cli/src/index.ts leaderboard
 ```
-Format the JSON response as a nice table showing rank, name, species, class, level, wins, losses, and win rate.
 
 ### help
 Show all available commands with descriptions.

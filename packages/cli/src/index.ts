@@ -6,7 +6,9 @@ import { statsCommand } from "./commands/stats.js";
 import { exportCommand } from "./commands/export.js";
 import { battleCommand } from "./commands/battle.js";
 import { listCommand } from "./commands/list.js";
+import { leaderboardCommand } from "./commands/leaderboard.js";
 import { helpCommand } from "./commands/help.js";
+import { uploadCommand } from "./commands/upload.js";
 
 const program = new Command();
 
@@ -39,6 +41,12 @@ program
   .action(exportCommand);
 
 program
+  .command("upload")
+  .description("Generate and upload your fighter card to the arena")
+  .option("--tamer <name>", "Set your Terminal Tamer name")
+  .action(uploadCommand);
+
+program
   .command("battle")
   .description("Battle against another buddy (by name from arena, or file path)")
   .argument("<opponent>", "Buddy name in the arena, or path to a fighter card JSON")
@@ -49,6 +57,11 @@ program
   .command("list")
   .description("List all buddymons in the arena")
   .action(listCommand);
+
+program
+  .command("leaderboard")
+  .description("Show the arena leaderboard")
+  .action(leaderboardCommand);
 
 program
   .command("help")

@@ -3,15 +3,21 @@ import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
 
 interface StoredBuddy {
   id: string;
-  card: { buddyName: string; species: string; class: string; level: number; terminalTamer: string };
+  card: {
+    buddyName: string;
+    species: string;
+    class: string;
+    level: number;
+    terminalTamer?: string;
+  };
   wins: number;
   losses: number;
 }
 
-export async function listCommand(): Promise<void> {
+export async function leaderboardCommand(): Promise<void> {
   let buddies: StoredBuddy[];
   try {
-    const res = await fetch(`${ARENA_URL}/api/buddymons`);
+    const res = await fetch(`${ARENA_URL}/api/leaderboard`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     buddies = data.buddies;
@@ -30,7 +36,7 @@ export async function listCommand(): Promise<void> {
     return;
   }
 
-  console.log(chalk.bold("\n  Arena Buddymons"));
+  console.log(chalk.bold("\n  Arena Leaderboard"));
   console.log(chalk.gray("  " + "─".repeat(72)));
   console.log(
     chalk.gray(

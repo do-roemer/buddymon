@@ -12,11 +12,11 @@ interface Props {
 
 export default async function BuddyPage({ params }: Props) {
   const { id } = await params;
-  const buddy = getBuddy(id);
+  const buddy = await getBuddy(id);
 
   if (!buddy) return notFound();
 
-  const battles = getBuddyBattles(id);
+  const battles = await getBuddyBattles(id);
   const { card } = buddy;
 
   return (
