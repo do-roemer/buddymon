@@ -70,6 +70,20 @@ function hasRedisEnv(): boolean {
   return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
 }
 
+function isProductionRuntime(): boolean {
+  return process.env.NODE_ENV === "production";
+}
+
+function shouldUseFileFallback(): boolean {
+  return !hasRedisEnv() && !isProductionRuntime();
+}
+
+function missingStorageError(): Error {
+  return new Error(
+    "Arena storage is not configured. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in production.",
+  );
+}
+
 function redis(): Redis {
   if (redisInstance) return redisInstance;
   redisInstance = Redis.fromEnv({ readYourWrites: true });
@@ -105,12 +119,12 @@ async function ensureDir(): Promise<void> {
 }
 
 async function readFileDb(): Promise<FileDb> {
-  await ensureDir();
   try {
     const raw = await fs.readFile(DB_PATH, "utf-8");
     return JSON.parse(raw) as FileDb;
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+    const code = (error as NodeJS.ErrnoException).code;
+    if (code === "ENOENT" || code === "EROFS") {
       return { buddies: {}, battles: [] };
     }
     throw error;
@@ -316,19 +330,27 @@ async function getBuddyBattlesFromFile(buddyId: string): Promise<StoredBattle[]>
 }
 
 export async function getAllBuddies(): Promise<StoredBuddy[]> {
-  return hasRedisEnv() ? getAllBuddiesFromRedis() : getAllBuddiesFromFile();
+  if (hasRedisEnv()) return getAllBuddiesFromRedis();
+  if (shouldUseFileFallback()) return getAllBuddiesFromFile();
+  return [];
 }
 
 export async function getBuddy(id: string): Promise<StoredBuddy | null> {
-  return hasRedisEnv() ? getBuddyFromRedis(id) : getBuddyFromFile(id);
+  if (hasRedisEnv()) return getBuddyFromRedis(id);
+  if (shouldUseFileFallback()) return getBuddyFromFile(id);
+  return null;
 }
 
 export async function getBuddyByName(name: string): Promise<StoredBuddy | null> {
-  return hasRedisEnv() ? getBuddyByNameFromRedis(name) : getBuddyByNameFromFile(name);
+  if (hasRedisEnv()) return getBuddyByNameFromRedis(name);
+  if (shouldUseFileFallback()) return getBuddyByNameFromFile(name);
+  return null;
 }
 
 export async function uploadBuddy(card: FighterCard): Promise<StoredBuddy> {
-  return hasRedisEnv() ? uploadBuddyToRedis(card) : uploadBuddyToFile(card);
+  if (hasRedisEnv()) return uploadBuddyToRedis(card);
+  if (shouldUseFileFallback()) return uploadBuddyToFile(card);
+  throw missingStorageError();
 }
 
 export async function storeBattle(
@@ -336,23 +358,25 @@ export async function storeBattle(
   buddy1Id: string,
   buddy2Id: string,
 ): Promise<StoredBattle> {
-  return hasRedisEnv()
-    ? storeBattleInRedis(result, buddy1Id, buddy2Id)
-    : storeBattleInFile(result, buddy1Id, buddy2Id);
+  if (hasRedisEnv()) return storeBattleInRedis(result, buddy1Id, buddy2Id);
+  if (shouldUseFileFallback()) return storeBattleInFile(result, buddy1Id, buddy2Id);
+  throw missingStorageError();
 }
 
 export async function getBattle(id: string): Promise<StoredBattle | null> {
-  return hasRedisEnv() ? getBattleFromRedis(id) : getBattleFromFile(id);
+  if (hasRedisEnv()) return getBattleFromRedis(id);
+  if (shouldUseFileFallback()) return getBattleFromFile(id);
+  return null;
 }
 
 export async function getRecentBattles(limit: number = 10): Promise<StoredBattle[]> {
-  return hasRedisEnv()
-    ? getRecentBattlesFromRedis(limit)
-    : getRecentBattlesFromFile(limit);
+  if (hasRedisEnv()) return getRecentBattlesFromRedis(limit);
+  if (shouldUseFileFallback()) return getRecentBattlesFromFile(limit);
+  return [];
 }
 
 export async function getBuddyBattles(buddyId: string): Promise<StoredBattle[]> {
-  return hasRedisEnv()
-    ? getBuddyBattlesFromRedis(buddyId)
-    : getBuddyBattlesFromFile(buddyId);
+  if (hasRedisEnv()) return getBuddyBattlesFromRedis(buddyId);
+  if (shouldUseFileFallback()) return getBuddyBattlesFromFile(buddyId);
+  return [];
 }
