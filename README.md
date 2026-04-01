@@ -12,7 +12,7 @@ Turn your Claude Code usage stats into a battle-ready fighter card. Challenge te
 ### 1. Clone and install
 
 ```bash
-git clone https://github.com/ellamind/buddymon.git && cd buddymon
+git clone https://github.com/do-roemer/buddymon.git && cd buddymon
 npm install
 ```
 
