@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@buddymon/shared": "^0.1.0",
+    "@buddymon/shared": "file:../shared",
     "@upstash/redis": "^1.37.0",
     "next": "^16.2.2",
     "react": "^19.2.4",
