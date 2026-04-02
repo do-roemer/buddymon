@@ -1,8 +1,0 @@
-{
-  "name": "buddymon",
-  "version": "0.1.0",
-  "description": "Battle your Claude Code buddies! Generate fighter cards from usage stats and battle teammates.",
-  "author": {
-    "name": "Buddymon"
-  }
-}

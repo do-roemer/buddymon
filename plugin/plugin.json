@@ -1,0 +1,14 @@
+{
+  "name": "buddymon",
+  "version": "0.1.0",
+  "description": "Create, show, and upload your Buddymon fighter card from Claude Code usage stats.",
+  "author": {
+    "name": "Buddymon"
+  },
+  "skills": [
+    {
+      "name": "buddymon",
+      "path": "./skills/buddymon.md"
+    }
+  ]
+}
