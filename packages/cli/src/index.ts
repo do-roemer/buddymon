@@ -38,6 +38,7 @@ program
   .description("Export your fighter card as JSON")
   .argument("[path]", "Output path", "./buddymon-card.json")
   .option("--tamer <name>", "Set your Terminal Tamer name")
+  .option("--sprite <lines>", "Custom ASCII body sprite (lines separated by \\n)")
   .action(exportCommand);
 
 program
@@ -45,6 +46,7 @@ program
   .description("Generate and upload your fighter card to the arena")
   .option("--tamer <name>", "Set your Terminal Tamer name")
   .option("--name <buddyName>", "Override your buddy's name")
+  .option("--sprite <lines>", "Custom ASCII sprite (lines separated by \\n)")
   .option("--fake-identity", "Use a random owner hash (testing only)")
   .action(uploadCommand);
 

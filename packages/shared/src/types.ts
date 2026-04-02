@@ -142,6 +142,7 @@ export const FighterCardSchema = z.object({
   eye: z.string(),
   hat: z.enum(BUDDY_HATS),
   shiny: z.boolean(),
+  customSprite: z.array(z.string()).max(9).optional(),
   dominantLanguage: z.string(),
   favoriteHour: z.number().min(0).max(23),
   totalSessions: z.number(),

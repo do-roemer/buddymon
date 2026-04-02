@@ -25,9 +25,6 @@ export default function RootLayout({
             <a href="/" className="text-lg font-bold text-white hover:text-[var(--color-explorer)]">
               BUDDYMON
             </a>
-            <a href="/fighters" className="text-xs hover:text-white">
-              Fighters
-            </a>
             <a href="/arena" className="text-xs hover:text-white">
               Arena
             </a>

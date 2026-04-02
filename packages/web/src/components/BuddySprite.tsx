@@ -183,6 +183,7 @@ interface Props {
   eye?: string;
   hat?: string;
   fighterClass?: string;
+  customSprite?: string[];
 }
 
 export function BuddySprite({
@@ -194,18 +195,22 @@ export function BuddySprite({
   eye = "\u00b7",
   hat = "none",
   fighterClass,
+  customSprite,
 }: Props) {
-  const sprite = SPRITES[species] ?? SPRITES.blob;
   const color = SPECIES_COLORS[species] ?? "#F5F5F5";
 
-  // Replace eye placeholders and apply hat
+  // Always start with the species head (hat + eyes applied)
+  const sprite = SPRITES[species] ?? SPRITES.blob;
   const lines = sprite.map((line) => line.replace(/\{E\}/g, eye));
   if (hat !== "none" && !lines[0].trim()) {
     lines[0] = HAT_LINES[hat] ?? "";
   }
 
-  // Add class accessory below the sprite
-  if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
+  if (customSprite && customSprite.length > 0) {
+    // Append custom body lines below the species head
+    lines.push(...customSprite);
+  } else if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
+    // Fallback: class accessory icon
     lines.push(CLASS_ACCESSORIES[fighterClass]);
   }
 

@@ -2,8 +2,8 @@
 name: buddymon
 description: >-
   Trigger phrases: "buddymon", "fighter card", "upload buddy", "battle buddy",
-  "arena leaderboard", "show my buddy", "buddymon stats".
-  Execute buddymon CLI commands to create, upload, battle, and manage fighter cards.
+  "arena leaderboard", "show my buddy", "buddymon stats", "transform buddymon".
+  Execute buddymon CLI commands to create, upload, transform, battle, and manage fighter cards.
 allowed-tools: Bash, Read
 version: 0.1.0
 ---
@@ -37,10 +37,17 @@ Show your fighter card with ASCII art, stats, and moves.
 cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- buddy [--tamer "Name"]
 ```
 
-### upload
-Generate your fighter card and upload it to the arena.
+### transform
+Generate your fighter card with a custom full-body sprite designed by Claude. Exports the card locally — use `upload` to send it to the arena.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload [--tamer "Name"]
+/buddymon transform [--tamer "Name"]
+```
+See the `/buddymon transform` command for full details.
+
+### upload
+Upload your fighter card to the arena. Picks up the custom sprite from a previous `transform` if available.
+```bash
+/buddymon upload [--tamer "Name"]
 ```
 
 ### battle

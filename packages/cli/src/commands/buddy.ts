@@ -21,7 +21,7 @@ export function buddyCommand(opts: { tamer?: string }): void {
   console.log("");
 
   // Sprite (with actual eye and hat)
-  console.log(renderBuddy(card.species, card.eye, card.hat as BuddyHat, card.class));
+  console.log(renderBuddy(card.species, card.eye, card.hat as BuddyHat, card.class, card.customSprite));
   console.log("");
 
   // Name and info

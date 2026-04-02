@@ -1,5 +1,5 @@
 import { getBattle } from "@/lib/db";
-import { BattleArena } from "@/components/BattleArena";
+import { BattleReplay } from "@/components/BattleReplay";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -14,41 +14,10 @@ export default async function BattlePage({ params }: Props) {
 
   if (!battle) return notFound();
 
-  type BattleTurn = (typeof battle.result.log)[number];
-  type BattleLogAction = BattleTurn["actions"][number];
-
   return (
     <div className="space-y-6 py-8 max-w-2xl mx-auto">
       <h1 className="text-xl font-bold text-white text-center">BATTLE REPLAY</h1>
-      <BattleArena result={battle.result} />
-
-      {/* Full text log */}
-      <div className="bg-[var(--bg-card)] pixel-border border-[var(--border-subtle)] rounded-lg p-4">
-        <h2 className="text-xs font-bold text-gray-400 mb-3">BATTLE LOG</h2>
-        <div className="space-y-2 max-h-96 overflow-y-auto">
-          {battle.result.log.map((turn: BattleTurn) => (
-            <div key={turn.turnNumber}>
-              <p className="text-[8px] text-gray-500">
-                Turn {turn.turnNumber}
-              </p>
-              {turn.actions.map((action: BattleLogAction, i: number) => (
-                <p
-                  key={i}
-                  className={`text-[10px] ${
-                    action.type === "ko"
-                      ? "text-red-400 font-bold"
-                      : action.type === "attack"
-                        ? "text-gray-200"
-                        : "text-gray-400"
-                  }`}
-                >
-                  {action.narration}
-                </p>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
+      <BattleReplay result={battle.result} />
     </div>
   );
 }

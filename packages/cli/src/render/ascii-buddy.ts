@@ -203,10 +203,11 @@ export function renderBuddy(
   eye: string = "\u00b7",
   hat: BuddyHat = "none",
   fighterClass?: FighterClass,
+  customSprite?: string[],
 ): string {
-  const sprite = SPRITES[species] ?? SPRITES.blob;
   const color = SPECIES_COLORS[species] ?? chalk.white;
 
+  const sprite = SPRITES[species] ?? SPRITES.blob;
   const lines = sprite.map((line) => line.replace(/\{E\}/g, eye));
 
   // Apply hat overlay on line 0 if it's blank
@@ -214,8 +215,11 @@ export function renderBuddy(
     lines[0] = HAT_LINES[hat];
   }
 
-  // Add class accessory below the sprite
-  if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
+  if (customSprite && customSprite.length > 0) {
+    // Append custom body lines below the species head
+    lines.push(...customSprite);
+  } else if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
+    // Fallback: class accessory icon
     const classColor = CLASS_COLORS[fighterClass];
     lines.push(classColor(CLASS_ACCESSORIES[fighterClass]));
     return lines.slice(0, -1).map((line) => color(line)).join("\n") + "\n" + lines[lines.length - 1];

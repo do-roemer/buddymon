@@ -4,12 +4,32 @@ Turn your Claude Code usage stats into a battle-ready fighter card. Challenge te
 
 ## Prerequisites
 
-- Node.js 18+
 - [Claude Code](https://claude.ai/code) (the CLI tool)
+- Node.js 18+ (for local development only)
 
-## Setup
+## Getting Started
 
-### 1. Clone and install
+### Option A — Install from GitHub (recommended)
+
+No cloning needed. In Claude Code, add the marketplace and install the plugin:
+
+```
+/plugin marketplace add do-roemer/buddymon
+```
+
+Then open `/plugin` → Discover tab → install **buddymon**.
+
+Once installed, run:
+
+```
+/buddymon
+```
+
+You should see your fighter card with ASCII art, stats, and moves. If this is your first time, Claude will ask you to choose a **Terminal Tamer** name — this is the trainer name displayed on your card.
+
+### Option B — Local development (contributors)
+
+Clone the repo and install dependencies:
 
 ```bash
 git clone https://github.com/do-roemer/buddymon.git && cd buddymon
@@ -18,29 +38,13 @@ npm install
 
 No build step required — the project uses `tsx` to run TypeScript directly.
 
-### 2. Install the Claude Code plugin
-
-All Buddymon commands run through Claude Code via the `/buddymon` slash command. To enable it, add the plugin to your Claude Code settings.
-
-Open `.claude/settings.json` in your project (or global settings at `~/.claude/settings.json`) and add:
-
-```json
-{
-  "plugins": ["buddymon@local:/absolute/path/to/buddymon/plugin"]
-}
-```
-
-Replace `/absolute/path/to/buddymon` with the actual path where you cloned the repo.
-
-### 3. Verify the plugin
-
-Open Claude Code and type:
+Then add the local checkout as a marketplace in Claude Code:
 
 ```
-/buddymon
+/plugin marketplace add /absolute/path/to/buddymon
 ```
 
-You should see your fighter card with ASCII art, stats, and moves. If this is your first time, Claude will ask you to choose a **Terminal Tamer** name — this is the trainer name displayed on your card.
+Replace `/absolute/path/to/buddymon` with the actual path where you cloned the repo. Then install the plugin from the Discover tab as above.
 
 ## Commands
 
@@ -114,28 +118,133 @@ falls back to `data/db.json` in the repo root.
 
 ## How Stats Work
 
-Your buddy's stats are derived from your Claude Code usage in `~/.claude/`. The more you use Claude Code, the stronger your buddy gets.
+Your buddy's stats are derived from your Claude Code usage in `~/.claude/`. The pipeline has 6 stages:
 
-| Base Stat | Fighter Stat | Source |
-|---|---|---|
-| Patience | HP | Session duration, message count |
-| Debugging | Defense | Error recovery rate, debug tool usage |
-| Chaos | Attack | Tool call volume, variety |
-| Wisdom | Speed | Language diversity, successful outcomes |
-| Snark | Crit Chance | Late-night sessions, edge-case patterns |
+```
+~/.claude/ (raw data)
+    │
+    ├─ stats-cache.json
+    ├─ usage-data/session-meta/*.json
+    └─ usage-data/facets/*.json
+    │
+    ▼
+┌─────────────┐
+│ Stats Parser │ → RawAggregate
+└─────────────┘
+    │
+    ├─→ Class Resolver  → FighterClass
+    ├─→ Stats Computer  → FighterStats (HP, ATK, DEF, SPD, CRIT, Rage)
+    ├─→ Move Resolver   → 4 moves
+    ├─→ Name Generator  → title
+    └─→ Companion       → species, rarity, base stats, cosmetics
+    │
+    ▼
+┌──────────────┐
+│ Fighter Card │ → signed JSON
+└──────────────┘
+```
 
-**Level** = `total sessions / 7` (capped at 50)
+### Stage 1: Data Parsing (`stats-parser.ts`)
 
-**Class** is determined by your tool usage distribution:
+Reads from three sources in `~/.claude/`:
 
-| Class | Style |
+| Source | Data extracted |
 |---|---|
-| Explorer | Heavy Read/Glob usage |
-| Builder | Heavy Write/Edit usage |
-| Commander | Heavy Bash/Agent usage |
-| Architect | Balanced across all tools |
-| Debugger | High error rate with good recovery |
+| `stats-cache.json` | `totalSessions`, `totalMessages`, `hourCounts`, `dailyActivity`, `modelUsage` |
+| `usage-data/session-meta/*.json` | Tool call counts per tool, tool errors, session duration, lines added/removed, languages used, late-night session detection (hours 22-4) |
+| `usage-data/facets/*.json` | Outcome scores (`fully_achieved`→3, `mostly_achieved`→2, `partially_achieved`→1), helpfulness scores (`essential`→4, `very_helpful`→3, `somewhat_helpful`→2, `slightly_helpful`→1) |
 
-**Moves** are selected from your top tool groups. Higher usage in a category = stronger moves of that type.
+Output: `RawAggregate` — a flat object with all aggregated usage data.
 
-**Cosmetics** (rarity, eye character, hat, shiny) are derived deterministically from your Claude Code account ID — the same companion you see in Claude Code.
+### Stage 2: Companion Traits (`companion.ts`)
+
+Reads `~/.claude.json` to get your Claude Code companion data (name, personality). Uses your account ID to deterministically roll traits via a **seeded PRNG** (Mulberry32 with FNV-1a hash, salt: `"friend-2026-401"`).
+
+**Roll order (deterministic):**
+
+1. **Rarity** (weighted random):
+
+   | Rarity | Weight |
+   |---|---|
+   | Common | 60% |
+   | Uncommon | 25% |
+   | Rare | 10% |
+   | Epic | 4% |
+   | Legendary | 1% |
+
+2. **Species** — uniform random from 18 species (duck, goose, cat, rabbit, owl, penguin, turtle, snail, dragon, octopus, axolotl, ghost, robot, blob, cactus, mushroom, chonk, capybara)
+
+3. **Eye** — uniform random from eye character set (`·`, `✦`, `×`, `◉`, `@`, `°`)
+
+4. **Hat** — `"none"` if common rarity, otherwise uniform from hat set (crown, tophat, propeller, halo, wizard, beanie, tinyduck)
+
+5. **Shiny** — 1% chance
+
+6. **Base stats** — 5 stats rolled per rarity floor:
+
+   | Rarity | Floor |
+   |---|---|
+   | Common | 5 |
+   | Uncommon | 15 |
+   | Rare | 25 |
+   | Epic | 35 |
+   | Legendary | 50 |
+
+   One random stat is the **peak** (`min(100, floor + 50 + random*30)`), one is the **dump** (`max(1, floor - 10 + random*15)`), the rest are normal (`floor + random*40`).
+
+   The 5 base stats are: `debugging`, `patience`, `chaos`, `wisdom`, `snark`.
+
+### Stage 3: Class Resolution (`class-resolver.ts`)
+
+Your class is determined by which tools you use most.
+
+**Debugger override:** If error rate (`totalToolErrors / totalToolCalls`) > 10% AND average outcome score ≥ 2.0, you're a Debugger.
+
+Otherwise, tool calls are grouped and the dominant group determines class:
+
+| Tool Group | Tools | Class |
+|---|---|---|
+| Read | Read, Grep, Glob, WebSearch, WebFetch | Explorer |
+| Write | Write, Edit, NotebookEdit | Builder |
+| Bash | Bash | Commander |
+| Agent | Agent, Tasks, Plans, Skills, MCP tools | Architect |
+
+### Stage 4: Stat Computation (`stats-computer.ts`)
+
+Base stats from the companion are mapped to fighter stats, then usage bonuses are added (40% weight, capped at +40 per stat):
+
+| Base Stat | Fighter Stat | Base Formula | Usage Bonus Source |
+|---|---|---|---|
+| Patience | HP | `80 + (patience/100) × 140` → 80-220 | `(totalMessages + totalSessions×10) / 500`, capped at +80 |
+| Chaos | ATK | `chaos × 0.6` → 0-60 | Sigmoid of tools-per-session (midpoint=15, steepness=0.15), ×0.4 |
+| Debugging | DEF | `debugging × 0.6` → 0-60 | `(avgOutcome / 3) × 40` |
+| Wisdom | SPD | `wisdom × 0.6` → 0-60 | Sigmoid of `1/avgSessionDuration` (midpoint=0.05, steepness=40), ×0.4. Shorter sessions → faster. |
+| Snark | CRIT | `5 + (snark/100) × 15` → 5-20 | Longest daily streak, capped at +10 |
+
+**Final stat ranges:** HP 80-300, ATK/DEF/SPD 1-100, CRIT 5-30%.
+
+**Rage Mode:** Activates if >15% of sessions are late-night (hours 22-4).
+
+**Level:** `floor(totalSessions / 7)`, capped at 50.
+
+### Stage 5: Move Resolution (`move-resolver.ts`)
+
+4 moves are selected based on your top 3 tool groups:
+
+1. **Top group:** highest-power move + one utility move (has a status effect)
+2. **2nd group:** medium-power move
+3. **3rd group:** highest-accuracy move
+
+Each move type has 4 options in the catalog (e.g. Read moves: Deep Scan, Pattern Match, Glob Storm, Source Dive). Moves have power (0-120), accuracy (60-100), and optional effects (buff, debuff, shield, heal, DoT).
+
+### Stage 6: Title Generation (`name-generator.ts`)
+
+Title is deterministic based on `ownerHash` + `favoriteHour`:
+
+- **Late-night coders** (peak hour 22-4): titles like "The Midnight Coder", "The 3AM Debugger"
+- **Early birds** (peak hour 5-7): titles like "The Dawn Compiler", "The Early Committer"
+- **Others:** class-specific titles (e.g. Explorer → "The Code Archaeologist", "The Pattern Seeker")
+
+### Signing
+
+The final card is signed with HMAC-SHA256 (key: `"buddymon-v1"`) over the JSON payload. This prevents tampering with exported cards.

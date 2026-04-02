@@ -59,7 +59,7 @@ export function BuddyCard({ card, selected = false, onClick, showDetails = false
       onClick={onClick}
     >
       <div className="flex items-center gap-4">
-        <BuddySprite species={card.species} size={6} shiny={card.shiny} eye={card.eye} hat={card.hat} fighterClass={card.class} />
+        <BuddySprite species={card.species} size={6} shiny={card.shiny} eye={card.eye} hat={card.hat} fighterClass={card.class} customSprite={card.customSprite} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold text-white truncate">{card.buddyName}</h3>
@@ -68,16 +68,10 @@ export function BuddyCard({ card, selected = false, onClick, showDetails = false
           <p className="text-[10px] text-gray-400">
             Lv.{card.level} {card.species.toUpperCase()} | {card.class.toUpperCase()}
           </p>
-          <p className={`text-[8px] ${rarityColor}`}>
-            {rarityStars} {card.rarity?.toUpperCase()}
-            {card.hat && card.hat !== "none" && (
-              <span className="text-gray-500 ml-2">Hat: {card.hat}</span>
-            )}
-          </p>
-          <p className="text-[8px] text-gray-500 italic truncate">{card.title}</p>
           {card.terminalTamer && (
-            <p className="text-[8px] text-gray-600">Tamer: {card.terminalTamer}</p>
+            <p className="text-[8px] text-gray-400">{card.terminalTamer}</p>
           )}
+          <p className="text-[8px] text-gray-500 italic truncate">{card.title}</p>
         </div>
       </div>
 

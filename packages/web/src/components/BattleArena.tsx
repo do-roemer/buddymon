@@ -6,9 +6,10 @@ import { BuddySprite } from "./BuddySprite";
 
 interface Props {
   result: BattleResult;
+  onComplete?: () => void;
 }
 
-export function BattleArena({ result }: Props) {
+export function BattleArena({ result, onComplete }: Props) {
   const [currentActionIdx, setCurrentActionIdx] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [hp, setHp] = useState<[number, number]>([
@@ -56,10 +57,11 @@ export function BattleArena({ result }: Props) {
     const next = currentActionIdx + 1;
     if (next >= allActions.length) {
       setIsPlaying(false);
+      onComplete?.();
       return;
     }
 
-    const delay = allActions[next]?.type === "attack" ? 1200 : 600;
+    const delay = allActions[next]?.type === "attack" ? 2500 : 1500;
     const timer = setTimeout(() => playAction(next), delay);
     return () => clearTimeout(timer);
   }, [isPlaying, currentActionIdx, allActions, playAction]);
@@ -77,6 +79,16 @@ export function BattleArena({ result }: Props) {
     setCurrentActionIdx(allActions.length - 1);
     if (lastAction) setHp(lastAction.hpAfter);
   };
+
+  // Auto-play on mount
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPlaying(true);
+      playAction(0);
+    }, 800);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const currentAction = currentActionIdx >= 0 ? allActions[currentActionIdx] : null;
   const isDone = currentActionIdx >= allActions.length - 1 && !isPlaying;
@@ -111,10 +123,12 @@ export function BattleArena({ result }: Props) {
       {/* Action log */}
       <div className="bg-black/30 rounded p-3 min-h-[60px] mb-4">
         {currentAction ? (
-          <p className="text-xs text-gray-200">{currentAction.narration}</p>
+          <p className="text-xs text-gray-200">
+            <HighlightNames text={currentAction.narration} name1={f1.buddyName} name2={f2.buddyName} />
+          </p>
         ) : isDone ? (
           <p className="text-sm font-bold text-yellow-400">
-            {result.fighters[result.winner].buddyName} WINS in {result.turns} turns!
+            <HighlightNames text={`${result.fighters[result.winner].buddyName} WINS in ${result.turns} turns!`} name1={f1.buddyName} name2={f2.buddyName} />
           </p>
         ) : (
           <p className="text-xs text-gray-500">Ready to battle...</p>
@@ -123,14 +137,6 @@ export function BattleArena({ result }: Props) {
 
       {/* Controls */}
       <div className="flex gap-3 justify-center">
-        {!isPlaying && currentActionIdx < 0 && (
-          <button
-            onClick={start}
-            className="px-6 py-2 bg-red-600 hover:bg-red-500 text-white text-xs font-bold rounded pixel-border border-red-400"
-          >
-            FIGHT!
-          </button>
-        )}
         {isPlaying && (
           <button
             onClick={skipToEnd}
@@ -180,6 +186,7 @@ function FighterDisplay({
           eye={card.eye}
           hat={card.hat}
           fighterClass={card.class}
+          customSprite={card.customSprite}
         />
       </div>
 
@@ -191,7 +198,7 @@ function FighterDisplay({
         </div>
       )}
 
-      <p className="text-xs font-bold text-white mt-2">{card.buddyName}</p>
+      <p className={`text-xs font-bold mt-2 ${side === "left" ? "text-cyan-400" : "text-red-400"}`}>{card.buddyName}</p>
       <p className="text-[8px] text-gray-400">
         Lv.{card.level} {card.class.toUpperCase()}
       </p>
@@ -211,5 +218,24 @@ function FighterDisplay({
         </div>
       </div>
     </div>
+  );
+}
+
+function HighlightNames({ text, name1, name2 }: { text: string; name1: string; name2: string }) {
+  const regex = new RegExp(`(${name1.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}|${name2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "g");
+  const parts = text.split(regex);
+
+  return (
+    <>
+      {parts.map((part, i) =>
+        part === name1 ? (
+          <span key={i} className="text-cyan-400 font-bold">{part}</span>
+        ) : part === name2 ? (
+          <span key={i} className="text-red-400 font-bold">{part}</span>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
   );
 }
