@@ -133,6 +133,15 @@ const SPRITES: Record<BuddySpecies, string[]> = {
   ],
 };
 
+// Class-specific held items / accessories (appended below the sprite)
+const CLASS_ACCESSORIES: Record<FighterClass, string> = {
+  explorer:  "    ~?>~    ",   // spyglass
+  builder:   "   /|==|\\   ",   // hammer & nails
+  commander: "   -=/>=-   ",   // command sword
+  architect: "   |[##]|   ",   // blueprint scroll
+  debugger:  "   ~{!!}~   ",   // bug catcher
+};
+
 const HAT_LINES: Record<BuddyHat, string> = {
   none:      '',
   crown:     '   \\^^^/    ',
@@ -193,6 +202,7 @@ export function renderBuddy(
   species: BuddySpecies,
   eye: string = "\u00b7",
   hat: BuddyHat = "none",
+  fighterClass?: FighterClass,
 ): string {
   const sprite = SPRITES[species] ?? SPRITES.blob;
   const color = SPECIES_COLORS[species] ?? chalk.white;
@@ -202,6 +212,13 @@ export function renderBuddy(
   // Apply hat overlay on line 0 if it's blank
   if (hat !== "none" && !lines[0].trim()) {
     lines[0] = HAT_LINES[hat];
+  }
+
+  // Add class accessory below the sprite
+  if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
+    const classColor = CLASS_COLORS[fighterClass];
+    lines.push(classColor(CLASS_ACCESSORIES[fighterClass]));
+    return lines.slice(0, -1).map((line) => color(line)).join("\n") + "\n" + lines[lines.length - 1];
   }
 
   return lines.map((line) => color(line)).join("\n");

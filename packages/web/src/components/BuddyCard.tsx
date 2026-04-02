@@ -59,7 +59,7 @@ export function BuddyCard({ card, selected = false, onClick, showDetails = false
       onClick={onClick}
     >
       <div className="flex items-center gap-4">
-        <BuddySprite species={card.species} size={6} shiny={card.shiny} eye={card.eye} hat={card.hat} />
+        <BuddySprite species={card.species} size={6} shiny={card.shiny} eye={card.eye} hat={card.hat} fighterClass={card.class} />
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-bold text-white truncate">{card.buddyName}</h3>

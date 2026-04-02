@@ -1,5 +1,4 @@
 import { getAllBuddies, getRecentBattles } from "@/lib/db";
-import { UploadCard } from "@/components/UploadCard";
 import { Leaderboard } from "@/components/Leaderboard";
 import { BuddySprite } from "@/components/BuddySprite";
 import type { BuddySpecies } from "@buddymon/shared-types";
@@ -28,30 +27,6 @@ export default async function Home() {
           Your Claude Code usage stats become your fighter. Train locally, battle
           globally.
         </p>
-      </div>
-
-      {/* Upload */}
-      <div className="max-w-md mx-auto">
-        <UploadCard />
-      </div>
-
-      {/* How it works */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-        <StepCard
-          step="1"
-          title="Generate"
-          description="Run 'buddymon buddy' to see your fighter generated from ~/.claude/ stats"
-        />
-        <StepCard
-          step="2"
-          title="Export"
-          description="Run 'buddymon export' to save your fighter card as JSON"
-        />
-        <StepCard
-          step="3"
-          title="Battle"
-          description="Upload your card here and battle teammates in the arena"
-        />
       </div>
 
       {/* Leaderboard preview */}
@@ -109,24 +84,6 @@ export default async function Home() {
           </div>
         </div>
       )}
-    </div>
-  );
-}
-
-function StepCard({
-  step,
-  title,
-  description,
-}: {
-  step: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="bg-[var(--bg-card)] pixel-border border-[var(--border-subtle)] rounded-lg p-4">
-      <span className="text-cyan-400 text-xs font-bold">STEP {step}</span>
-      <h3 className="text-sm font-bold text-white mt-1">{title}</h3>
-      <p className="text-[8px] text-gray-400 mt-1">{description}</p>
     </div>
   );
 }

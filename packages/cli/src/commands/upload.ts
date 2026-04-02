@@ -1,14 +1,27 @@
+import * as crypto from "node:crypto";
 import chalk from "chalk";
 import { buildFighterCard, parseStats } from "@buddymon/shared";
 import { getTerminalTamer } from "../terminal-tamer.js";
 import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
 
-export async function uploadCommand(opts: { tamer?: string }): Promise<void> {
+export async function uploadCommand(opts: { tamer?: string; name?: string; fakeIdentity?: boolean }): Promise<void> {
   console.log(chalk.bold("\n  Generating fighter card...\n"));
 
   const agg = parseStats();
   const tamer = getTerminalTamer(opts.tamer);
   const card = buildFighterCard(agg, tamer);
+
+  if (opts.name) {
+    card.buddyName = opts.name;
+  }
+
+  if (!card.buddyName.toLowerCase().endsWith("mon")) {
+    card.buddyName += "mon";
+  }
+
+  if (opts.fakeIdentity) {
+    card.ownerHash = crypto.randomBytes(32).toString("hex");
+  }
 
   let res: Response;
   try {

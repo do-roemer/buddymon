@@ -1,0 +1,287 @@
+const CLASS_ICON_COLORS: Record<string, string> = {
+  explorer: "#06b6d4",
+  builder: "#eab308",
+  commander: "#ef4444",
+  architect: "#a855f7",
+  debugger: "#22c55e",
+};
+
+type FighterClass = "explorer" | "builder" | "commander" | "architect" | "debugger";
+type MoveType = "read" | "write" | "bash" | "agent" | "debug";
+
+const CLASS_DATA: Record<
+  FighterClass,
+  {
+    description: string;
+    playstyle: string;
+    color: string;
+    bgFrom: string;
+    border: string;
+    toolFocus: string;
+    passive: { name: string; description: string };
+    accessory: string;
+    strengths: MoveType[];
+    weaknesses: MoveType[];
+  }
+> = {
+  explorer: {
+    description:
+      "Explorers are the investigators of the codebase. They rely on heavy Read and Glob usage, scanning files and searching patterns to outmaneuver opponents.",
+    playstyle: "Evasive & analytical. Debuffs enemies on dodge, rewarding a hit-and-run style.",
+    color: "text-cyan-400",
+    bgFrom: "from-cyan-950/30",
+    border: "border-cyan-500",
+    toolFocus: "Read, Grep, Glob, WebSearch",
+    passive: {
+      name: "Reconnaissance",
+      description: "On dodge: debuff enemy defense for 2 turns",
+    },
+    accessory: "~?>~",
+
+    strengths: ["read"],
+    weaknesses: ["bash"],
+  },
+  builder: {
+    description:
+      "Builders shape the codebase with Write and Edit tools. They construct defenses and deliver powerful rewrite attacks.",
+    playstyle: "Tanky & steady. Gains shields each turn, absorbing damage while dealing consistent output.",
+    color: "text-yellow-400",
+    bgFrom: "from-yellow-950/30",
+    border: "border-yellow-500",
+    toolFocus: "Write, Edit, NotebookEdit",
+    passive: {
+      name: "Code Armor",
+      description: "Start of turn: gain 8% shield for 1 turn",
+    },
+    accessory: "/|==|\\",
+
+    strengths: ["write"],
+    weaknesses: ["read"],
+  },
+  commander: {
+    description:
+      "Commanders execute through Bash and terminal operations. They hit hard with shell commands and chain devastating combos.",
+    playstyle: "Aggressive & bursty. Crits inflict damage over time, snowballing pressure.",
+    color: "text-red-400",
+    bgFrom: "from-red-950/30",
+    border: "border-red-500",
+    toolFocus: "Bash, shell commands",
+    passive: {
+      name: "Root Access",
+      description: "On crit: inflict DoT for 2 turns",
+    },
+    accessory: "-=/>=-",
+
+    strengths: ["bash"],
+    weaknesses: ["write"],
+  },
+  architect: {
+    description:
+      "Architects maintain balanced tool distribution. They delegate with Agents, plan with Tasks, and design systems from above.",
+    playstyle: "Strategic & scaling. Every 3rd turn gains an attack buff, rewarding long fights.",
+    color: "text-purple-400",
+    bgFrom: "from-purple-950/30",
+    border: "border-purple-500",
+    toolFocus: "Agent, Tasks, Plans, Skills",
+    passive: {
+      name: "Master Plan",
+      description: "Every 3rd turn: +12 attack buff for 2 turns",
+    },
+    accessory: "|[##]|",
+
+    strengths: ["agent"],
+    weaknesses: ["debug"],
+  },
+  debugger: {
+    description:
+      "Debuggers thrive in chaos. A high error rate paired with strong recovery means they turn mistakes into strength.",
+    playstyle: "Resilient & sustaining. Heals on every hit received, outlasting opponents in attrition.",
+    color: "text-green-400",
+    bgFrom: "from-green-950/30",
+    border: "border-green-500",
+    toolFocus: "Error recovery, iterative fixes",
+    passive: {
+      name: "Error Recovery",
+      description: "On hit received: heal 8% HP",
+    },
+    accessory: "~{!!}~",
+
+    strengths: ["debug"],
+    weaknesses: ["agent"],
+  },
+};
+
+const TYPE_CHART: Record<MoveType, Record<FighterClass, number>> = {
+  read: { explorer: 1.0, builder: 1.5, commander: 0.75, architect: 1.0, debugger: 1.0 },
+  write: { explorer: 0.75, builder: 1.0, commander: 1.5, architect: 1.0, debugger: 0.75 },
+  bash: { explorer: 1.5, builder: 0.75, commander: 1.0, architect: 1.5, debugger: 1.0 },
+  agent: { explorer: 1.0, builder: 1.0, commander: 0.75, architect: 1.0, debugger: 1.5 },
+  debug: { explorer: 1.0, builder: 1.0, commander: 1.0, architect: 0.75, debugger: 1.0 },
+};
+
+const CLASSES: FighterClass[] = ["explorer", "builder", "commander", "architect", "debugger"];
+const MOVE_TYPES: MoveType[] = ["read", "write", "bash", "agent", "debug"];
+
+const MULT_STYLE: Record<string, string> = {
+  "1.5": "text-green-400 font-bold",
+  "0.75": "text-red-400",
+  "1": "text-gray-500",
+};
+
+export default function ClassesPage() {
+  return (
+    <div className="space-y-8 py-8 max-w-4xl mx-auto">
+      <div className="text-center space-y-2">
+        <h1 className="text-xl font-bold text-white">FIGHTER CLASSES</h1>
+        <p className="text-[10px] text-gray-400">
+          Your class is determined by how you use Claude Code. Each class has unique strengths, a passive ability, and type matchups.
+        </p>
+      </div>
+
+      {/* Class cards */}
+      <div className="space-y-6">
+        {CLASSES.map((cls) => {
+          const data = CLASS_DATA[cls];
+          return (
+            <div
+              key={cls}
+              className={`pixel-border rounded-lg p-6 bg-gradient-to-b ${data.bgFrom} to-[var(--bg-card)] ${data.border}`}
+            >
+              <div className="flex items-start gap-6">
+                {/* Class icon */}
+                <div className="flex-shrink-0 flex items-center justify-center w-20 h-20">
+                  <pre
+                    style={{
+                      color: CLASS_ICON_COLORS[cls],
+                      fontFamily: "'Courier New', 'Consolas', monospace",
+                      fontSize: "20px",
+                      lineHeight: 1.2,
+                      margin: 0,
+                      whiteSpace: "pre",
+                      textShadow: `0 0 8px ${CLASS_ICON_COLORS[cls]}`,
+                    }}
+                  >
+                    {data.accessory}
+                  </pre>
+                </div>
+
+                {/* Info */}
+                <div className="flex-1 min-w-0 space-y-3">
+                  <div>
+                    <h2 className={`text-sm font-bold ${data.color}`}>
+                      {cls.toUpperCase()}
+                    </h2>
+                    <p className="text-[9px] text-gray-300 mt-1">
+                      {data.description}
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {/* Playstyle */}
+                    <div>
+                      <p className="text-[8px] text-gray-500 uppercase">Playstyle</p>
+                      <p className="text-[9px] text-gray-300">{data.playstyle}</p>
+                    </div>
+
+                    {/* Tool focus */}
+                    <div>
+                      <p className="text-[8px] text-gray-500 uppercase">Tool Focus</p>
+                      <p className="text-[9px] text-gray-300">{data.toolFocus}</p>
+                    </div>
+                  </div>
+
+                  {/* Passive */}
+                  <div className="bg-black/20 rounded px-3 py-2">
+                    <p className="text-[8px] text-gray-500 uppercase">Passive Ability</p>
+                    <p className="text-[10px] text-purple-400 font-bold mt-1">
+                      {data.passive.name}
+                    </p>
+                    <p className="text-[8px] text-gray-400">
+                      {data.passive.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Type effectiveness chart */}
+      <div className="pixel-border border-[var(--border-subtle)] rounded-lg p-6 bg-[var(--bg-card)]">
+        <h2 className="text-sm font-bold text-white mb-1">TYPE EFFECTIVENESS</h2>
+        <p className="text-[8px] text-gray-500 mb-4">
+          Move type vs. defender class. <span className="text-green-400">1.5x</span> = super effective, <span className="text-red-400">0.75x</span> = resisted.
+        </p>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-[9px]">
+            <thead>
+              <tr>
+                <th className="text-left text-gray-500 pb-2 pr-4">ATK \ DEF</th>
+                {CLASSES.map((cls) => (
+                  <th
+                    key={cls}
+                    className={`pb-2 px-2 text-center ${CLASS_DATA[cls].color}`}
+                  >
+                    {cls.toUpperCase().slice(0, 4)}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {MOVE_TYPES.map((type) => (
+                <tr key={type} className="border-t border-[var(--border-subtle)]">
+                  <td className="py-2 pr-4 text-gray-300 font-bold">
+                    {type.toUpperCase()}
+                  </td>
+                  {CLASSES.map((cls) => {
+                    const mult = TYPE_CHART[type][cls];
+                    const style = MULT_STYLE[String(mult)] ?? "text-gray-500";
+                    return (
+                      <td key={cls} className={`py-2 px-2 text-center ${style}`}>
+                        {mult}x
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* How class is determined */}
+      <div className="pixel-border border-[var(--border-subtle)] rounded-lg p-6 bg-[var(--bg-card)]">
+        <h2 className="text-sm font-bold text-white mb-2">HOW IS YOUR CLASS DETERMINED?</h2>
+        <div className="space-y-2 text-[9px] text-gray-300">
+          <p>
+            Your class is computed from your Claude Code tool usage distribution in <span className="text-gray-100">~/.claude/</span> session data.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3">
+            <div className="bg-black/20 rounded px-3 py-2">
+              <span className="text-cyan-400 font-bold">EXPLORER</span>
+              <span className="text-gray-400"> &mdash; Heavy Read/Grep/Glob usage</span>
+            </div>
+            <div className="bg-black/20 rounded px-3 py-2">
+              <span className="text-yellow-400 font-bold">BUILDER</span>
+              <span className="text-gray-400"> &mdash; Heavy Write/Edit usage</span>
+            </div>
+            <div className="bg-black/20 rounded px-3 py-2">
+              <span className="text-red-400 font-bold">COMMANDER</span>
+              <span className="text-gray-400"> &mdash; Heavy Bash/Agent usage</span>
+            </div>
+            <div className="bg-black/20 rounded px-3 py-2">
+              <span className="text-purple-400 font-bold">ARCHITECT</span>
+              <span className="text-gray-400"> &mdash; Balanced tool distribution</span>
+            </div>
+            <div className="bg-black/20 rounded px-3 py-2 md:col-span-2">
+              <span className="text-green-400 font-bold">DEBUGGER</span>
+              <span className="text-gray-400"> &mdash; High error rate + recovery patterns</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

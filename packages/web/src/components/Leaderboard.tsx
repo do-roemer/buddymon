@@ -64,7 +64,7 @@ export function Leaderboard({ entries, limit }: Props) {
             >
               #{i + 1}
             </span>
-            <BuddySprite species={entry.card.species} size={4} animated={false} shiny={entry.card.shiny} eye={entry.card.eye} hat={entry.card.hat} />
+            <BuddySprite species={entry.card.species} size={4} animated={false} shiny={entry.card.shiny} eye={entry.card.eye} hat={entry.card.hat} fighterClass={entry.card.class} />
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1">
                 <p className="text-xs font-bold text-white truncate">

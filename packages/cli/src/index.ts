@@ -44,6 +44,8 @@ program
   .command("upload")
   .description("Generate and upload your fighter card to the arena")
   .option("--tamer <name>", "Set your Terminal Tamer name")
+  .option("--name <buddyName>", "Override your buddy's name")
+  .option("--fake-identity", "Use a random owner hash (testing only)")
   .action(uploadCommand);
 
 program

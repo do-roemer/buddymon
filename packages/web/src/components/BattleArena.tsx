@@ -179,6 +179,7 @@ function FighterDisplay({
           shiny={card.shiny}
           eye={card.eye}
           hat={card.hat}
+          fighterClass={card.class}
         />
       </div>
 

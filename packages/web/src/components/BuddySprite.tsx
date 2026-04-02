@@ -133,6 +133,15 @@ const SPRITES: Record<BuddySpecies, string[]> = {
   ],
 };
 
+// Class-specific held items / accessories (appended below the sprite)
+const CLASS_ACCESSORIES: Record<string, string> = {
+  explorer:  "    ~?>~    ",   // spyglass
+  builder:   "   /|==|\\   ",   // hammer & nails
+  commander: "   -=/>=-   ",   // command sword
+  architect: "   |[##]|   ",   // blueprint scroll
+  debugger:  "   ~{!!}~   ",   // bug catcher
+};
+
 const HAT_LINES: Record<string, string> = {
   none:      "",
   crown:     "   \\^^^/    ",
@@ -173,6 +182,7 @@ interface Props {
   shiny?: boolean;
   eye?: string;
   hat?: string;
+  fighterClass?: string;
 }
 
 export function BuddySprite({
@@ -183,6 +193,7 @@ export function BuddySprite({
   shiny = false,
   eye = "\u00b7",
   hat = "none",
+  fighterClass,
 }: Props) {
   const sprite = SPRITES[species] ?? SPRITES.blob;
   const color = SPECIES_COLORS[species] ?? "#F5F5F5";
@@ -191,6 +202,11 @@ export function BuddySprite({
   const lines = sprite.map((line) => line.replace(/\{E\}/g, eye));
   if (hat !== "none" && !lines[0].trim()) {
     lines[0] = HAT_LINES[hat] ?? "";
+  }
+
+  // Add class accessory below the sprite
+  if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
+    lines.push(CLASS_ACCESSORIES[fighterClass]);
   }
 
   // Scale font size relative to the size prop (size=8 is the default ~baseline)
