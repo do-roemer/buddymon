@@ -1,0 +1,8 @@
+[
+  {
+    "name": "buddymon",
+    "description": "Create, upload, and battle your Buddymon fighter card in the arena from Claude Code.",
+    "source": "./plugins/buddymon",
+    "strict": false
+  }
+]
