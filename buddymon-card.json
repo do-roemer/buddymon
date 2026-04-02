@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "buddyName": "Rindwick",
+  "buddyName": "Rindwickmon",
   "terminalTamer": "Dominik",
   "species": "capybara",
   "personality": "A phlegmatic capybara who absorbs your debugging chaos with zen patience, then delivers the solution wrapped in dry, observational snark that makes you unsure whether you're being comforted or roasted.",
@@ -11,10 +11,10 @@
     "wisdom": 20,
     "snark": 21
   },
-  "ownerHash": "befac818146e61069a903d0771edd58bed32c4fbbee0bac297358f084af5849f",
+  "ownerHash": "21815c9d673011774caa8e5eb7e5ab4b6267441a0d583b09126b3203d57d7ee3",
   "class": "explorer",
   "level": 47,
-  "title": "The Code Archaeologist",
+  "title": "The Deep Reader",
   "stats": {
     "hp": 170,
     "attack": 63,
@@ -83,6 +83,16 @@
   "dominantLanguage": "TypeScript",
   "favoriteHour": 14,
   "totalSessions": 333,
-  "generatedAt": "2026-04-01T20:13:54.406Z",
-  "signature": "e5f5eeaac3fa5e95bf80efb8bc8cd01fe74bde608e197e4c1d67437d2842304a"
+  "generatedAt": "2026-04-02T20:19:08.105Z",
+  "signature": "d525d6ec9c4813b8ec4277a3d37daac8b292df9f6791b493656e52562931091d",
+  "customSprite": [
+    "    |    |    ",
+    "   /|{==}|\\   ",
+    "  (-| => | )  ",
+    "   \\|    |/   ",
+    "   /| /\\ |\\   ",
+    "   | |  | |   ",
+    "   |_|  |_|   ",
+    "  _/      \\_  "
+  ]
 }

@@ -31,4 +31,12 @@ Upload your fighter card to the arena. If you haven't transformed yet, run `/bud
 
 5. Show the full output including the arena URL and profile link.
 
-If the command fails with a connection error, check that `.env.local` has `BUDDYMON_ARENA_URL` set.
+If the command fails with a DNS/connection error (e.g. `ENOTFOUND`, `getaddrinfo`, or "Could not connect to the arena") this is likely the sandbox blocking outbound network access to `*.vercel.app`. **Do NOT retry with `dangerouslyDisableSandbox`.** Instead, print the exact command the user needs to run themselves using the `!` prefix (which executes in the current session). Format it as a single copy-paste block, e.g.:
+
+```
+Run this in your terminal (paste as-is):
+
+! cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload --sprite "..."
+```
+
+Make sure the command includes the full `--sprite` value so the user doesn't have to assemble it.
