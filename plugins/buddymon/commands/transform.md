@@ -23,7 +23,7 @@ Generate your fighter card and design a unique body based on your stats and clas
 
    Read the output from step 3 and use the class, stats, rarity, and personality to design a unique body.
 
-   **The species head is already provided — for example a capybara looks like:**
+   **The species head is already provided (~12 chars wide) — for example a capybara looks like:**
    ```
       \^^^/       <- hat (automatic)
      n______n     <- top of head (automatic)
@@ -32,14 +32,25 @@ Generate your fighter card and design a unique body based on your stats and clas
      `------´     <- chin (automatic)
    ```
 
-   **You generate up to 9 body lines that go below this head:** ~5 lines for the torso/arms and ~4 lines for the legs/feet/tail.
+   **You generate 7 to 9 body lines that go below this head.** The body is WIDER than the head (~22 chars vs ~12 chars). The renderer automatically centers the narrower head above the wider body, so the final result looks like:
+   ```
+        \^^^/              <- head auto-centered
+       n______n            <- head auto-centered
+      ( °    ° )           <- head auto-centered
+      (   oo   )           <- head auto-centered
+       `------´            <- head auto-centered
+       |      |            <- body line (you design these)
+  ?~> /| .--. |\           <- arms extend beyond head width
+     | | [++] | |          <- torso with details
+     ...
+   ```
 
    **Body rules:**
    - 7 to 9 lines total (body + legs)
-   - Each line exactly 20 characters wide (pad with spaces)
+   - Each line exactly 22 characters wide (pad with spaces)
    - Use only ASCII printable characters
    - The body should connect visually to the chin/bottom of the head above it
-   - The body is WIDER than the head (~12 chars) — use the extra width for arms, held items, weapons, wings, capes, or effects extending outward. The renderer automatically centers the narrower head above the wider body.
+   - Use the extra width (~5 chars on each side beyond the head) for arms, held items, weapons, wings, capes, or effects extending outward
    - The body gives the buddymon a FULL character appearance — torso, arms, held items, legs, feet, tail
 
    **Trait-based body design — apply ALL that match:**
@@ -62,48 +73,49 @@ Generate your fighter card and design a unique body based on your stats and clas
 
    **Example bodies (head NOT included — these go below it):**
 
-   Explorer capybara (adventurer, moderate stats):
+   Explorer capybara (adventurer, high ATK, spyglass):
    ```
        |      |       
-    ?>/| .--. |\      
-      | | ++ | |      
-      |_| [] |_|      
-       |  ||  |       
-       |  ||  |       
-      _| _||_ |_      
+  ?~> /| .--. |\      
+     | | [++] | |     
+     | |_\__/_| |     
+     |_|      |_|     
+      |   ||   |      
+      |   ||   |      
+     _/   /\   \_     
    ```
 
    Builder robot (sturdy, high DEF, tool belt):
    ```
-   ==/|[======]|\    
-     | |      | |     
-     | |[====]| |     
-     |_|      |_|     
-      /|      |\      
-      | |    | |      
-      |_|    |_|      
+  ==/|  [======]  |\  
+     |  |      |  |   
+     |  |[====]|  |   
+     |__|      |__|   
+      /|        |\    
+      | |      | |    
+      |_|      |_|    
    ```
 
-   Commander dragon (high ATK, sword, armored):
+   Commander dragon (high ATK, sword, cape):
    ```
-   *~\|^^    ^^|/~*  
-     \|  /==\  |/>=  
-      |  |  |  |     
-      |__|  |__|     
-     /==|    |==\    
-     |  |    |  |    
-     |^^|    |^^|    
+  *~\|^^      ^^|/~* 
+    \|   /==\   |/>= 
+     |   |  |   |    
+     |___|  |___|    
+    /===|    |===\   
+    |   |    |   |   
+    |^^^|    |^^^|   
    ```
 
    Debugger axolotl (lab coat, magnifying glass):
    ```
-    {|          |}    
-     |  .----.  |     
-     |  | () |  |     
-     |__|    |__|     
-       |      |       
-       |      |       
-      _/      \_      
+   {|            |}   
+    |   .----.   |    
+    |   | () |   |    
+    |___|    |___|    
+      |        |      
+      |        |      
+     _/        \_     
    ```
 
 5. Export the card with the custom body sprite:
