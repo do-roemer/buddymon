@@ -1,8 +1,23 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import type { BattleResult, BattleAction, FighterCard } from "@buddymon/shared-types";
+import { useState, useEffect, useCallback, useRef } from "react";
+import type { BattleResult, BattleAction, FighterCard, MoveType, Effectiveness } from "@buddymon/shared-types";
 import { BuddySprite } from "./BuddySprite";
+
+// ── Projectile config per move type ──────────────────────────────────
+const PROJECTILES: Record<MoveType, { glyph: string; color: string }> = {
+  read:  { glyph: ">>",  color: "#06b6d4" }, // cyan
+  write: { glyph: "{}", color: "#eab308" }, // yellow
+  bash:  { glyph: "$_",  color: "#ef4444" }, // red
+  agent: { glyph: "@>",  color: "#a855f7" }, // purple
+  debug: { glyph: "{!}", color: "#22c55e" }, // green
+};
+
+const EFFECTIVENESS_TEXT: Record<Effectiveness, { text: string; color: string } | null> = {
+  super:  { text: "Super effective!", color: "#facc15" },
+  weak:   { text: "Not very effective...", color: "#6b7280" },
+  normal: null,
+};
 
 interface Props {
   result: BattleResult;
@@ -22,8 +37,21 @@ export function BattleArena({ result, onComplete }: Props) {
     amount: number;
     isCrit: boolean;
   } | null>(null);
+  const [projectile, setProjectile] = useState<{
+    moveType: MoveType;
+    direction: "ltr" | "rtl";
+    isCrit: boolean;
+  } | null>(null);
+  const [effectAnim, setEffectAnim] = useState<{
+    idx: 0 | 1;
+    kind: "heal" | "shield" | "dot";
+  } | null>(null);
+  const [effectivenessPopup, setEffectivenessPopup] = useState<{
+    text: string;
+    color: string;
+  } | null>(null);
+  const arenaRef = useRef<HTMLDivElement>(null);
 
-  // Flatten all actions for sequential playback
   const allActions = result.log.flatMap((turn) => turn.actions);
 
   const playAction = useCallback(
@@ -37,15 +65,58 @@ export function BattleArena({ result, onComplete }: Props) {
       setCurrentActionIdx(idx);
       setHp(action.hpAfter);
 
-      if (action.type === "attack") {
-        setShaking(action.targetIdx);
-        setDamagePopup({
-          idx: action.targetIdx,
-          amount: action.damage ?? 0,
+      if (action.type === "attack" && action.moveType) {
+        const direction = action.actorIdx === 0 ? "ltr" : "rtl";
+
+        // 1. Launch projectile
+        setProjectile({
+          moveType: action.moveType,
+          direction,
           isCrit: action.isCrit ?? false,
         });
-        setTimeout(() => setShaking(null), 300);
-        setTimeout(() => setDamagePopup(null), 1000);
+
+        // 2. On projectile arrival (~400ms): shake + damage + effectiveness
+        setTimeout(() => {
+          setProjectile(null);
+          setShaking(action.targetIdx);
+          setDamagePopup({
+            idx: action.targetIdx,
+            amount: action.damage ?? 0,
+            isCrit: action.isCrit ?? false,
+          });
+
+          // Show effectiveness callout
+          if (action.effectiveness) {
+            const eff = EFFECTIVENESS_TEXT[action.effectiveness];
+            if (eff) {
+              setEffectivenessPopup(eff);
+              setTimeout(() => setEffectivenessPopup(null), 1200);
+            }
+          }
+
+          // Flash target on crit
+          setTimeout(() => setShaking(null), 300);
+          setTimeout(() => setDamagePopup(null), 1000);
+        }, 400);
+      }
+
+      if (action.type === "damage_tick") {
+        setEffectAnim({ idx: action.targetIdx, kind: "dot" });
+        setTimeout(() => setEffectAnim(null), 700);
+      }
+
+      if (action.type === "effect") {
+        const narr = action.narration.toLowerCase();
+        if (narr.includes("restored") || narr.includes("heal")) {
+          setEffectAnim({ idx: action.actorIdx, kind: "heal" });
+          setTimeout(() => setEffectAnim(null), 800);
+        } else if (narr.includes("shield")) {
+          setEffectAnim({ idx: action.actorIdx, kind: "shield" });
+          setTimeout(() => setEffectAnim(null), 600);
+        } else if (narr.includes("damage over time") || narr.includes("dot")) {
+          setEffectAnim({ idx: action.targetIdx, kind: "dot" });
+          setTimeout(() => setEffectAnim(null), 700);
+        }
       }
     },
     [allActions],
@@ -61,7 +132,8 @@ export function BattleArena({ result, onComplete }: Props) {
       return;
     }
 
-    const delay = allActions[next]?.type === "attack" ? 2500 : 1500;
+    // Attacks need more time (projectile 400ms + impact anims)
+    const delay = allActions[next]?.type === "attack" ? 2800 : 1500;
     const timer = setTimeout(() => playAction(next), delay);
     return () => clearTimeout(timer);
   }, [isPlaying, currentActionIdx, allActions, playAction]);
@@ -69,12 +141,18 @@ export function BattleArena({ result, onComplete }: Props) {
   const start = () => {
     setCurrentActionIdx(-1);
     setHp([result.fighters[0].stats.hp, result.fighters[1].stats.hp]);
+    setProjectile(null);
+    setEffectAnim(null);
+    setEffectivenessPopup(null);
     setIsPlaying(true);
     setTimeout(() => playAction(0), 500);
   };
 
   const skipToEnd = () => {
     setIsPlaying(false);
+    setProjectile(null);
+    setEffectAnim(null);
+    setEffectivenessPopup(null);
     const lastAction = allActions[allActions.length - 1];
     setCurrentActionIdx(allActions.length - 1);
     if (lastAction) setHp(lastAction.hpAfter);
@@ -96,15 +174,17 @@ export function BattleArena({ result, onComplete }: Props) {
   const f2 = result.fighters[1];
 
   return (
-    <div className="bg-[var(--bg-card)] pixel-border border-gray-600 rounded-lg p-6 relative scanlines">
+    <div ref={arenaRef} className="bg-[var(--bg-card)] pixel-border border-gray-600 rounded-lg p-6 relative scanlines">
       {/* Fighter display */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 relative">
         {/* Fighter 1 */}
         <FighterDisplay
           card={f1}
           hp={hp[0]}
           isShaking={shaking === 0}
+          isCritFlash={shaking === 0 && damagePopup?.isCrit === true}
           damagePopup={damagePopup?.idx === 0 ? damagePopup : null}
+          effectAnim={effectAnim?.idx === 0 ? effectAnim.kind : null}
           side="left"
         />
 
@@ -115,9 +195,45 @@ export function BattleArena({ result, onComplete }: Props) {
           card={f2}
           hp={hp[1]}
           isShaking={shaking === 1}
+          isCritFlash={shaking === 1 && damagePopup?.isCrit === true}
           damagePopup={damagePopup?.idx === 1 ? damagePopup : null}
+          effectAnim={effectAnim?.idx === 1 ? effectAnim.kind : null}
           side="right"
         />
+
+        {/* Projectile layer */}
+        {projectile && (
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 ${
+              projectile.direction === "ltr" ? "left-[15%]" : "right-[15%]"
+            } animate-projectile-${projectile.direction} z-10`}
+            style={{
+              "--projectile-distance": "200px",
+              fontFamily: "'Courier New', monospace",
+              fontSize: projectile.isCrit ? "20px" : "14px",
+              fontWeight: "bold",
+              color: PROJECTILES[projectile.moveType].color,
+              textShadow: `0 0 8px ${PROJECTILES[projectile.moveType].color}, 0 0 16px ${PROJECTILES[projectile.moveType].color}`,
+            } as React.CSSProperties}
+          >
+            {PROJECTILES[projectile.moveType].glyph}
+          </div>
+        )}
+
+        {/* Effectiveness callout */}
+        {effectivenessPopup && (
+          <div
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 animate-effectiveness z-20 whitespace-nowrap"
+            style={{
+              color: effectivenessPopup.color,
+              fontFamily: "'Press Start 2P', monospace",
+              fontSize: "10px",
+              textShadow: `0 0 6px ${effectivenessPopup.color}`,
+            }}
+          >
+            {effectivenessPopup.text}
+          </div>
+        )}
       </div>
 
       {/* Action log */}
@@ -158,17 +274,28 @@ export function BattleArena({ result, onComplete }: Props) {
   );
 }
 
+// ── Effect overlay glyphs ─────────────────────────────────────────────
+const EFFECT_GLYPHS: Record<string, { glyph: string; color: string }> = {
+  heal:   { glyph: "+HP", color: "#22c55e" },
+  shield: { glyph: "[===]", color: "#3b82f6" },
+  dot:    { glyph: "~*~", color: "#f97316" },
+};
+
 function FighterDisplay({
   card,
   hp,
   isShaking,
+  isCritFlash,
   damagePopup,
+  effectAnim,
   side,
 }: {
   card: FighterCard;
   hp: number;
   isShaking: boolean;
+  isCritFlash: boolean;
   damagePopup: { amount: number; isCrit: boolean } | null;
+  effectAnim: "heal" | "shield" | "dot" | null;
   side: "left" | "right";
 }) {
   const hpPct = Math.max(0, (hp / card.stats.hp) * 100);
@@ -176,7 +303,7 @@ function FighterDisplay({
 
   return (
     <div className="text-center relative">
-      <div className={isShaking ? "animate-shake" : ""}>
+      <div className={`${isShaking ? "animate-shake" : ""} ${isCritFlash ? "animate-flash" : ""}`}>
         <BuddySprite
           species={card.species}
           size={8}
@@ -190,11 +317,27 @@ function FighterDisplay({
         />
       </div>
 
+      {/* Damage popup */}
       {damagePopup && (
         <div
           className={`absolute top-0 ${side === "left" ? "right-0" : "left-0"} animate-damage font-bold text-sm ${damagePopup.isCrit ? "text-yellow-400" : "text-red-400"}`}
         >
           {damagePopup.isCrit ? "CRIT! " : ""}-{damagePopup.amount}
+        </div>
+      )}
+
+      {/* Effect animation overlay */}
+      {effectAnim && (
+        <div
+          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-${effectAnim} font-bold pointer-events-none z-10`}
+          style={{
+            fontFamily: "'Courier New', monospace",
+            fontSize: "14px",
+            color: EFFECT_GLYPHS[effectAnim].color,
+            textShadow: `0 0 8px ${EFFECT_GLYPHS[effectAnim].color}`,
+          }}
+        >
+          {EFFECT_GLYPHS[effectAnim].glyph}
         </div>
       )}
 

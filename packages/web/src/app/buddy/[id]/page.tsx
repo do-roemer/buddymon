@@ -31,7 +31,7 @@ export default async function BuddyPage({ params }: Props) {
         <p className="text-xs text-gray-400">
           Lv.{card.level} {(card.species ?? "unknown").toUpperCase()} | {card.class.toUpperCase()} | {card.dominantLanguage}
         </p>
-        <RarityBadge rarity={card.rarity} hat={card.hat} eye={card.eye} />
+        <RarityBadge rarity={card.rarity} />
         <p className="text-[10px] text-gray-500 italic mt-1">{card.title}</p>
         {card.terminalTamer && (
           <p className="text-[10px] text-gray-400 mt-1">Terminal Tamer: <span className="text-white font-bold">{card.terminalTamer}</span></p>
@@ -201,15 +201,13 @@ const RARITY_STARS: Record<string, string> = {
   legendary: "\u2605\u2605\u2605\u2605\u2605",
 };
 
-function RarityBadge({ rarity, hat, eye }: { rarity?: string; hat?: string; eye?: string }) {
+function RarityBadge({ rarity }: { rarity?: string }) {
   if (!rarity) return null;
   const color = RARITY_COLORS[rarity] ?? "text-gray-500";
   const stars = RARITY_STARS[rarity] ?? "\u2605";
   return (
     <p className={`text-[10px] mt-1 ${color}`}>
       {stars} {rarity.toUpperCase()}
-      {eye && <span className="text-gray-500 ml-2">Eye: {eye}</span>}
-      {hat && hat !== "none" && <span className="text-gray-500 ml-2">Hat: {hat}</span>}
     </p>
   );
 }

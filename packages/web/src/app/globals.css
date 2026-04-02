@@ -118,6 +118,86 @@ body {
   animation: shimmer 2s ease-in-out infinite;
 }
 
+/* ── Projectile animations ─────────────────────────────────────────── */
+@keyframes projectile-ltr {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--projectile-distance, 200px));
+  }
+}
+
+@keyframes projectile-rtl {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--projectile-distance, 200px)));
+  }
+}
+
+.animate-projectile-ltr {
+  animation: projectile-ltr 0.4s ease-in forwards;
+}
+
+.animate-projectile-rtl {
+  animation: projectile-rtl 0.4s ease-in forwards;
+}
+
+/* ── Effect animations ─────────────────────────────────────────────── */
+@keyframes heal-pulse {
+  0% { opacity: 0; transform: translateY(10px); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+.animate-heal {
+  animation: heal-pulse 0.8s ease-out forwards;
+}
+
+@keyframes shield-flash {
+  0% { opacity: 0; transform: scaleX(0.5); }
+  30% { opacity: 1; transform: scaleX(1); }
+  100% { opacity: 0; transform: scaleX(1.2); }
+}
+
+.animate-shield {
+  animation: shield-flash 0.6s ease-out forwards;
+}
+
+@keyframes dot-burn {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-15px); }
+}
+
+.animate-dot {
+  animation: dot-burn 0.7s ease-out forwards;
+}
+
+/* Effectiveness callout */
+@keyframes effectiveness-pop {
+  0% { opacity: 0; transform: scale(0.5) translateY(0); }
+  30% { opacity: 1; transform: scale(1.2) translateY(-5px); }
+  60% { transform: scale(1) translateY(-10px); }
+  100% { opacity: 0; transform: scale(0.8) translateY(-20px); }
+}
+
+.animate-effectiveness {
+  animation: effectiveness-pop 1.2s ease-out forwards;
+}
+
 /* Scanline overlay for retro feel */
 .scanlines::after {
   content: "";
