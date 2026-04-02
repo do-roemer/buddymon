@@ -1,10 +1,32 @@
 {
   "name": "buddymon",
   "version": "0.1.0",
-  "description": "Create, show, and upload your Buddymon fighter card from Claude Code usage stats.",
+  "description": "Create, show, upload, and battle your Buddymon fighter card in the arena.",
   "author": {
     "name": "Buddymon"
   },
+  "commands": [
+    {
+      "name": "bmon-upload",
+      "path": "./commands/upload.md"
+    },
+    {
+      "name": "bmon-battle",
+      "path": "./commands/battle.md"
+    },
+    {
+      "name": "bmon-stats",
+      "path": "./commands/stats.md"
+    },
+    {
+      "name": "bmon-list",
+      "path": "./commands/list.md"
+    },
+    {
+      "name": "bmon-leaderboard",
+      "path": "./commands/leaderboard.md"
+    }
+  ],
   "skills": [
     {
       "name": "buddymon",
