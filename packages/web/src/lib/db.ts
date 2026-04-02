@@ -67,7 +67,9 @@ return 1
 let redisInstance: Redis | null = null;
 
 function hasRedisEnv(): boolean {
-  return Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  const hasUpstash = Boolean(process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN);
+  const hasKV = Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
+  return hasUpstash || hasKV;
 }
 
 function isProductionRuntime(): boolean {
@@ -86,7 +88,16 @@ function missingStorageError(): Error {
 
 function redis(): Redis {
   if (redisInstance) return redisInstance;
-  redisInstance = Redis.fromEnv({ readYourWrites: true });
+
+  // Support both Vercel KV and Upstash variable names
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
+
+  if (!url || !token) {
+    throw new Error('Redis environment variables not configured');
+  }
+
+  redisInstance = new Redis({ url, token, readYourWrites: true });
   return redisInstance;
 }
 
