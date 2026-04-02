@@ -207,7 +207,16 @@ export function BuddySprite({
   }
 
   if (customSprite && customSprite.length > 0) {
-    // Append custom body lines below the species head
+    // Center the head over the wider body sprite
+    const bodyWidth = Math.max(...customSprite.map((l) => l.length));
+    const headWidth = Math.max(...lines.map((l) => l.length));
+    if (bodyWidth > headWidth) {
+      const pad = Math.floor((bodyWidth - headWidth) / 2);
+      const padding = " ".repeat(pad);
+      for (let i = 0; i < lines.length; i++) {
+        lines[i] = padding + lines[i] + padding;
+      }
+    }
     lines.push(...customSprite);
   } else if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
     // Fallback: class accessory icon

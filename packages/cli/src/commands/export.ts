@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import chalk from "chalk";
 import { parseStats, buildFighterCard } from "@buddymon/shared";
-import { getTerminalTamer } from "../terminal-tamer.js";
+import { getTerminalTamer, saveCustomSprite } from "../terminal-tamer.js";
 
 export function exportCommand(outputPath: string, opts: { tamer?: string; sprite?: string }): void {
   console.log(chalk.bold("\n  Generating fighter card...\n"));
@@ -16,6 +16,7 @@ export function exportCommand(outputPath: string, opts: { tamer?: string; sprite
 
   if (opts.sprite) {
     card.customSprite = opts.sprite.split("\\n");
+    saveCustomSprite(card.customSprite);
   }
 
   fs.writeFileSync(outputPath, JSON.stringify(card, null, 2));

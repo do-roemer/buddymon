@@ -7,6 +7,7 @@ const CONFIG_PATH = path.join(CONFIG_DIR, "config.json");
 
 interface BuddymonConfig {
   terminalTamer?: string;
+  customSprite?: string[];
 }
 
 function readConfig(): BuddymonConfig {
@@ -20,6 +21,16 @@ function readConfig(): BuddymonConfig {
 function writeConfig(config: BuddymonConfig): void {
   fs.mkdirSync(CONFIG_DIR, { recursive: true });
   fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+}
+
+export function getCustomSprite(): string[] | undefined {
+  return readConfig().customSprite;
+}
+
+export function saveCustomSprite(sprite: string[]): void {
+  const config = readConfig();
+  config.customSprite = sprite;
+  writeConfig(config);
 }
 
 export function getTerminalTamer(override?: string): string {

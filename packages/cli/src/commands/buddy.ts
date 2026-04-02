@@ -3,12 +3,13 @@ import { parseStats, buildFighterCard } from "@buddymon/shared";
 import type { BuddyHat } from "@buddymon/shared";
 import { renderBuddy, getClassColor, getClassEmoji, getSpeciesColor, getRarityColor, getRarityStars } from "../render/ascii-buddy.js";
 import { renderStatBars } from "../render/stat-bars.js";
-import { getTerminalTamer } from "../terminal-tamer.js";
+import { getTerminalTamer, getCustomSprite } from "../terminal-tamer.js";
 
 export function buddyCommand(opts: { tamer?: string }): void {
   const agg = parseStats();
   const tamer = getTerminalTamer(opts.tamer);
   const card = buildFighterCard(agg, tamer);
+  card.customSprite = getCustomSprite();
   const classColor = getClassColor(card.class);
   const speciesColor = getSpeciesColor(card.species);
   const rarityColor = getRarityColor(card.rarity);

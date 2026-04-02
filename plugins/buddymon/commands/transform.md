@@ -36,10 +36,10 @@ Generate your fighter card and design a unique body based on your stats and clas
 
    **Body rules:**
    - 7 to 9 lines total (body + legs)
-   - Each line exactly 14 characters wide (pad with spaces)
+   - Each line exactly 20 characters wide (pad with spaces)
    - Use only ASCII printable characters
    - The body should connect visually to the chin/bottom of the head above it
-   - Keep the same approximate width as the species head (~12 chars)
+   - The body is WIDER than the head (~12 chars) — use the extra width for arms, held items, weapons, wings, capes, or effects extending outward. The renderer automatically centers the narrower head above the wider body.
    - The body gives the buddymon a FULL character appearance — torso, arms, held items, legs, feet, tail
 
    **Trait-based body design — apply ALL that match:**
@@ -64,46 +64,46 @@ Generate your fighter card and design a unique body based on your stats and clas
 
    Explorer capybara (adventurer, moderate stats):
    ```
-      |    |      
-     /| ?> |\     
-     | \--/ |     
-     |_/  \_|     
-      |    |      
-      |    |      
-     _|    |_     
+       |      |       
+    ?>/| .--. |\      
+      | | ++ | |      
+      |_| [] |_|      
+       |  ||  |       
+       |  ||  |       
+      _| _||_ |_      
    ```
 
    Builder robot (sturdy, high DEF, tool belt):
    ```
-    /|[====]|\    
-    | |    | |    
-    | |[==]| |    
-    |_|    |_|    
-     /|    |\     
-     | |  | |     
-     |_|  |_|     
+   ==/|[======]|\    
+     | |      | |     
+     | |[====]| |     
+     |_|      |_|     
+      /|      |\      
+      | |    | |      
+      |_|    |_|      
    ```
 
    Commander dragon (high ATK, sword, armored):
    ```
-   *\|^    ^|/*  
-    \| /==\ |/>  
-     | |  | |    
-     |_|  |_|    
-    /=|    |=\   
-    | |    | |   
-    |^^|  |^^|   
+   *~\|^^    ^^|/~*  
+     \|  /==\  |/>=  
+      |  |  |  |     
+      |__|  |__|     
+     /==|    |==\    
+     |  |    |  |    
+     |^^|    |^^|    
    ```
 
    Debugger axolotl (lab coat, magnifying glass):
    ```
-    {|      |}    
-     | .--. |     
-     | |  | |     
-     |_|  |_|     
-      |    |      
-      |    |      
-     _/    \_     
+    {|          |}    
+     |  .----.  |     
+     |  | () |  |     
+     |__|    |__|     
+       |      |       
+       |      |       
+      _/      \_      
    ```
 
 5. Export the card with the custom body sprite:
