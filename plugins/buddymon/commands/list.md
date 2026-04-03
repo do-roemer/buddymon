@@ -9,7 +9,7 @@ Show all buddymon fighters currently in the arena with their tamer, species, cla
 ## Instructions
 
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- list
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- list
 ```
 
 Show the full output to the user.

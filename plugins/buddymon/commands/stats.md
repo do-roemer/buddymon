@@ -9,7 +9,7 @@ Display a detailed breakdown of how your fighter card stats are computed from Cl
 ## Instructions
 
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- stats {{ARGS}}
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- stats {{ARGS}}
 ```
 
 Show the full output to the user.

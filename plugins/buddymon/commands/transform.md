@@ -16,7 +16,7 @@ Generate your fighter card and design a unique body based on your stats and clas
 
 3. Run the **buddy** command to see the fighter's traits:
    ```bash
-   cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- buddy {{ARGS}}
+   cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- buddy {{ARGS}}
    ```
 
 4. **Determine the body type.** The fighter card has a `bodyType` field that is either `"biped"` or `"quadruped"`. Read the card output from step 3 to find this value.
@@ -208,7 +208,7 @@ _/| _/|  _/| _/|
 
 6. Export the card with the custom body sprite and body type:
    ```bash
-   cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- export --body-type "BODYTYPE" --sprite "LINE1\\nLINE2\\nLINE3\\nLINE4\\nLINE5\\nLINE6\\nLINE7" {{ARGS}}
+   cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- export --body-type "BODYTYPE" --sprite "LINE1\\nLINE2\\nLINE3\\nLINE4\\nLINE5\\nLINE6\\nLINE7" {{ARGS}}
    ```
 
    Replace `BODYTYPE` with either `biped` or `quadruped` (matching the card's bodyType).

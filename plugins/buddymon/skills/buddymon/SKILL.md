@@ -10,16 +10,16 @@ version: 0.1.0
 
 # Buddymon - Claude Code Fighter Card
 
-The Buddymon project lives at `~/Desktop/personal_projects/buddymon`.
+The Buddymon project lives at `${CLAUDE_PLUGIN_ROOT}/../..` (the repo root, two levels above the plugin directory).
 
 All commands use the npm script wrapper which loads `.env.local` automatically:
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- <subcommand> [options]
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- <subcommand> [options]
 ```
 
 Add `--local` before the subcommand to use `localhost:3000` instead of the production arena:
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- --local <subcommand> [options]
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- --local <subcommand> [options]
 ```
 
 ## Terminal Tamer Name
@@ -39,13 +39,13 @@ The fighter card includes a "Terminal Tamer" field — the name of the person be
 ### (no argument) or `buddy`
 Show your fighter card with ASCII art, stats, and moves.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- buddy [--tamer "Name"]
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- buddy [--tamer "Name"]
 ```
 
 ### feed
 Feed your buddy with burned tokens from Claude Code sessions to gain XP and level up. Your buddy starts at Level 1 and grows through feeding.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- feed
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- feed
 ```
 
 ### transform
@@ -64,44 +64,44 @@ Upload your fighter card to the arena. Picks up the custom sprite from a previou
 ### battle
 Battle an opponent by name or file path.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- battle <opponent-name>
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- battle <path-to-card.json>
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- battle <opponent-name>
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- battle <path-to-card.json>
 ```
 
 ### list
 List all buddies in the arena.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- list
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- list
 ```
 
 ### leaderboard
 Show arena rankings.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- leaderboard
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- leaderboard
 ```
 
 ### stats
 Show detailed stat computation breakdown.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- stats [--tamer "Name"]
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- stats [--tamer "Name"]
 ```
 
 ### scan
 Show raw Claude Code usage data.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- scan
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- scan
 ```
 
 ### export
 Export your fighter card to a local JSON file.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- export [--tamer "Name"]
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- export [--tamer "Name"]
 ```
 
 ### help
 Show all available commands.
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- help
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- help
 ```
 
 ## Important

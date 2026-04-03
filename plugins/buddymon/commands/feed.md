@@ -9,7 +9,7 @@ Feed your buddymon with tokens burned from Claude Code sessions. Unclaimed sessi
 ## Instructions
 
 ```bash
-cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- feed
+cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- feed
 ```
 
 Show the full output to the user.

@@ -16,17 +16,17 @@ Upload your fighter card to the arena. If you haven't transformed yet, run `/bud
 
 3. Check if a saved card exists (from a previous `/buddymon transform`):
    ```bash
-   cat ~/Desktop/personal_projects/buddymon/buddymon-card.json 2>/dev/null | head -5
+   cat ${CLAUDE_PLUGIN_ROOT}/../../buddymon-card.json 2>/dev/null | head -5
    ```
 
 4. If a saved card with a `customSprite` exists, upload it with the sprite and body type:
    ```bash
-   cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload --body-type "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.bodyType||'biped')")" --sprite "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.customSprite.join('\\\\n'))")" {{ARGS}}
+   cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- upload --body-type "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.bodyType||'biped')")" --sprite "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.customSprite.join('\\\\n'))")" {{ARGS}}
    ```
 
    If no saved card exists, upload without a custom sprite:
    ```bash
-   cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload {{ARGS}}
+   cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- upload {{ARGS}}
    ```
 
 5. Show the full output including the arena URL and profile link.
@@ -36,7 +36,7 @@ If the command fails with a DNS/connection error (e.g. `ENOTFOUND`, `getaddrinfo
 ```
 Run this in your terminal (paste as-is):
 
-! cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload --sprite "..."
+! cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- upload --sprite "..."
 ```
 
 Make sure the command includes the full `--sprite` value so the user doesn't have to assemble it.

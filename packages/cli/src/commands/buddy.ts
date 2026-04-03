@@ -41,6 +41,7 @@ export function buddyCommand(opts: { tamer?: string }): void {
   console.log(
     `  Class: ${classColor(card.class.toUpperCase())}  |  ${card.dominantLanguage}  |  Peak hour: ${card.favoriteHour}:00`,
   );
+  console.log(`  Body type: ${chalk.bold(card.bodyType)}`);
   // XP bar
   const xpMax = progression.level >= MAX_LEVEL ? Infinity : xpForLevel(progression.level);
   const xpRatio = xpMax === Infinity ? 1 : Math.min(progression.currentXP / xpMax, 1);
