@@ -74,7 +74,7 @@ export function buildFighterCard(aggregate: RawAggregate, terminalTamer: string,
   const stats = progression && baseStats
     ? computeStatsFromLevel(level, fighterClass, baseStats, lateNightRatio)
     : computeStats(aggregate, baseStats);
-  const moves = resolveMoves(aggregate.toolTotals);
+  const moves = resolveMoves(aggregate.toolTotals, fighterClass);
   const passive = CLASS_PASSIVES[fighterClass];
   const favoriteHour = getFavoriteHour(aggregate.hourCounts);
   const dominantLanguage = getDominantLanguage(aggregate.languageTotals);

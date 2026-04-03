@@ -119,6 +119,39 @@ const TYPE_CHART: Record<MoveType, Record<FighterClass, number>> = {
   debug: { explorer: 1.0, builder: 1.0, commander: 1.0, architect: 0.75, debugger: 1.5 },
 };
 
+const MOVE_DATA: Record<MoveType, { name: string; power: number; accuracy: number; effect?: string }[]> = {
+  read: [
+    { name: "Deep Scan", power: 60, accuracy: 95 },
+    { name: "Pattern Match", power: 80, accuracy: 85 },
+    { name: "Glob Storm", power: 50, accuracy: 100, effect: "DEF -10" },
+    { name: "Source Dive", power: 100, accuracy: 70 },
+  ],
+  write: [
+    { name: "Hot Patch", power: 70, accuracy: 90 },
+    { name: "Refactor Storm", power: 90, accuracy: 80 },
+    { name: "Code Wall", power: 40, accuracy: 100, effect: "Shield 25%" },
+    { name: "Force Push", power: 110, accuracy: 65 },
+  ],
+  bash: [
+    { name: "Shell Shock", power: 75, accuracy: 90 },
+    { name: "Pipe Bomb", power: 95, accuracy: 75 },
+    { name: "Kill -9", power: 120, accuracy: 60 },
+    { name: "Cron Job", power: 40, accuracy: 100, effect: "DoT 15×3" },
+  ],
+  agent: [
+    { name: "Delegate", power: 65, accuracy: 90 },
+    { name: "Grand Plan", power: 50, accuracy: 100, effect: "ATK +15" },
+    { name: "Task Swarm", power: 85, accuracy: 80 },
+    { name: "Skill Invoke", power: 100, accuracy: 70 },
+  ],
+  debug: [
+    { name: "Stack Trace", power: 70, accuracy: 90 },
+    { name: "Breakpoint", power: 45, accuracy: 100, effect: "Heal 20%" },
+    { name: "Rubber Duck", power: 55, accuracy: 95, effect: "SPD -15" },
+    { name: "Hotfix", power: 90, accuracy: 75 },
+  ],
+};
+
 const CLASSES: FighterClass[] = ["explorer", "builder", "commander", "architect", "debugger"];
 const MOVE_TYPES: MoveType[] = ["read", "write", "bash", "agent", "debug"];
 
@@ -205,6 +238,79 @@ export default function ClassesPage() {
             </div>
           );
         })}
+      </div>
+
+      {/* Move types & catalog */}
+      <div className="pixel-border border-[var(--border-subtle)] rounded-lg p-6 bg-[var(--bg-card)]">
+        <h2 className="text-sm font-bold text-white mb-1">ATTACK TYPES</h2>
+        <p className="text-[8px] text-gray-500 mb-4">
+          Every move belongs to one of five types. Your first move is always your class type (STAB: 1.25x bonus).
+        </p>
+
+        <div className="space-y-4">
+          {MOVE_TYPES.map((type) => {
+            const typeColors: Record<MoveType, string> = {
+              read: "text-cyan-400",
+              write: "text-yellow-400",
+              bash: "text-red-400",
+              agent: "text-purple-400",
+              debug: "text-green-400",
+            };
+            const typeBorders: Record<MoveType, string> = {
+              read: "border-cyan-800",
+              write: "border-yellow-800",
+              bash: "border-red-800",
+              agent: "border-purple-800",
+              debug: "border-green-800",
+            };
+            const stabClass: Record<MoveType, string> = {
+              read: "EXPLORER",
+              write: "BUILDER",
+              bash: "COMMANDER",
+              agent: "ARCHITECT",
+              debug: "DEBUGGER",
+            };
+            const typeDesc: Record<MoveType, string> = {
+              read: "Information gathering attacks. Scan, search, and analyze to find weak points.",
+              write: "Code manipulation attacks. Edit, overwrite, and rewrite to deal damage.",
+              bash: "Terminal execution attacks. Shell commands that hit fast and hard.",
+              agent: "Delegation attacks. Summon sub-agents and orchestrate complex strikes.",
+              debug: "Error exploitation attacks. Trace, catch, and fix — turning bugs into weapons.",
+            };
+
+            return (
+              <div key={type} className={`border-l-2 ${typeBorders[type]} pl-4`}>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`text-[10px] font-bold ${typeColors[type]}`}>
+                    {type.toUpperCase()}
+                  </span>
+                  <span className="text-[8px] text-gray-600">
+                    STAB for {stabClass[type]}
+                  </span>
+                </div>
+                <p className="text-[8px] text-gray-400 mb-2">{typeDesc[type]}</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+                  {MOVE_DATA[type].map((move) => (
+                    <div
+                      key={move.name}
+                      className="bg-black/20 rounded px-2 py-1 flex items-center justify-between"
+                    >
+                      <div>
+                        <span className="text-[9px] text-white font-bold">{move.name}</span>
+                        {move.effect && (
+                          <span className="text-[7px] text-purple-400 ml-1">{move.effect}</span>
+                        )}
+                      </div>
+                      <span className="text-[8px] text-gray-500">
+                        PWR:{move.power} ACC:{move.accuracy}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Type effectiveness chart */}

@@ -8,8 +8,21 @@ import type {
   BattleResult,
   Effectiveness,
 } from "./types.js";
+import type { FighterClass } from "./types.js";
 import { TYPE_CHART } from "./constants.js";
 import { unlockedMoves } from "./progression.js";
+
+// ── STAB (Same-Type Attack Bonus) ───────────────────────────────────
+// 1.25x damage when the move type matches the attacker's class.
+const CLASS_STAB_TYPE: Record<FighterClass, MoveType> = {
+  explorer: "read",
+  builder: "write",
+  commander: "bash",
+  architect: "agent",
+  debugger: "debug",
+};
+
+const STAB_MULT = 1.25;
 
 const MAX_TURNS = 30;
 
@@ -193,9 +206,9 @@ export function resolveBattle(
   for (let turn = 1; turn <= MAX_TURNS; turn++) {
     const actions: BattleAction[] = [];
 
-    // Determine turn order by speed + jitter
-    const speed0 = getEffectiveSpeed(states[0]) + (rng() * 10 - 5);
-    const speed1 = getEffectiveSpeed(states[1]) + (rng() * 10 - 5);
+    // Determine turn order by speed (small jitter only to break ties)
+    const speed0 = getEffectiveSpeed(states[0]) + (rng() * 2 - 1);
+    const speed1 = getEffectiveSpeed(states[1]) + (rng() * 2 - 1);
     const order: [0 | 1, 0 | 1] = speed0 >= speed1 ? [0, 1] : [1, 0];
 
     for (const attackerIdx of order) {
@@ -309,6 +322,7 @@ export function resolveBattle(
 
       const isCrit = rng() * 100 < attacker.card.stats.critChance;
       const critMult = isCrit ? 1.5 : 1.0;
+      const stabMult = move.type === CLASS_STAB_TYPE[attacker.card.class] ? STAB_MULT : 1.0;
       const rageMult =
         attacker.card.stats.rageMode && attacker.hp < attacker.maxHp * 0.3
           ? 1.2
@@ -319,12 +333,13 @@ export function resolveBattle(
       const baseDamage = (move.power * effAtk) / (50 + effDef);
       const finalDamage = Math.max(
         1,
-        Math.floor(baseDamage * typeMult * critMult * rageMult * variance * shieldMult),
+        Math.floor(baseDamage * typeMult * stabMult * critMult * rageMult * variance * shieldMult),
       );
 
       defender.hp = Math.max(0, defender.hp - finalDamage);
 
       let narration = `${attacker.card.buddyName} used ${move.name}!`;
+      if (stabMult > 1) narration += " STAB bonus!";
       if (isCrit) narration += " Critical hit!";
       const effNarr = effectivenessNarration(effectiveness);
       if (effNarr) narration += ` ${effNarr}`;

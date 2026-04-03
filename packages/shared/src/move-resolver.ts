@@ -1,13 +1,23 @@
-import type { Move, MoveType } from "./types.js";
+import type { Move, MoveType, FighterClass } from "./types.js";
 import { MOVE_CATALOG } from "./constants.js";
 import { computeToolGroupDistribution } from "./class-resolver.js";
 
+// Class → primary move type (for guaranteed STAB move)
+const CLASS_TYPE: Record<FighterClass, MoveType> = {
+  explorer: "read",
+  builder: "write",
+  commander: "bash",
+  architect: "agent",
+  debugger: "debug",
+};
+
 export function resolveMoves(
   toolTotals: Record<string, number>,
+  fighterClass?: FighterClass,
 ): [Move, Move, Move, Move] {
   const dist = computeToolGroupDistribution(toolTotals);
 
-  // Rank groups by count descending (exclude debug — it's a derived type)
+  // Rank groups by count descending
   const groups: [MoveType, number][] = [
     ["read", dist.read],
     ["write", dist.write],
@@ -20,7 +30,6 @@ export function resolveMoves(
   // Get top 3 groups (with fallback to ensure we always have 3)
   const topGroups = groups.slice(0, 3).map((g) => g[0]);
 
-  // If a group has 0 usage, replace with a default
   while (topGroups.length < 3) {
     const missing = (["read", "write", "bash", "agent", "debug"] as MoveType[]).find(
       (t) => !topGroups.includes(t),
@@ -32,29 +41,42 @@ export function resolveMoves(
   const moves: Move[] = [];
   const catalog = MOVE_CATALOG;
 
-  // From top group: pick highest-power move + one utility move (has effect)
-  const topMoves = catalog[topGroups[0]];
-  const highPower = [...topMoves].sort((a, b) => b.power - a.power)[0];
-  const utility = topMoves.find((m) => m.effect != null && m !== highPower);
-  moves.push(highPower);
-  if (utility) moves.push(utility);
+  // Move 1: always a class-type move (highest power) for guaranteed STAB
+  const classType = fighterClass ? CLASS_TYPE[fighterClass] : topGroups[0];
+  const classMoves = catalog[classType];
+  const classHighPower = [...classMoves].sort((a, b) => b.power - a.power)[0];
+  moves.push(classHighPower);
 
-  // From 2nd group: pick medium-power move
-  const secondMoves = catalog[topGroups[1]];
+  // Move 2: utility move from class type (has effect), or from top group
+  const classUtility = classMoves.find((m) => m.effect != null && m !== classHighPower);
+  if (classUtility) {
+    moves.push(classUtility);
+  } else {
+    const topMoves = catalog[topGroups[0]];
+    const fallback = topMoves.find((m) => m.effect != null && m !== classHighPower)
+      ?? topMoves.find((m) => m !== classHighPower)
+      ?? topMoves[0];
+    moves.push(fallback);
+  }
+
+  // Move 3: from 2nd group — medium-power move
+  const secondType = topGroups.find((t) => t !== classType) ?? topGroups[1];
+  const secondMoves = catalog[secondType];
   const sorted2 = [...secondMoves].sort((a, b) => b.power - a.power);
   const medium = sorted2[Math.floor(sorted2.length / 2)];
   moves.push(medium);
 
-  // From 3rd group: pick highest-accuracy move
-  const thirdMoves = catalog[topGroups[2]];
+  // Move 4: from 3rd group — highest-accuracy move
+  const thirdType = topGroups.find((t) => t !== classType && t !== secondType) ?? topGroups[2];
+  const thirdMoves = catalog[thirdType];
   const highAcc = [...thirdMoves].sort((a, b) => b.accuracy - a.accuracy)[0];
   moves.push(highAcc);
 
-  // Ensure exactly 4 moves (fill with top group if needed)
+  // Ensure exactly 4 (shouldn't be needed but just in case)
   while (moves.length < 4) {
-    const remaining = topMoves.find((m) => !moves.includes(m));
+    const remaining = classMoves.find((m) => !moves.includes(m));
     if (remaining) moves.push(remaining);
-    else moves.push(topMoves[0]);
+    else moves.push(classMoves[0]);
   }
 
   return [moves[0], moves[1], moves[2], moves[3]];
