@@ -144,6 +144,20 @@ const HAT_LINES: Record<string, string> = {
   tinyduck:  "    ,>      ",
 };
 
+// Default tiny bodies for unevolved buddymons (level < 25 or no custom sprite)
+const DEFAULT_BODY_BIPED: string[] = [
+  "    |  |    ",
+  "   _/  \\_   ",
+];
+
+const DEFAULT_BODY_QUADRUPED: string[] = [
+  "      ",
+  "      ",
+  "      ",
+  "~\\__  ",
+  " || ||",
+];
+
 // Class-specific headgear (replaces rarity hats when class is known)
 const CLASS_HATS: Record<string, string> = {
   explorer:  "    ~?>     ",   // spyglass / periscope
@@ -260,6 +274,27 @@ export function BuddySprite({
       }
       lines.push(...customSprite);
     }
+  } else if (fighterClass && bodyType === "quadruped") {
+    // Default tiny quadruped body (4 legs, side by side)
+    const trimmedHead = lines.map((l) => l.trimEnd());
+    const headContentWidth = Math.max(...trimmedHead.map((l) => l.length));
+    const paddedHead = trimmedHead.map((l) => l.padStart(headContentWidth));
+    const totalHeight = Math.max(paddedHead.length, DEFAULT_BODY_QUADRUPED.length);
+    const headOffset = Math.max(0, Math.floor((totalHeight - paddedHead.length) / 2));
+    const combined: string[] = [];
+    for (let i = 0; i < totalHeight; i++) {
+      const headIdx = i - headOffset;
+      const headLine = headIdx >= 0 && headIdx < paddedHead.length
+        ? paddedHead[headIdx]
+        : " ".repeat(headContentWidth);
+      const bodyLine = i < DEFAULT_BODY_QUADRUPED.length ? DEFAULT_BODY_QUADRUPED[i] : "";
+      combined.push(headLine + bodyLine);
+    }
+    lines.length = 0;
+    lines.push(...combined);
+  } else if (fighterClass) {
+    // Default tiny biped body (2 legs, below head)
+    lines.push(...DEFAULT_BODY_BIPED);
   }
 
   // Scale font size relative to the size prop (size=8 is the default ~baseline)
