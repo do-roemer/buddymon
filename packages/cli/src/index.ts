@@ -9,6 +9,7 @@ import { leaderboardCommand } from "./commands/leaderboard.js";
 import { helpCommand } from "./commands/help.js";
 import { uploadCommand } from "./commands/upload.js";
 import { feedCommand } from "./commands/feed.js";
+import { generateSpriteCommand } from "./commands/generate-sprite.js";
 import { setLocal } from "./arena.js";
 
 const program = new Command();
@@ -61,6 +62,12 @@ program
   .command("list")
   .description("List all buddymons in the arena")
   .action(listCommand);
+
+program
+  .command("generate-sprite")
+  .description("Auto-generate a body sprite based on your class, stats, and traits")
+  .option("--tamer <name>", "Set your Terminal Tamer name")
+  .action(generateSpriteCommand);
 
 program
   .command("feed")
