@@ -1,4 +1,5 @@
 import { getAllBuddies } from "@/lib/db";
+import { xpForLevel, MAX_LEVEL } from "@buddymon/shared";
 import { BuddySprite } from "@/components/BuddySprite";
 import { JoinButton } from "@/components/JoinModal";
 import type { BuddySpecies } from "@buddymon/shared-types";
@@ -99,6 +100,17 @@ function FighterCard({ buddy }: { buddy: StoredBuddy }) {
         <p className="text-[8px] text-gray-400">
           Lv.{card.level} {card.species.toUpperCase()}
         </p>
+
+        {card.xp != null && card.level < MAX_LEVEL && (
+          <div className="flex justify-center">
+            <div className="w-16 h-1 bg-black/30 rounded overflow-hidden">
+              <div
+                className="h-full bg-cyan-500 rounded"
+                style={{ width: `${Math.min(100, (card.xp / xpForLevel(card.level)) * 100)}%` }}
+              />
+            </div>
+          </div>
+        )}
 
         <p className={`text-[8px] font-bold ${classText}`}>
           {card.class.toUpperCase()}

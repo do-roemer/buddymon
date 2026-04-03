@@ -1,5 +1,5 @@
 import { getBuddy, getBuddyBattles } from "@/lib/db";
-import { unlockedMoves } from "@buddymon/shared";
+import { unlockedMoves, xpForLevel, MAX_LEVEL } from "@buddymon/shared";
 import { BuddyCard } from "@/components/BuddyCard";
 import { StatRadar } from "@/components/StatRadar";
 import { BuddySprite } from "@/components/BuddySprite";
@@ -32,6 +32,17 @@ export default async function BuddyPage({ params }: Props) {
         <p className="text-xs text-gray-400">
           Lv.{card.level} {(card.species ?? "unknown").toUpperCase()} | {card.class.toUpperCase()} | {card.dominantLanguage}
         </p>
+        {card.xp != null && card.level < MAX_LEVEL && (
+          <div className="flex justify-center mt-2">
+            <div className="w-32 h-1.5 bg-black/30 rounded overflow-hidden">
+              <div
+                className="h-full bg-cyan-500 rounded"
+                style={{ width: `${Math.min(100, (card.xp / xpForLevel(card.level)) * 100)}%` }}
+              />
+            </div>
+            <span className="text-[8px] text-gray-500 ml-2">{card.xp}/{xpForLevel(card.level)} XP</span>
+          </div>
+        )}
         <RarityBadge rarity={card.rarity} />
         <p className="text-[10px] text-gray-500 italic mt-1">{card.title}</p>
         {card.terminalTamer && (
