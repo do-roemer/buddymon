@@ -52,6 +52,7 @@ export {
   NAME_PREFIXES,
   NAME_SUFFIXES,
   CLASS_GROWTH_RATES,
+  SIGNATURE_MOVES,
 } from "./constants.js";
 
 // Stats parsing

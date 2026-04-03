@@ -1,5 +1,5 @@
 import type { Move, MoveType, FighterClass } from "./types.js";
-import { MOVE_CATALOG } from "./constants.js";
+import { MOVE_CATALOG, SIGNATURE_MOVES } from "./constants.js";
 import { computeToolGroupDistribution } from "./class-resolver.js";
 
 // Class → primary move type (for guaranteed STAB move)
@@ -14,7 +14,7 @@ const CLASS_TYPE: Record<FighterClass, MoveType> = {
 export function resolveMoves(
   toolTotals: Record<string, number>,
   fighterClass?: FighterClass,
-): [Move, Move, Move, Move] {
+): Move[] {
   const dist = computeToolGroupDistribution(toolTotals);
 
   // Rank groups by count descending
@@ -79,5 +79,12 @@ export function resolveMoves(
     else moves.push(classMoves[0]);
   }
 
-  return [moves[0], moves[1], moves[2], moves[3]];
+  const result: Move[] = [moves[0], moves[1], moves[2], moves[3]];
+
+  // Signature move (5th slot, unlocked at level 25)
+  if (fighterClass && SIGNATURE_MOVES[fighterClass]) {
+    result.push(SIGNATURE_MOVES[fighterClass]);
+  }
+
+  return result;
 }

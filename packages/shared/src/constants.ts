@@ -237,6 +237,49 @@ export const MOVE_CATALOG: Record<MoveType, Move[]> = {
   ],
 };
 
+// ── Signature Moves (unlocked at level 25 with full evolution) ───────
+export const SIGNATURE_MOVES: Record<FighterClass, Move> = {
+  explorer: {
+    name: "Core Dump",
+    type: "read",
+    power: 130,
+    accuracy: 75,
+    effect: { kind: "debuff", stat: "defense", amount: 15, turns: 3 },
+    description: "Exposes the opponent's entire memory. Nowhere to hide.",
+  },
+  builder: {
+    name: "Rewrite History",
+    type: "write",
+    power: 130,
+    accuracy: 75,
+    effect: { kind: "shield", percent: 30, turns: 2 },
+    description: "Rewrites the timeline. What damage?",
+  },
+  commander: {
+    name: "sudo rm -rf",
+    type: "bash",
+    power: 150,
+    accuracy: 60,
+    description: "Deletes everything. No confirmation. No mercy.",
+  },
+  architect: {
+    name: "Orchestrate",
+    type: "agent",
+    power: 120,
+    accuracy: 80,
+    effect: { kind: "buff", stat: "attack", amount: 20, turns: 3 },
+    description: "Every agent fires at once. The system bends to your will.",
+  },
+  debugger: {
+    name: "git bisect",
+    type: "debug",
+    power: 110,
+    accuracy: 90,
+    effect: { kind: "dot", damagePerTurn: 20, turns: 3 },
+    description: "Finds the exact commit that broke everything. Relentless.",
+  },
+};
+
 // ── Class Passives ───────────────────────────────────────────────────
 export const CLASS_PASSIVES: Record<FighterClass, Passive> = {
   explorer: {

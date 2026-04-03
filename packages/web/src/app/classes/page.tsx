@@ -152,6 +152,14 @@ const MOVE_DATA: Record<MoveType, { name: string; power: number; accuracy: numbe
   ],
 };
 
+const SIGNATURE_MOVE_DATA: Record<FighterClass, { name: string; power: number; accuracy: number; effect?: string; description: string }> = {
+  explorer:  { name: "Core Dump",        power: 130, accuracy: 75, effect: "DEF -15",    description: "Exposes the opponent's entire memory. Nowhere to hide." },
+  builder:   { name: "Rewrite History",   power: 130, accuracy: 75, effect: "Shield 30%", description: "Rewrites the timeline. What damage?" },
+  commander: { name: "sudo rm -rf",       power: 150, accuracy: 60,                        description: "Deletes everything. No confirmation. No mercy." },
+  architect: { name: "Orchestrate",       power: 120, accuracy: 80, effect: "ATK +20",    description: "Every agent fires at once. The system bends to your will." },
+  debugger:  { name: "git bisect",        power: 110, accuracy: 90, effect: "DoT 20×3",   description: "Finds the exact commit that broke everything. Relentless." },
+};
+
 const CLASSES: FighterClass[] = ["explorer", "builder", "commander", "architect", "debugger"];
 const MOVE_TYPES: MoveType[] = ["read", "write", "bash", "agent", "debug"];
 
@@ -231,6 +239,23 @@ export default function ClassesPage() {
                     </p>
                     <p className="text-[8px] text-gray-400">
                       {data.passive.description}
+                    </p>
+                  </div>
+
+                  {/* Signature Move */}
+                  <div className="bg-black/20 rounded px-3 py-2 border-l-2 border-yellow-600">
+                    <p className="text-[8px] text-gray-500 uppercase">Signature Move <span className="text-yellow-500">Lv.25</span></p>
+                    <div className="flex items-center justify-between mt-1">
+                      <p className="text-[10px] text-yellow-400 font-bold">
+                        {SIGNATURE_MOVE_DATA[cls].name}
+                      </p>
+                      <span className="text-[8px] text-gray-500">
+                        PWR:{SIGNATURE_MOVE_DATA[cls].power} ACC:{SIGNATURE_MOVE_DATA[cls].accuracy}
+                        {SIGNATURE_MOVE_DATA[cls].effect && ` ${SIGNATURE_MOVE_DATA[cls].effect}`}
+                      </span>
+                    </div>
+                    <p className="text-[8px] text-gray-400 italic">
+                      {SIGNATURE_MOVE_DATA[cls].description}
                     </p>
                   </div>
                 </div>

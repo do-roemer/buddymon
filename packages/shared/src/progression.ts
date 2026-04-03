@@ -53,7 +53,9 @@ export function tokensToXP(tokens: number): number {
   return Math.floor(tokens * XP_PER_TOKEN);
 }
 
-/** Number of moves unlocked at a given level (1 at L1, +1 every 5 levels, max 4). */
+/** Number of moves unlocked at a given level (1 at L1, +1 every 5 levels, max 4 + signature at 25). */
 export function unlockedMoves(level: number): number {
-  return Math.min(4, 1 + Math.floor(level / 5));
+  const base = Math.min(4, 1 + Math.floor(level / 5));
+  // 5th slot: signature move at level 25+
+  return level >= 25 ? base + 1 : base;
 }
