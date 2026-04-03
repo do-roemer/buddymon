@@ -65,7 +65,8 @@ program
 
 program
   .command("generate-sprite")
-  .description("Auto-generate a body sprite based on your class, stats, and traits")
+  .description("Auto-generate a body sprite and export the fighter card")
+  .argument("[path]", "Output path", "./buddymon-card.json")
   .option("--tamer <name>", "Set your Terminal Tamer name")
   .action(generateSpriteCommand);
 
