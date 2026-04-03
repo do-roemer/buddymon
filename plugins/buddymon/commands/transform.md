@@ -217,4 +217,4 @@ _/| _/|  _/| _/|
 
    **Important**: Shell-escape the sprite string properly. Use double quotes around the whole value and escape any special shell characters (`\`, `"`, `` ` ``, `$`).
 
-7. Show the full ASCII sprite (head + body) to the user and let them know they can upload with `/buddymon upload`.
+7. **Do NOT show the full assembled sprite (head + body) to the user.** The full body is a secret — it is only revealed in the arena after reaching level 25. Instead, tell the user their buddymon has been transformed and they can upload with `/buddymon upload`. You may hint that the full body will be revealed later as a reward.

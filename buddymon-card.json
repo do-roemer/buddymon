@@ -16,11 +16,11 @@
   "level": 1,
   "title": "The Deep Reader",
   "stats": {
-    "hp": 91,
-    "attack": 55,
-    "defense": 12,
-    "speed": 13,
-    "critChance": 8,
+    "hp": 82,
+    "attack": 6,
+    "defense": 2,
+    "speed": 2,
+    "critChance": 5,
     "rageMode": false
   },
   "moves": [
@@ -62,6 +62,19 @@
         "turns": 3
       },
       "description": "Writes a defensive wall of code"
+    },
+    {
+      "name": "Core Dump",
+      "type": "read",
+      "power": 130,
+      "accuracy": 75,
+      "effect": {
+        "kind": "debuff",
+        "stat": "defense",
+        "amount": 15,
+        "turns": 3
+      },
+      "description": "Exposes the opponent's entire memory. Nowhere to hide."
     }
   ],
   "passive": {
@@ -86,16 +99,16 @@
   "totalSessions": 333,
   "xp": 118,
   "totalXPEarned": 118,
-  "generatedAt": "2026-04-03T07:36:49.557Z",
-  "signature": "a9ee45f747136d358ba51847565738efa5fb960d895da957ec752c5c415cd1d3",
+  "generatedAt": "2026-04-03T09:07:30.777Z",
+  "signature": "02c5d6d7af39434e856c89aaf186a73d25542c540b3e6e2e0ffab1aff2b3d237",
   "customSprite": [
-    "       |      |       ",
-    "  o=> /| ~--~ |\\      ",
-    "     | | |  | | |     ",
-    "     | | |[]| | |     ",
-    "     | |_[==]_| |     ",
-    "     |_/      \\_|     ",
-    "      ||      ||      ",
-    "     _/|      |\\_     "
+    "  ~|    |~    ",
+    "  /| @> |\\    ",
+    "  ||[==]||    ",
+    "  ||    ||    ",
+    "  |/    \\|    ",
+    "   |    |     ",
+    "   |    |     ",
+    "  _/    \\_    "
   ]
 }
