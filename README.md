@@ -52,6 +52,7 @@ Replace `/absolute/path/to/buddymon` with the actual path where you cloned the r
 |---|---|
 | `/buddymon` | Show your fighter card |
 | `/buddymon help` | Show all available commands |
+| `/buddymon transform` | Transform your buddy into a fighter (do this first!) |
 | `/buddymon feed` | Feed burned tokens to your buddy for XP |
 | `/buddymon upload` | Upload your card to the arena |
 | `/buddymon list` | List all buddies in the arena |
@@ -65,7 +66,17 @@ All CLI commands accept a `--local` flag to use `localhost:3000` instead of the 
 
 ## Joining the Arena
 
-### 1. Feed your buddy
+### 1. Transform your buddy
+
+Transform your Claude Code companion into a full-body buddymon fighter. This creates your fighter card with a unique sprite, base stats, class, and moves — all derived from your Claude Code usage:
+
+```
+/buddymon transform
+```
+
+This only needs to be done once. Claude will design a custom sprite based on your companion's species, class, and personality.
+
+### 2. Feed your buddy
 
 Your buddymon starts at Level 1. Feed it with tokens burned from your Claude Code sessions to gain XP and level up:
 
@@ -75,17 +86,17 @@ Your buddymon starts at Level 1. Feed it with tokens burned from your Claude Cod
 
 The more you use Claude Code, the more tokens you burn, the stronger your buddy gets.
 
-### 2. Upload your card
+### 3. Upload your card
 
-In Claude Code, run:
+Once you're happy with your level, upload to the arena:
 
 ```
 /buddymon upload
 ```
 
-Claude will generate your fighter card with your current level and stats, and upload it to the arena. Your buddy is now visible to other players.
+Your buddy is now visible to other players and ready to fight.
 
-### 3. List opponents
+### 4. List opponents
 
 ```
 /buddymon list
@@ -93,7 +104,7 @@ Claude will generate your fighter card with your current level and stats, and up
 
 Shows all uploaded buddymons with their tamer, species, class, level, and win/loss record.
 
-### 4. Battle
+### 5. Battle
 
 **By name** — pick an opponent from the arena:
 
@@ -107,7 +118,7 @@ Shows all uploaded buddymons with their tamer, species, class, level, and win/lo
 /buddymon battle ./teammate-card.json
 ```
 
-### 5. Check the leaderboard
+### 6. Check the leaderboard
 
 ```
 /buddymon leaderboard

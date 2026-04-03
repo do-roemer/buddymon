@@ -1,7 +1,7 @@
 {
   "version": 1,
   "buddyName": "Rindwickmon",
-  "terminalTamer": "Kai",
+  "terminalTamer": "Dominik",
   "species": "capybara",
   "personality": "A phlegmatic capybara who absorbs your debugging chaos with zen patience, then delivers the solution wrapped in dry, observational snark that makes you unsure whether you're being comforted or roasted.",
   "baseStats": {
@@ -13,14 +13,14 @@
   },
   "ownerHash": "21815c9d673011774caa8e5eb7e5ab4b6267441a0d583b09126b3203d57d7ee3",
   "class": "explorer",
-  "level": 47,
+  "level": 1,
   "title": "The Deep Reader",
   "stats": {
-    "hp": 170,
-    "attack": 63,
-    "defense": 39,
-    "speed": 25,
-    "critChance": 18,
+    "hp": 91,
+    "attack": 55,
+    "defense": 12,
+    "speed": 13,
+    "critChance": 8,
     "rageMode": false
   },
   "moves": [
@@ -84,15 +84,18 @@
   "dominantLanguage": "TypeScript",
   "favoriteHour": 14,
   "totalSessions": 333,
-  "generatedAt": "2026-04-03T06:10:10.855Z",
-  "signature": "0416dfb9df76d22c49df32c73998e88c86465d20cc3a848fc3b763fecf6aa586",
+  "xp": 118,
+  "totalXPEarned": 118,
+  "generatedAt": "2026-04-03T07:36:49.557Z",
+  "signature": "a9ee45f747136d358ba51847565738efa5fb960d895da957ec752c5c415cd1d3",
   "customSprite": [
-    "   \\|    |/   ",
-    "  *| /==\\ |*  ",
-    "   | |##| |    ",
-    "   |_|  |_|    ",
-    "  /=|    |=\\   ",
-    "  | |    | |   ",
-    "  |~|    |~|   "
+    "       |      |       ",
+    "  o=> /| ~--~ |\\      ",
+    "     | | |  | | |     ",
+    "     | | |[]| | |     ",
+    "     | |_[==]_| |     ",
+    "     |_/      \\_|     ",
+    "      ||      ||      ",
+    "     _/|      |\\_     "
   ]
 }

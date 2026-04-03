@@ -44,20 +44,20 @@ export function JoinButton() {
               </div>
 
               <div>
-                <p className="text-cyan-400 font-bold mb-1">2. FEED YOUR BUDDY</p>
+                <p className="text-cyan-400 font-bold mb-1">2. TRANSFORM YOUR BUDDY</p>
+                <p className="text-gray-400 mb-2">Creates your fighter card with a unique sprite, base stats, class, and moves. Only needed once:</p>
+                <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
+{`/buddymon transform`}
+                </pre>
+              </div>
+
+              <div>
+                <p className="text-cyan-400 font-bold mb-1">3. FEED YOUR BUDDY</p>
                 <p className="text-gray-400 mb-2">Your buddy starts at Lv.1. Feed it burned tokens from your Claude Code sessions to gain XP:</p>
                 <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
 {`/buddymon feed`}
                 </pre>
                 <p className="text-gray-500 mt-1">The more you use Claude Code, the stronger your buddy gets.</p>
-              </div>
-
-              <div>
-                <p className="text-cyan-400 font-bold mb-1">3. TRANSFORM YOUR BUDDY</p>
-                <p className="text-gray-400 mb-2">Claude designs a unique full-body sprite based on your stats and class:</p>
-                <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
-{`/buddymon transform`}
-                </pre>
               </div>
 
               <div>
