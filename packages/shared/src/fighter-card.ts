@@ -1,6 +1,6 @@
 import * as crypto from "node:crypto";
 import * as os from "node:os";
-import type { FighterCard, RawAggregate } from "./types.js";
+import type { FighterCard, RawAggregate, BodyType } from "./types.js";
 import { CLASS_PASSIVES } from "./constants.js";
 import { resolveClass } from "./class-resolver.js";
 import { computeStats, computeLevel } from "./stats-computer.js";
@@ -75,6 +75,10 @@ export function buildFighterCard(aggregate: RawAggregate, terminalTamer: string)
   // Sprite key based on species
   const spriteKey = species;
 
+  // Randomly decide biped or quadruped (seeded from ownerHash for consistency)
+  const bodyTypeSeed = parseInt(ownerHash.slice(0, 8), 16);
+  const bodyType: BodyType = bodyTypeSeed % 2 === 0 ? "biped" : "quadruped";
+
   const cardWithoutSig = {
     version: 1 as const,
     buddyName: companion.name,
@@ -94,6 +98,7 @@ export function buildFighterCard(aggregate: RawAggregate, terminalTamer: string)
     eye: companion.eye ?? "\u00b7",
     hat: companion.hat ?? "none",
     shiny: companion.shiny ?? false,
+    bodyType,
     dominantLanguage,
     favoriteHour,
     totalSessions: aggregate.totalSessions,

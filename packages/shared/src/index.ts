@@ -12,6 +12,7 @@ export type {
   BuddyRarity,
   BuddyEye,
   BuddyHat,
+  BodyType,
   Companion,
   RawAggregate,
   Effectiveness,
@@ -34,6 +35,7 @@ export {
   BUDDY_RARITIES,
   BUDDY_EYES,
   BUDDY_HATS,
+  BODY_TYPES,
   MOVE_TYPES,
 } from "./types.js";
 

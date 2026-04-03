@@ -1,7 +1,7 @@
 {
   "version": 1,
   "buddyName": "Rindwickmon",
-  "terminalTamer": "Dominik",
+  "terminalTamer": "Kai",
   "species": "capybara",
   "personality": "A phlegmatic capybara who absorbs your debugging chaos with zen patience, then delivers the solution wrapped in dry, observational snark that makes you unsure whether you're being comforted or roasted.",
   "baseStats": {
@@ -80,19 +80,19 @@
   "eye": "°",
   "hat": "crown",
   "shiny": false,
+  "bodyType": "biped",
   "dominantLanguage": "TypeScript",
   "favoriteHour": 14,
   "totalSessions": 333,
-  "generatedAt": "2026-04-02T21:18:12.892Z",
-  "signature": "d3ec3c7d47658fbef496505d2852e2d25ba1c577922822a59fcb37f0ce077fd8",
+  "generatedAt": "2026-04-03T06:10:10.855Z",
+  "signature": "0416dfb9df76d22c49df32c73998e88c86465d20cc3a848fc3b763fecf6aa586",
   "customSprite": [
-    "       |      |       ",
-    "  ?~> /| .--. |\\      ",
-    "     | | [++] | |     ",
-    "     | |_\\__/_| |     ",
-    "     |_|      |_|     ",
-    "      |   ||   |      ",
-    "      |   ||   |      ",
-    "     _/   /\\   \\_     "
+    "   \\|    |/   ",
+    "  *| /==\\ |*  ",
+    "   | |##| |    ",
+    "   |_|  |_|    ",
+    "  /=|    |=\\   ",
+    "  | |    | |   ",
+    "  |~|    |~|   "
   ]
 }

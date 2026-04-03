@@ -4,7 +4,7 @@ import { buildFighterCard, parseStats } from "@buddymon/shared";
 import { getTerminalTamer } from "../terminal-tamer.js";
 import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
 
-export async function uploadCommand(opts: { tamer?: string; name?: string; fakeIdentity?: boolean; sprite?: string }): Promise<void> {
+export async function uploadCommand(opts: { tamer?: string; name?: string; fakeIdentity?: boolean; sprite?: string; bodyType?: string }): Promise<void> {
   console.log(chalk.bold("\n  Generating fighter card...\n"));
 
   const agg = parseStats();
@@ -17,6 +17,10 @@ export async function uploadCommand(opts: { tamer?: string; name?: string; fakeI
 
   if (!card.buddyName.toLowerCase().endsWith("mon")) {
     card.buddyName += "mon";
+  }
+
+  if (opts.bodyType === "biped" || opts.bodyType === "quadruped") {
+    card.bodyType = opts.bodyType;
   }
 
   if (opts.sprite) {

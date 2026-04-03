@@ -23,7 +23,7 @@ export default async function BuddyPage({ params }: Props) {
     <div className="space-y-6 py-8 max-w-2xl mx-auto">
       {/* Profile header */}
       <div className="bg-[var(--bg-card)] pixel-border border-[var(--border-subtle)] rounded-lg p-6 text-center">
-        <BuddySprite species={card.species ?? "blob"} size={10} shiny={card.shiny} eye={card.eye} hat={card.hat} fighterClass={card.class} customSprite={card.customSprite} />
+        <BuddySprite species={card.species ?? "blob"} size={10} shiny={card.shiny} eye={card.eye} hat={card.hat} fighterClass={card.class} customSprite={card.customSprite} bodyType={card.bodyType} />
         <h1 className="text-xl font-bold text-white mt-4">
           {card.buddyName}
           {card.shiny && <span className="text-yellow-300 ml-2 text-sm">&#10023;SHINY</span>}

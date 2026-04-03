@@ -8,6 +8,7 @@ const CONFIG_PATH = path.join(CONFIG_DIR, "config.json");
 interface BuddymonConfig {
   terminalTamer?: string;
   customSprite?: string[];
+  bodyType?: string;
 }
 
 function readConfig(): BuddymonConfig {
@@ -30,6 +31,16 @@ export function getCustomSprite(): string[] | undefined {
 export function saveCustomSprite(sprite: string[]): void {
   const config = readConfig();
   config.customSprite = sprite;
+  writeConfig(config);
+}
+
+export function getBodyType(): string | undefined {
+  return readConfig().bodyType;
+}
+
+export function saveBodyType(bodyType: string): void {
+  const config = readConfig();
+  config.bodyType = bodyType;
   writeConfig(config);
 }
 

@@ -39,6 +39,7 @@ program
   .argument("[path]", "Output path", "./buddymon-card.json")
   .option("--tamer <name>", "Set your Terminal Tamer name")
   .option("--sprite <lines>", "Custom ASCII body sprite (lines separated by \\n)")
+  .option("--body-type <type>", "Body type: biped (standing) or quadruped (on all fours)")
   .action(exportCommand);
 
 program
@@ -47,6 +48,7 @@ program
   .option("--tamer <name>", "Set your Terminal Tamer name")
   .option("--name <buddyName>", "Override your buddy's name")
   .option("--sprite <lines>", "Custom ASCII sprite (lines separated by \\n)")
+  .option("--body-type <type>", "Body type: biped (standing) or quadruped (on all fours)")
   .option("--fake-identity", "Use a random owner hash (testing only)")
   .action(uploadCommand);
 

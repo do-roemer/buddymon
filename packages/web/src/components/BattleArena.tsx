@@ -314,6 +314,7 @@ function FighterDisplay({
           hat={card.hat}
           fighterClass={card.class}
           customSprite={card.customSprite}
+          bodyType={card.bodyType}
         />
       </div>
 

@@ -1,5 +1,5 @@
 import chalk, { type ChalkInstance } from "chalk";
-import type { FighterClass, BuddySpecies, BuddyRarity, BuddyHat } from "@buddymon/shared";
+import type { FighterClass, BuddySpecies, BuddyRarity, BuddyHat, BodyType } from "@buddymon/shared";
 
 // Original Claude Code companion sprites (5 lines tall, ~12 wide)
 // Ported from claude-code sprites.ts — {E} is replaced with the eye character
@@ -204,6 +204,7 @@ export function renderBuddy(
   hat: BuddyHat = "none",
   fighterClass?: FighterClass,
   customSprite?: string[],
+  bodyType?: BodyType,
 ): string {
   const color = SPECIES_COLORS[species] ?? chalk.white;
 
@@ -216,7 +217,39 @@ export function renderBuddy(
   }
 
   if (customSprite && customSprite.length > 0) {
-    // Center the head over the wider body sprite
+    if (bodyType === "quadruped") {
+      // Quadruped: head on the LEFT, body on the RIGHT (side by side)
+      // 1. Right-align head lines so the right content edges are flush,
+      //    making the head connect snugly to the body on its right side.
+      const trimmedHead = lines.map((l) => l.trimEnd());
+      const headContentWidth = Math.max(...trimmedHead.map((l) => l.length));
+      const paddedHead = trimmedHead.map((l) => l.padStart(headContentWidth));
+
+      // 2. Strip common leading whitespace from body lines to close the gap
+      const nonEmptyBody = customSprite.filter((l) => l.trim().length > 0);
+      const minBodyIndent = nonEmptyBody.length > 0
+        ? Math.min(...nonEmptyBody.map((l) => l.match(/^( *)/)![1].length))
+        : 0;
+      const dedentedBody = customSprite.map((l) => l.slice(minBodyIndent));
+
+      const bodyHeight = dedentedBody.length;
+      const headHeight = paddedHead.length;
+      const totalHeight = Math.max(headHeight, bodyHeight);
+      const headOffset = Math.max(0, Math.floor((totalHeight - headHeight) / 2));
+
+      const combined: string[] = [];
+      for (let i = 0; i < totalHeight; i++) {
+        const headIdx = i - headOffset;
+        const headLine = headIdx >= 0 && headIdx < headHeight
+          ? paddedHead[headIdx]
+          : " ".repeat(headContentWidth);
+        const bodyLine = i < bodyHeight ? dedentedBody[i] : "";
+        combined.push(headLine + bodyLine);
+      }
+      return combined.map((line) => color(line)).join("\n");
+    }
+
+    // Biped (default): center the head over the wider body sprite
     const bodyWidth = Math.max(...customSprite.map((l) => l.length));
     const headWidth = Math.max(...lines.map((l) => l.length));
     if (bodyWidth > headWidth) {

@@ -3,13 +3,17 @@ import { parseStats, buildFighterCard } from "@buddymon/shared";
 import type { BuddyHat } from "@buddymon/shared";
 import { renderBuddy, getClassColor, getClassEmoji, getSpeciesColor, getRarityColor, getRarityStars } from "../render/ascii-buddy.js";
 import { renderStatBars } from "../render/stat-bars.js";
-import { getTerminalTamer, getCustomSprite } from "../terminal-tamer.js";
+import { getTerminalTamer, getCustomSprite, getBodyType } from "../terminal-tamer.js";
 
 export function buddyCommand(opts: { tamer?: string }): void {
   const agg = parseStats();
   const tamer = getTerminalTamer(opts.tamer);
   const card = buildFighterCard(agg, tamer);
   card.customSprite = getCustomSprite();
+  const savedBodyType = getBodyType();
+  if (savedBodyType === "biped" || savedBodyType === "quadruped") {
+    card.bodyType = savedBodyType;
+  }
   const classColor = getClassColor(card.class);
   const speciesColor = getSpeciesColor(card.species);
   const rarityColor = getRarityColor(card.rarity);
@@ -22,7 +26,7 @@ export function buddyCommand(opts: { tamer?: string }): void {
   console.log("");
 
   // Sprite (with actual eye and hat)
-  console.log(renderBuddy(card.species, card.eye, card.hat as BuddyHat, card.class, card.customSprite));
+  console.log(renderBuddy(card.species, card.eye, card.hat as BuddyHat, card.class, card.customSprite, card.bodyType));
   console.log("");
 
   // Name and info

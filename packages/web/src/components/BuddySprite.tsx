@@ -1,6 +1,6 @@
 "use client";
 
-import type { BuddySpecies, BuddyHat } from "@buddymon/shared-types";
+import type { BuddySpecies, BuddyHat, BodyType } from "@buddymon/shared-types";
 
 // Original Claude Code companion ASCII sprites (5 lines, ~12 wide)
 // {E} is replaced with the eye character at render time
@@ -184,6 +184,7 @@ interface Props {
   hat?: string;
   fighterClass?: string;
   customSprite?: string[];
+  bodyType?: BodyType;
 }
 
 export function BuddySprite({
@@ -196,6 +197,7 @@ export function BuddySprite({
   hat = "none",
   fighterClass,
   customSprite,
+  bodyType,
 }: Props) {
   const color = SPECIES_COLORS[species] ?? "#F5F5F5";
 
@@ -207,17 +209,50 @@ export function BuddySprite({
   }
 
   if (customSprite && customSprite.length > 0) {
-    // Center the head over the wider body sprite
-    const bodyWidth = Math.max(...customSprite.map((l) => l.length));
-    const headWidth = Math.max(...lines.map((l) => l.length));
-    if (bodyWidth > headWidth) {
-      const pad = Math.floor((bodyWidth - headWidth) / 2);
-      const padding = " ".repeat(pad);
-      for (let i = 0; i < lines.length; i++) {
-        lines[i] = padding + lines[i] + padding;
+    if (bodyType === "quadruped") {
+      // Quadruped: head on the LEFT, body on the RIGHT (side by side)
+      // 1. Right-align head lines so the right content edges are flush,
+      //    making the head connect snugly to the body on its right side.
+      const trimmedHead = lines.map((l) => l.trimEnd());
+      const headContentWidth = Math.max(...trimmedHead.map((l) => l.length));
+      const paddedHead = trimmedHead.map((l) => l.padStart(headContentWidth));
+
+      // 2. Strip common leading whitespace from body lines to close the gap
+      const nonEmptyBody = customSprite.filter((l) => l.trim().length > 0);
+      const minBodyIndent = nonEmptyBody.length > 0
+        ? Math.min(...nonEmptyBody.map((l) => l.match(/^( *)/)![1].length))
+        : 0;
+      const dedentedBody = customSprite.map((l) => l.slice(minBodyIndent));
+
+      const bodyHeight = dedentedBody.length;
+      const headHeight = paddedHead.length;
+      const totalHeight = Math.max(headHeight, bodyHeight);
+      const headOffset = Math.max(0, Math.floor((totalHeight - headHeight) / 2));
+
+      const combined: string[] = [];
+      for (let i = 0; i < totalHeight; i++) {
+        const headIdx = i - headOffset;
+        const headLine = headIdx >= 0 && headIdx < headHeight
+          ? paddedHead[headIdx]
+          : " ".repeat(headContentWidth);
+        const bodyLine = i < bodyHeight ? dedentedBody[i] : "";
+        combined.push(headLine + bodyLine);
       }
+      lines.length = 0;
+      lines.push(...combined);
+    } else {
+      // Biped (default): center the head over the wider body sprite
+      const bodyWidth = Math.max(...customSprite.map((l) => l.length));
+      const headWidth = Math.max(...lines.map((l) => l.length));
+      if (bodyWidth > headWidth) {
+        const pad = Math.floor((bodyWidth - headWidth) / 2);
+        const padding = " ".repeat(pad);
+        for (let i = 0; i < lines.length; i++) {
+          lines[i] = padding + lines[i] + padding;
+        }
+      }
+      lines.push(...customSprite);
     }
-    lines.push(...customSprite);
   } else if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
     // Fallback: class accessory icon
     lines.push(CLASS_ACCESSORIES[fighterClass]);

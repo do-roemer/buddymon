@@ -98,6 +98,9 @@ export type BuddyEye = (typeof BUDDY_EYES)[number];
 export const BUDDY_HATS = ["none", "crown", "tophat", "propeller", "halo", "wizard", "beanie", "tinyduck"] as const;
 export type BuddyHat = (typeof BUDDY_HATS)[number];
 
+export const BODY_TYPES = ["biped", "quadruped"] as const;
+export type BodyType = (typeof BODY_TYPES)[number];
+
 // ── Buddy Base Stats (from Claude Code's /buddy) ────────────────────
 export const BuddyBaseStatsSchema = z.object({
   debugging: z.number().min(0).max(100),
@@ -142,6 +145,7 @@ export const FighterCardSchema = z.object({
   eye: z.string(),
   hat: z.enum(BUDDY_HATS),
   shiny: z.boolean(),
+  bodyType: z.enum(BODY_TYPES).optional(),
   customSprite: z.array(z.string()).max(9).optional(),
   dominantLanguage: z.string(),
   favoriteHour: z.number().min(0).max(23),

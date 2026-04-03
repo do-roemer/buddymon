@@ -1,0 +1,97 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "BUDDYMON" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - link "Arena" [ref=e5] [cursor=pointer]:
+        - /url: /arena
+      - link "Classes" [ref=e6] [cursor=pointer]:
+        - /url: /classes
+      - link "Leaderboard" [ref=e7] [cursor=pointer]:
+        - /url: /leaderboard
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e12]: "~/ ============\\ /^\\|[##] .----. | _,--._| | |[==] | | ( × × )| | `----` | /[______]\\\\__|________|/~> `` `` || || || || _/| _/| _/| _/|"
+        - heading "Mosstrailmon" [level=1] [ref=e13]
+        - paragraph [ref=e14]: Lv.41 TURTLE | ARCHITECT | Go
+        - paragraph [ref=e15]: ★★★ RARE
+        - paragraph [ref=e16]: The Blueprint Tortoise
+        - paragraph [ref=e17]: "Terminal Tamer: Jade"
+        - paragraph [ref=e18]: “A slow but unstoppable turtle who methodically builds the most robust architecture you have ever seen, one carefully tested brick at a time.”
+        - generic [ref=e19]:
+          - generic [ref=e20]: 0wins
+          - generic [ref=e21]: 0losses
+          - generic [ref=e22]:
+            - generic [ref=e23]: 0%
+            - text: win rate
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - heading "STATS" [level=2] [ref=e26]
+          - img [ref=e28]:
+            - generic [ref=e43]: HP
+            - generic [ref=e44]: ATK
+            - generic [ref=e45]: DEF
+            - generic [ref=e46]: SPD
+            - generic [ref=e47]: CRT
+          - generic [ref=e48]:
+            - generic [ref=e49]:
+              - generic [ref=e50]: HP
+              - generic [ref=e51]: "260"
+            - generic [ref=e54]:
+              - generic [ref=e55]: ATK
+              - generic [ref=e56]: "28"
+            - generic [ref=e59]:
+              - generic [ref=e60]: DEF
+              - generic [ref=e61]: "88"
+            - generic [ref=e64]:
+              - generic [ref=e65]: SPD
+              - generic [ref=e66]: "18"
+            - generic [ref=e69]:
+              - generic [ref=e70]: CRIT
+              - generic [ref=e71]: 8%
+            - generic [ref=e74]: "Rage Mode: inactive"
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - heading "MOVES" [level=2] [ref=e77]
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]:
+                  - generic [ref=e81]: Schema Lock
+                  - generic [ref=e82]: WRITE
+                - generic [ref=e83]:
+                  - generic [ref=e84]: "PWR: 55"
+                  - generic [ref=e85]: "ACC: 100"
+                - paragraph [ref=e86]: Locks down the schema with an immovable wall
+              - generic [ref=e87]:
+                - generic [ref=e88]:
+                  - generic [ref=e89]: Terraform
+                  - generic [ref=e90]: BASH
+                - generic [ref=e91]:
+                  - generic [ref=e92]: "PWR: 80"
+                  - generic [ref=e93]: "ACC: 85"
+                - paragraph [ref=e94]: Reshapes the battlefield infrastructure
+              - generic [ref=e95]:
+                - generic [ref=e96]:
+                  - generic [ref=e97]: Peer Review
+                  - generic [ref=e98]: READ
+                - generic [ref=e99]:
+                  - generic [ref=e100]: "PWR: 45"
+                  - generic [ref=e101]: "ACC: 100"
+                - paragraph [ref=e102]: Finds flaws in the opponents approach
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - generic [ref=e105]: Monolith Drop
+                  - generic [ref=e106]: AGENT
+                - generic [ref=e107]:
+                  - generic [ref=e108]: "PWR: 120"
+                  - generic [ref=e109]: "ACC: 55"
+                - paragraph [ref=e110]: Drops an entire monolith on the opponent
+          - generic [ref=e111]:
+            - heading "PASSIVE" [level=2] [ref=e112]
+            - paragraph [ref=e113]: Fortified Shell
+            - paragraph [ref=e114]: "Start of turn: heal 5% HP"
+      - generic [ref=e115]: "Sessions: 287 | Peak hour: 9:00 | Uploaded: 4/3/2026"
+  - button "Open Next.js Dev Tools" [ref=e121] [cursor=pointer]:
+    - img [ref=e122]
+  - alert [ref=e125]

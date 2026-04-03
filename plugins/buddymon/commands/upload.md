@@ -19,9 +19,9 @@ Upload your fighter card to the arena. If you haven't transformed yet, run `/bud
    cat ~/Desktop/personal_projects/buddymon/buddymon-card.json 2>/dev/null | head -5
    ```
 
-4. If a saved card with a `customSprite` exists, upload it with the sprite:
+4. If a saved card with a `customSprite` exists, upload it with the sprite and body type:
    ```bash
-   cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload --sprite "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.customSprite.join('\\\\n'))")" {{ARGS}}
+   cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- upload --body-type "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.bodyType||'biped')")" --sprite "$(node -e "const c=JSON.parse(require('fs').readFileSync('buddymon-card.json','utf8'));console.log(c.customSprite.join('\\\\n'))")" {{ARGS}}
    ```
 
    If no saved card exists, upload without a custom sprite:

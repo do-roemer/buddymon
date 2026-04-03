@@ -1,0 +1,88 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "BUDDYMON" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - link "Arena" [ref=e5] [cursor=pointer]:
+        - /url: /arena
+      - link "Classes" [ref=e6] [cursor=pointer]:
+        - /url: /classes
+      - link "Leaderboard" [ref=e7] [cursor=pointer]:
+        - /url: /leaderboard
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - generic [ref=e13]: "n______n ( · · ) ( oo ) `------´"
+          - generic [ref=e15]: "__ <(· )___ ( ._> `--´"
+          - generic [ref=e17]: /\_/\ ( · ·) ( ω ) (")_(")
+          - generic [ref=e19]: "/^\\ /^\\ < · · > ( ~~ ) `-vvvv-´"
+          - generic [ref=e21]: ".[||]. [ · · ] [ ==== ] `------´"
+          - generic [ref=e23]: ".----. / · · \\ | | ~`~``~`~"
+          - generic [ref=e25]: "}~(______)~{ }~(· .. ·)~{ ( .--. ) (_/ \\_)"
+        - heading "BUDDYMON ARENA" [level=1] [ref=e26]
+        - paragraph [ref=e27]: Your Claude Code usage stats become your fighter. Train locally, battle globally.
+        - button "HOW TO JOIN" [ref=e28]
+      - generic [ref=e29]:
+        - 'link "\\^^^/ n______n ( ° ° ) ( oo ) `------´ | | ?~> /| .--. |\\ | | [++] | | | |_\\__/_| | |_| |_| | || | | || | _/ /\\ \\_ Rindwickmon Lv.47 CAPYBARA EXPLORER Dominik 4W 3L 57%" [ref=e30] [cursor=pointer]':
+          - /url: /buddy/21815c9d6730
+          - generic [ref=e33]: "\\^^^/ n______n ( ° ° ) ( oo ) `------´ | | ?~> /| .--. |\\ | | [++] | | | |_\\__/_| | |_| |_| | || | | || | _/ /\\ \\_"
+          - generic [ref=e34]:
+            - heading "Rindwickmon" [level=3] [ref=e35]
+            - paragraph [ref=e36]: Lv.47 CAPYBARA
+            - paragraph [ref=e37]: EXPLORER
+            - paragraph [ref=e38]: Dominik
+            - generic [ref=e39]:
+              - generic [ref=e40]: 4W
+              - generic [ref=e41]: 3L
+              - generic [ref=e42]: 57%
+        - 'link "\\^^^/ n______n ( ° ° ) ( oo ) `------´ *| |* /| |\\ |=| /> | | | |/==\\| | |_| |_| /=| |=\\ |^^| |^^| Blazeclawmon Lv.47 CAPYBARA EXPLORER Rival 3W 4L 43%" [ref=e43] [cursor=pointer]':
+          - /url: /buddy/665118a2ec19
+          - generic [ref=e46]: "\\^^^/ n______n ( ° ° ) ( oo ) `------´ *| |* /| |\\ |=| /> | | | |/==\\| | |_| |_| /=| |=\\ |^^| |^^|"
+          - generic [ref=e47]:
+            - heading "Blazeclawmon" [level=3] [ref=e48]
+            - paragraph [ref=e49]: Lv.47 CAPYBARA
+            - paragraph [ref=e50]: EXPLORER
+            - paragraph [ref=e51]: Rival
+            - generic [ref=e52]:
+              - generic [ref=e53]: 3W
+              - generic [ref=e54]: 4L
+              - generic [ref=e55]: 43%
+        - 'link "\\^^^/ n______n ( ° ° ) ( oo ) `------´ --/=========\\~ | [##] [##] | | .------. | | `------` | \\____________/ || || || || _/| |\\ /| |\\_ Thunderhoofmon Lv.47 CAPYBARA EXPLORER Mira 0W 0L 0%" [ref=e56] [cursor=pointer]':
+          - /url: /buddy/f4623bdfaf59
+          - generic [ref=e59]: "\\^^^/ n______n ( ° ° ) ( oo ) `------´ --/=========\\~ | [##] [##] | | .------. | | `------` | \\____________/ || || || || _/| |\\ /| |\\_"
+          - generic [ref=e60]:
+            - heading "Thunderhoofmon" [level=3] [ref=e61]
+            - paragraph [ref=e62]: Lv.47 CAPYBARA
+            - paragraph [ref=e63]: EXPLORER
+            - paragraph [ref=e64]: Mira
+            - generic [ref=e65]:
+              - generic [ref=e66]: 0W
+              - generic [ref=e67]: 0L
+              - generic [ref=e68]: 0%
+        - 'link "-+- .[||]. [ ◉ ◉ ] [ ==== ] `------´ {| |} | .--. | | |()| | |_| |_| | | | {} | _/ \\_ Nulltrapmon Lv.28 ROBOT DEBUGGER Suki 0W 0L 0%" [ref=e69] [cursor=pointer]':
+          - /url: /buddy/c7d1e5f83a29
+          - generic [ref=e72]: "-+- .[||]. [ ◉ ◉ ] [ ==== ] `------´ {| |} | .--. | | |()| | |_| |_| | | | {} | _/ \\_"
+          - generic [ref=e73]:
+            - heading "Nulltrapmon" [level=3] [ref=e74]
+            - paragraph [ref=e75]: Lv.28 ROBOT
+            - paragraph [ref=e76]: DEBUGGER
+            - paragraph [ref=e77]: Suki
+            - generic [ref=e78]:
+              - generic [ref=e79]: 0W
+              - generic [ref=e80]: 0L
+              - generic [ref=e81]: 0%
+        - 'link "/^\\ _,--._ ( × × ) /[______]\\ `` `` ~~/ ============\\ |[##] .----. | | | |[==] | | | | `----` | \\__|________|/~> || || || || _/| _/| _/| _/| Mosstrailmon Lv.41 TURTLE ARCHITECT Jade 0W 0L 0%" [ref=e82] [cursor=pointer]':
+          - /url: /buddy/e8b4a2d6f109
+          - generic [ref=e85]: "/^\\ _,--._ ( × × ) /[______]\\ `` `` ~~/ ============\\ |[##] .----. | | | |[==] | | | | `----` | \\__|________|/~> || || || || _/| _/| _/| _/|"
+          - generic [ref=e86]:
+            - heading "Mosstrailmon" [level=3] [ref=e87]
+            - paragraph [ref=e88]: Lv.41 TURTLE
+            - paragraph [ref=e89]: ARCHITECT
+            - paragraph [ref=e90]: Jade
+            - generic [ref=e91]:
+              - generic [ref=e92]: 0W
+              - generic [ref=e93]: 0L
+              - generic [ref=e94]: 0%
+  - button "Open Next.js Dev Tools" [ref=e100] [cursor=pointer]:
+    - img [ref=e101]
