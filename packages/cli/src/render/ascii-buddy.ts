@@ -235,22 +235,29 @@ export function renderBuddy(
     }
   }
 
-  // Evolution: custom body sprite only shown at level 50+
-  if (customSprite && customSprite.length > 0 && level >= 50) {
-    if (bodyType === "quadruped") {
-      // Quadruped: head on the LEFT, body on the RIGHT (side by side)
-      // 1. Right-align head lines so the right content edges are flush,
-      //    making the head connect snugly to the body on its right side.
+  // Evolution stages (only for actual fighters with a class):
+  //   < 10: head only
+  //  10-24: head + default tiny legs
+  //   25+:  head + full custom body (falls back to tiny legs if no custom sprite)
+  const hasFullBody = customSprite && customSprite.length > 0 && level >= 25;
+  const hasTinyBody = fighterClass && level >= 10;
+
+  const bodyLines = hasFullBody ? customSprite : hasTinyBody
+    ? (bodyType === "quadruped" ? DEFAULT_BODY_QUADRUPED : DEFAULT_BODY_BIPED)
+    : null;
+
+  if (bodyLines) {
+    const isQuadruped = bodyType === "quadruped" && (hasFullBody || hasTinyBody);
+    if (isQuadruped) {
       const trimmedHead = lines.map((l) => l.trimEnd());
       const headContentWidth = Math.max(...trimmedHead.map((l) => l.length));
       const paddedHead = trimmedHead.map((l) => l.padStart(headContentWidth));
 
-      // 2. Strip common leading whitespace from body lines to close the gap
-      const nonEmptyBody = customSprite.filter((l) => l.trim().length > 0);
+      const nonEmptyBody = bodyLines.filter((l) => l.trim().length > 0);
       const minBodyIndent = nonEmptyBody.length > 0
         ? Math.min(...nonEmptyBody.map((l) => l.match(/^( *)/)![1].length))
         : 0;
-      const dedentedBody = customSprite.map((l) => l.slice(minBodyIndent));
+      const dedentedBody = bodyLines.map((l) => l.slice(minBodyIndent));
 
       const bodyHeight = dedentedBody.length;
       const headHeight = paddedHead.length;
@@ -269,8 +276,8 @@ export function renderBuddy(
       return combined.map((line) => color(line)).join("\n");
     }
 
-    // Biped (default): center the head over the wider body sprite
-    const bodyWidth = Math.max(...customSprite.map((l) => l.length));
+    // Biped: center head over wider body
+    const bodyWidth = Math.max(...bodyLines.map((l) => l.length));
     const headWidth = Math.max(...lines.map((l) => l.length));
     if (bodyWidth > headWidth) {
       const pad = Math.floor((bodyWidth - headWidth) / 2);
@@ -279,27 +286,7 @@ export function renderBuddy(
         lines[i] = padding + lines[i] + padding;
       }
     }
-    lines.push(...customSprite);
-  } else if (fighterClass && bodyType === "quadruped") {
-    // Default tiny quadruped body (4 legs, side by side)
-    const trimmedHead = lines.map((l) => l.trimEnd());
-    const headContentWidth = Math.max(...trimmedHead.map((l) => l.length));
-    const paddedHead = trimmedHead.map((l) => l.padStart(headContentWidth));
-    const totalHeight = Math.max(paddedHead.length, DEFAULT_BODY_QUADRUPED.length);
-    const headOffset = Math.max(0, Math.floor((totalHeight - paddedHead.length) / 2));
-    const combined: string[] = [];
-    for (let i = 0; i < totalHeight; i++) {
-      const headIdx = i - headOffset;
-      const headLine = headIdx >= 0 && headIdx < paddedHead.length
-        ? paddedHead[headIdx]
-        : " ".repeat(headContentWidth);
-      const bodyLine = i < DEFAULT_BODY_QUADRUPED.length ? DEFAULT_BODY_QUADRUPED[i] : "";
-      combined.push(headLine + bodyLine);
-    }
-    return combined.map((line) => color(line)).join("\n");
-  } else if (fighterClass) {
-    // Default tiny biped body (2 legs, below head)
-    lines.push(...DEFAULT_BODY_BIPED);
+    lines.push(...bodyLines);
   }
 
   return lines.map((line) => color(line)).join("\n");

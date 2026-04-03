@@ -64,7 +64,7 @@ export function StatRadar({ stats, fighterClass, size = 200 }: Props) {
   });
 
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+    <svg width={size} height={size} viewBox={`-${size * 0.1} -${size * 0.1} ${size * 1.2} ${size * 1.2}`}>
       {/* Background rings */}
       {ringPaths.map((points, i) => (
         <polygon

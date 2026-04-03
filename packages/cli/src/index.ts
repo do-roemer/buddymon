@@ -4,7 +4,6 @@ import { scanCommand } from "./commands/scan.js";
 import { buddyCommand } from "./commands/buddy.js";
 import { statsCommand } from "./commands/stats.js";
 import { exportCommand } from "./commands/export.js";
-import { battleCommand } from "./commands/battle.js";
 import { listCommand } from "./commands/list.js";
 import { leaderboardCommand } from "./commands/leaderboard.js";
 import { helpCommand } from "./commands/help.js";
@@ -57,13 +56,6 @@ program
   .option("--body-type <type>", "Body type: biped (standing) or quadruped (on all fours)")
   .option("--fake-identity", "Use a random owner hash (testing only)")
   .action(uploadCommand);
-
-program
-  .command("battle")
-  .description("Battle against another buddy (by name from arena, or file path)")
-  .argument("<opponent>", "Buddy name in the arena, or path to a fighter card JSON")
-  .option("--tamer <name>", "Set your Terminal Tamer name")
-  .action(battleCommand);
 
 program
   .command("list")

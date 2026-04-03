@@ -56,7 +56,6 @@ Replace `/absolute/path/to/buddymon` with the actual path where you cloned the r
 | `/buddymon feed` | Feed burned tokens to your buddy for XP |
 | `/buddymon upload` | Upload your card to the arena |
 | `/buddymon list` | List all buddies in the arena |
-| `/buddymon battle <opponent>` | Battle by name or file path |
 | `/buddymon leaderboard` | Show arena rankings |
 | `/buddymon export` | Export card to a local JSON file |
 | `/buddymon scan` | Raw Claude Code usage data |
@@ -104,21 +103,7 @@ Your buddy is now visible to other players and ready to fight.
 
 Shows all uploaded buddymons with their tamer, species, class, level, and win/loss record.
 
-### 5. Battle
-
-**By name** — pick an opponent from the arena:
-
-```
-/buddymon battle Voltaire
-```
-
-**By file** — battle a teammate's exported card directly:
-
-```
-/buddymon battle ./teammate-card.json
-```
-
-### 6. Check the leaderboard
+### 5. Check the leaderboard
 
 ```
 /buddymon leaderboard

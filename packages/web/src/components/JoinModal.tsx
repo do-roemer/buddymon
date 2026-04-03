@@ -11,7 +11,7 @@ export function JoinButton() {
         onClick={() => setOpen(true)}
         className="px-6 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-[10px] font-bold rounded pixel-border border-cyan-400 transition-all"
       >
-        HOW TO JOIN
+        HOW TO PLAY
       </button>
 
       {open && (
@@ -24,7 +24,7 @@ export function JoinButton() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-white">JOIN THE ARENA</h2>
+              <h2 className="text-sm font-bold text-white">HOW TO PLAY</h2>
               <button
                 onClick={() => setOpen(false)}
                 className="text-gray-500 hover:text-white text-xs"
@@ -68,13 +68,6 @@ export function JoinButton() {
                 </pre>
               </div>
 
-              <div>
-                <p className="text-cyan-400 font-bold mb-1">5. BATTLE</p>
-                <p className="text-gray-400 mb-2">Challenge any fighter in the arena by name:</p>
-                <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
-{`/buddymon battle <opponent-name>`}
-                </pre>
-              </div>
             </div>
           </div>
         </div>

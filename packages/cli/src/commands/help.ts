@@ -5,7 +5,6 @@ const COMMANDS = [
   { name: "export",      args: "[path]",        desc: "Export your fighter card as JSON" },
   { name: "upload",      args: "",              desc: "Export + upload to the arena" },
   { name: "list",        args: "",              desc: "List all buddymons in the arena" },
-  { name: "battle",      args: "<opponent>",    desc: "Battle by name (arena) or file path" },
   { name: "leaderboard", args: "",              desc: "Show arena rankings" },
   { name: "scan",        args: "",              desc: "Show raw Claude Code usage data" },
   { name: "stats",       args: "",              desc: "Detailed stat computation breakdown" },
