@@ -67,7 +67,7 @@ return 1
 let redisInstance: Redis | null = null;
 
 function isVercelDeployment(): boolean {
-  return process.env.VERCEL === "1" && process.env.NODE_ENV === "production";
+  return Boolean(process.env.VERCEL_URL);
 }
 
 function hasRedisEnv(): boolean {

@@ -52,6 +52,7 @@ Replace `/absolute/path/to/buddymon` with the actual path where you cloned the r
 |---|---|
 | `/buddymon` | Show your fighter card |
 | `/buddymon help` | Show all available commands |
+| `/buddymon feed` | Feed burned tokens to your buddy for XP |
 | `/buddymon upload` | Upload your card to the arena |
 | `/buddymon list` | List all buddies in the arena |
 | `/buddymon battle <opponent>` | Battle by name or file path |
@@ -60,9 +61,21 @@ Replace `/absolute/path/to/buddymon` with the actual path where you cloned the r
 | `/buddymon scan` | Raw Claude Code usage data |
 | `/buddymon stats` | Detailed stat computation breakdown |
 
+All CLI commands accept a `--local` flag to use `localhost:3000` instead of the production arena URL.
+
 ## Joining the Arena
 
-### 1. Upload your card
+### 1. Feed your buddy
+
+Your buddymon starts at Level 1. Feed it with tokens burned from your Claude Code sessions to gain XP and level up:
+
+```
+/buddymon feed
+```
+
+The more you use Claude Code, the more tokens you burn, the stronger your buddy gets.
+
+### 2. Upload your card
 
 In Claude Code, run:
 
@@ -70,9 +83,9 @@ In Claude Code, run:
 /buddymon upload
 ```
 
-Claude will generate your fighter card from your Claude Code usage data and upload it to the arena. Your buddy is now visible to other players.
+Claude will generate your fighter card with your current level and stats, and upload it to the arena. Your buddy is now visible to other players.
 
-### 2. List opponents
+### 3. List opponents
 
 ```
 /buddymon list
@@ -80,7 +93,7 @@ Claude will generate your fighter card from your Claude Code usage data and uplo
 
 Shows all uploaded buddymons with their tamer, species, class, level, and win/loss record.
 
-### 3. Battle
+### 4. Battle
 
 **By name** — pick an opponent from the arena:
 
@@ -94,7 +107,7 @@ Shows all uploaded buddymons with their tamer, species, class, level, and win/lo
 /buddymon battle ./teammate-card.json
 ```
 
-### 4. Check the leaderboard
+### 5. Check the leaderboard
 
 ```
 /buddymon leaderboard
@@ -114,7 +127,7 @@ On Vercel, add an Upstash Redis integration from the Marketplace and expose thos
 environment variables to the `@buddymon/web` project.
 
 For local development, if those environment variables are not set, the web app
-falls back to `data/db.json` in the repo root.
+falls back to `packages/web/data/db.json`.
 
 ## How Stats Work
 
@@ -124,7 +137,7 @@ Your buddy's stats are derived from your Claude Code usage in `~/.claude/`. The 
 ~/.claude/ (raw data)
     │
     ├─ stats-cache.json
-    ├─ usage-data/session-meta/*.json
+    ├─ usage-data/session-meta/*.json  (includes token counts!)
     └─ usage-data/facets/*.json
     │
     ▼
@@ -132,11 +145,12 @@ Your buddy's stats are derived from your Claude Code usage in `~/.claude/`. The 
 │ Stats Parser │ → RawAggregate
 └─────────────┘
     │
-    ├─→ Class Resolver  → FighterClass
-    ├─→ Stats Computer  → FighterStats (HP, ATK, DEF, SPD, CRIT, Rage)
-    ├─→ Move Resolver   → 4 moves
-    ├─→ Name Generator  → title
-    └─→ Companion       → species, rarity, base stats, cosmetics
+    ├─→ Class Resolver   → FighterClass
+    ├─→ Progression      → Level (from XP, fed by burned tokens)
+    ├─→ Stats Computer   → FighterStats (base + level × growth rate)
+    ├─→ Move Resolver    → 4 moves
+    ├─→ Name Generator   → title
+    └─→ Companion        → species, rarity, base stats, cosmetics
     │
     ▼
 ┌──────────────┐
@@ -209,23 +223,29 @@ Otherwise, tool calls are grouped and the dominant group determines class:
 | Bash | Bash | Commander |
 | Agent | Agent, Tasks, Plans, Skills, MCP tools | Architect |
 
-### Stage 4: Stat Computation (`stats-computer.ts`)
+### Stage 4: XP Progression & Stat Computation
 
-Base stats from the companion are mapped to fighter stats, then usage bonuses are added (40% weight, capped at +40 per stat):
+**Leveling:** Your buddy starts at Level 1 and gains XP by feeding it burned tokens from Claude Code sessions. Run `/buddymon feed` to claim unclaimed sessions.
 
-| Base Stat | Fighter Stat | Base Formula | Usage Bonus Source |
-|---|---|---|---|
-| Patience | HP | `80 + (patience/100) × 140` → 80-220 | `(totalMessages + totalSessions×10) / 500`, capped at +80 |
-| Chaos | ATK | `chaos × 0.6` → 0-60 | Sigmoid of tools-per-session (midpoint=15, steepness=0.15), ×0.4 |
-| Debugging | DEF | `debugging × 0.6` → 0-60 | `(avgOutcome / 3) × 40` |
-| Wisdom | SPD | `wisdom × 0.6` → 0-60 | Sigmoid of `1/avgSessionDuration` (midpoint=0.05, steepness=40), ×0.4. Shorter sessions → faster. |
-| Snark | CRIT | `5 + (snark/100) × 15` → 5-20 | Longest daily streak, capped at +10 |
+- **Token → XP rate:** 1 XP per 1000 tokens
+- **XP curve:** `floor(200 × 1.2^(level-1))` per level (exponential)
+- **Max level:** 50
+- Progression state is stored in `~/.config/buddymon/progression.json`
+- `totalTokensFed` is always preserved, so the XP rate can be retuned without data loss
+
+**Stats** are computed as `base_stat + floor(level × growth_rate)`, where base stats come from the companion and growth rates vary by class:
+
+| Stat | Explorer | Builder | Commander | Architect | Debugger |
+|---|---|---|---|---|---|
+| HP | +1.0/lv | +1.5/lv | +1.0/lv | +1.0/lv | +1.5/lv |
+| ATK | +0.7/lv | +0.7/lv | +1.2/lv | +1.0/lv | +0.5/lv |
+| DEF | +0.7/lv | +1.2/lv | +0.5/lv | +0.7/lv | +1.0/lv |
+| SPD | +1.2/lv | +0.5/lv | +0.7/lv | +1.0/lv | +0.7/lv |
+| CRIT | +0.15/lv | +0.10/lv | +0.15/lv | +0.10/lv | +0.25/lv |
 
 **Final stat ranges:** HP 80-300, ATK/DEF/SPD 1-100, CRIT 5-30%.
 
 **Rage Mode:** Activates if >15% of sessions are late-night (hours 22-4).
-
-**Level:** `floor(totalSessions / 7)`, capped at 50.
 
 ### Stage 5: Move Resolution (`move-resolver.ts`)
 

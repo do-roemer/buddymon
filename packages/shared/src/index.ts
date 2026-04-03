@@ -19,6 +19,8 @@ export type {
   BattleAction,
   BattleTurnLog,
   BattleResult,
+  ProgressionState,
+  GrowthRates,
 } from "./types.js";
 
 // Schemas
@@ -49,6 +51,7 @@ export {
   CLASS_TITLES,
   NAME_PREFIXES,
   NAME_SUFFIXES,
+  CLASS_GROWTH_RATES,
 } from "./constants.js";
 
 // Stats parsing
@@ -58,7 +61,7 @@ export { parseStats } from "./stats-parser.js";
 export { resolveClass, computeToolGroupDistribution } from "./class-resolver.js";
 
 // Stats computation
-export { computeStats, computeLevel } from "./stats-computer.js";
+export { computeStats, computeLevel, computeStatsFromLevel } from "./stats-computer.js";
 
 // Move resolution
 export { resolveMoves } from "./move-resolver.js";
@@ -71,6 +74,17 @@ export { readCompanion } from "./companion.js";
 
 // Fighter card
 export { buildFighterCard, verifySignature } from "./fighter-card.js";
+
+// Progression
+export {
+  xpForLevel,
+  cumulativeXpForLevel,
+  levelFromXP,
+  currentLevelXP,
+  tokensToXP,
+  XP_PER_TOKEN,
+  MAX_LEVEL,
+} from "./progression.js";
 
 // Battle engine
 export { resolveBattle } from "./battle-engine.js";

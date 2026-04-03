@@ -3,13 +3,15 @@ import chalk from "chalk";
 import { parseStats, buildFighterCard } from "@buddymon/shared";
 import type { BodyType } from "@buddymon/shared";
 import { getTerminalTamer, saveCustomSprite, saveBodyType } from "../terminal-tamer.js";
+import { readProgression } from "../progression.js";
 
 export function exportCommand(outputPath: string, opts: { tamer?: string; sprite?: string; bodyType?: string }): void {
   console.log(chalk.bold("\n  Generating fighter card...\n"));
 
   const agg = parseStats();
   const tamer = getTerminalTamer(opts.tamer);
-  const card = buildFighterCard(agg, tamer);
+  const progression = readProgression();
+  const card = buildFighterCard(agg, tamer, progression);
 
   if (!card.buddyName.toLowerCase().endsWith("mon")) {
     card.buddyName += "mon";

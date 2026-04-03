@@ -1,14 +1,16 @@
 import chalk from "chalk";
-import { parseStats, buildFighterCard } from "@buddymon/shared";
+import { parseStats, buildFighterCard, xpForLevel, MAX_LEVEL } from "@buddymon/shared";
 import type { BuddyHat } from "@buddymon/shared";
 import { renderBuddy, getClassColor, getClassEmoji, getSpeciesColor, getRarityColor, getRarityStars } from "../render/ascii-buddy.js";
 import { renderStatBars } from "../render/stat-bars.js";
 import { getTerminalTamer, getCustomSprite, getBodyType } from "../terminal-tamer.js";
+import { readProgression } from "../progression.js";
 
 export function buddyCommand(opts: { tamer?: string }): void {
   const agg = parseStats();
   const tamer = getTerminalTamer(opts.tamer);
-  const card = buildFighterCard(agg, tamer);
+  const progression = readProgression();
+  const card = buildFighterCard(agg, tamer, progression);
   card.customSprite = getCustomSprite();
   const savedBodyType = getBodyType();
   if (savedBodyType === "biped" || savedBodyType === "quadruped") {
@@ -39,6 +41,14 @@ export function buddyCommand(opts: { tamer?: string }): void {
   console.log(
     `  Class: ${classColor(card.class.toUpperCase())}  |  ${card.dominantLanguage}  |  Peak hour: ${card.favoriteHour}:00`,
   );
+  // XP bar
+  const xpMax = progression.level >= MAX_LEVEL ? Infinity : xpForLevel(progression.level);
+  const xpRatio = xpMax === Infinity ? 1 : Math.min(progression.currentXP / xpMax, 1);
+  const barWidth = 20;
+  const filled = Math.round(xpRatio * barWidth);
+  const xpBar = chalk.green("=".repeat(filled)) + chalk.gray("-".repeat(barWidth - filled));
+  const xpLabel = xpMax === Infinity ? "MAX" : `${progression.currentXP}/${xpMax}`;
+  console.log(`  XP: [${xpBar}] ${xpLabel}`);
   if (card.personality) {
     console.log(`  ${chalk.gray.italic(card.personality.slice(0, 80) + (card.personality.length > 80 ? "..." : ""))}`);
   }

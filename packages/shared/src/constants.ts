@@ -1,4 +1,4 @@
-import type { Move, MoveType, FighterClass, Passive } from "./types.js";
+import type { Move, MoveType, FighterClass, Passive, GrowthRates } from "./types.js";
 
 // ── Tool Group Mappings ──────────────────────────────────────────────
 export const TOOL_GROUPS: Record<string, MoveType> = {
@@ -310,6 +310,15 @@ export const NAME_PREFIXES: Record<FighterClass, string[]> = {
   commander: ["Bash", "Shell", "Pipe", "Root", "Exec", "Kern", "Sys", "Proc"],
   architect: ["Plan", "Task", "Agent", "Arch", "Meta", "Spec", "Schema", "Stack"],
   debugger: ["Debug", "Fix", "Trace", "Catch", "Break", "Lint", "Assert", "Guard"],
+};
+
+// ── Class Growth Rates (stat gain per level) ────────────────────────
+export const CLASS_GROWTH_RATES: Record<FighterClass, GrowthRates> = {
+  explorer:  { hp: 1.0, attack: 0.7, defense: 0.7, speed: 1.2, crit: 0.15 },
+  builder:   { hp: 1.5, attack: 0.7, defense: 1.2, speed: 0.5, crit: 0.10 },
+  commander: { hp: 1.0, attack: 1.2, defense: 0.5, speed: 0.7, crit: 0.15 },
+  architect: { hp: 1.0, attack: 1.0, defense: 0.7, speed: 1.0, crit: 0.10 },
+  debugger:  { hp: 1.5, attack: 0.5, defense: 1.0, speed: 0.7, crit: 0.25 },
 };
 
 export const NAME_SUFFIXES = [

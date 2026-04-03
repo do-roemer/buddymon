@@ -125,6 +125,27 @@ export const CompanionSchema = z.object({
 });
 export type Companion = z.infer<typeof CompanionSchema>;
 
+// ── Progression State (XP feeding system) ───────────────────────────
+export interface ProgressionState {
+  ownerHash: string;
+  level: number;
+  currentXP: number;
+  xpToNextLevel: number;
+  totalXPEarned: number;
+  totalTokensFed: number;
+  lastFedAt: string | null;
+  claimedSessionIds: string[];
+}
+
+// ── Growth Rates per class per level ────────────────────────────────
+export interface GrowthRates {
+  hp: number;
+  attack: number;
+  defense: number;
+  speed: number;
+  crit: number;
+}
+
 // ── Fighter Card (the portable JSON) ─────────────────────────────────
 export const FighterCardSchema = z.object({
   version: z.literal(1),
@@ -150,6 +171,8 @@ export const FighterCardSchema = z.object({
   dominantLanguage: z.string(),
   favoriteHour: z.number().min(0).max(23),
   totalSessions: z.number(),
+  xp: z.number().optional(),
+  totalXPEarned: z.number().optional(),
   generatedAt: z.string(),
   signature: z.string(),
 });

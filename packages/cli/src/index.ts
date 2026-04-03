@@ -9,13 +9,19 @@ import { listCommand } from "./commands/list.js";
 import { leaderboardCommand } from "./commands/leaderboard.js";
 import { helpCommand } from "./commands/help.js";
 import { uploadCommand } from "./commands/upload.js";
+import { feedCommand } from "./commands/feed.js";
+import { setLocal } from "./arena.js";
 
 const program = new Command();
 
 program
   .name("buddymon")
   .description("Generate your coding buddy from Claude Code usage stats and battle!")
-  .version("0.1.0");
+  .version("0.1.0")
+  .option("--local", "Use localhost:3000 instead of the configured arena URL")
+  .hook("preAction", (thisCommand) => {
+    if (thisCommand.opts().local) setLocal();
+  });
 
 program
   .command("scan")
@@ -63,6 +69,11 @@ program
   .command("list")
   .description("List all buddymons in the arena")
   .action(listCommand);
+
+program
+  .command("feed")
+  .description("Feed your buddy with burned tokens to gain XP")
+  .action(feedCommand);
 
 program
   .command("leaderboard")

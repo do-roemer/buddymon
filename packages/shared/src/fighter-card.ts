@@ -1,9 +1,9 @@
 import * as crypto from "node:crypto";
 import * as os from "node:os";
-import type { FighterCard, RawAggregate, BodyType } from "./types.js";
+import type { FighterCard, RawAggregate, BodyType, ProgressionState } from "./types.js";
 import { CLASS_PASSIVES } from "./constants.js";
 import { resolveClass } from "./class-resolver.js";
-import { computeStats, computeLevel } from "./stats-computer.js";
+import { computeStats, computeLevel, computeStatsFromLevel } from "./stats-computer.js";
 import { resolveMoves } from "./move-resolver.js";
 import { generateTitle } from "./name-generator.js";
 import { readCompanion } from "./companion.js";
@@ -58,13 +58,22 @@ export function verifySignature(card: FighterCard): boolean {
   return signCard(rest) === signature;
 }
 
-export function buildFighterCard(aggregate: RawAggregate, terminalTamer: string): FighterCard {
+export function buildFighterCard(aggregate: RawAggregate, terminalTamer: string, progression?: ProgressionState): FighterCard {
   const ownerHash = computeOwnerHash();
   const companion = readCompanion();
   const fighterClass = resolveClass(aggregate);
   const baseStats = companion.baseStats;
-  const stats = computeStats(aggregate, baseStats);
-  const level = computeLevel(aggregate.totalSessions);
+
+  // Use progression-based stats if available, otherwise fall back to legacy
+  const lateNightRatio = aggregate.totalSessionsFromMeta > 0
+    ? aggregate.lateNightSessions / aggregate.totalSessionsFromMeta
+    : 0;
+  const level = progression
+    ? progression.level
+    : computeLevel(aggregate.totalSessions);
+  const stats = progression && baseStats
+    ? computeStatsFromLevel(level, fighterClass, baseStats, lateNightRatio)
+    : computeStats(aggregate, baseStats);
   const moves = resolveMoves(aggregate.toolTotals);
   const passive = CLASS_PASSIVES[fighterClass];
   const favoriteHour = getFavoriteHour(aggregate.hourCounts);
@@ -102,6 +111,7 @@ export function buildFighterCard(aggregate: RawAggregate, terminalTamer: string)
     dominantLanguage,
     favoriteHour,
     totalSessions: aggregate.totalSessions,
+    ...(progression ? { xp: progression.currentXP, totalXPEarned: progression.totalXPEarned } : {}),
     generatedAt: new Date().toISOString(),
   };
 

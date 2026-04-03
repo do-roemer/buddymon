@@ -1,4 +1,5 @@
-import type { FighterStats, RawAggregate, BuddyBaseStats } from "./types.js";
+import type { FighterStats, RawAggregate, BuddyBaseStats, FighterClass } from "./types.js";
+import { CLASS_GROWTH_RATES } from "./constants.js";
 
 function clamp(min: number, val: number, max: number): number {
   return Math.max(min, Math.min(max, val));
@@ -114,6 +115,27 @@ export function computeStats(
 
 export function computeLevel(totalSessions: number): number {
   return clamp(1, Math.floor(totalSessions / 7), 50);
+}
+
+// ── Level-based stat computation (XP progression system) ────────────
+// Stats = base_stat (from companion) + floor(level * growth_rate), capped.
+export function computeStatsFromLevel(
+  level: number,
+  fighterClass: FighterClass,
+  baseStats: BuddyBaseStats,
+  lateNightRatio: number,
+): FighterStats {
+  const base = baseToFighter(baseStats);
+  const growth = CLASS_GROWTH_RATES[fighterClass];
+
+  const hp = clamp(80, base.hp + Math.floor(level * growth.hp), 300);
+  const attack = clamp(1, base.attack + Math.floor(level * growth.attack), 100);
+  const defense = clamp(1, base.defense + Math.floor(level * growth.defense), 100);
+  const speed = clamp(1, base.speed + Math.floor(level * growth.speed), 100);
+  const critChance = clamp(5, base.critBase + Math.floor(level * growth.crit), 30);
+  const rageMode = lateNightRatio > 0.15;
+
+  return { hp, attack, defense, speed, critChance, rageMode };
 }
 
 function computeLongestStreak(

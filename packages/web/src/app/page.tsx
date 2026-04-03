@@ -38,7 +38,7 @@ export default async function Home() {
         </div>
         <h1 className="text-2xl font-bold text-white">BUDDYMON ARENA</h1>
         <p className="text-xs text-gray-400 max-w-md mx-auto">
-          Your Claude Code usage stats become your fighter. Train locally, battle
+          Your Claude Code token burn becomes XP. Feed your buddy, level up, battle
           globally.
         </p>
         <JoinButton />

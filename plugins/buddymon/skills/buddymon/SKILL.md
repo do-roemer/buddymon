@@ -17,6 +17,11 @@ All commands use the npm script wrapper which loads `.env.local` automatically:
 cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- <subcommand> [options]
 ```
 
+Add `--local` before the subcommand to use `localhost:3000` instead of the production arena:
+```bash
+cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- --local <subcommand> [options]
+```
+
 ## Terminal Tamer Name
 
 The fighter card includes a "Terminal Tamer" field — the name of the person behind the buddy. The name is stored in `~/.config/buddymon/config.json`.
@@ -35,6 +40,12 @@ The fighter card includes a "Terminal Tamer" field — the name of the person be
 Show your fighter card with ASCII art, stats, and moves.
 ```bash
 cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- buddy [--tamer "Name"]
+```
+
+### feed
+Feed your buddy with burned tokens from Claude Code sessions to gain XP and level up. Your buddy starts at Level 1 and grows through feeding.
+```bash
+cd ~/Desktop/personal_projects/buddymon && npm run buddymon -- feed
 ```
 
 ### transform

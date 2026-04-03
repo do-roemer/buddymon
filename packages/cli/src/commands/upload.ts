@@ -3,13 +3,15 @@ import chalk from "chalk";
 import { buildFighterCard, parseStats } from "@buddymon/shared";
 import { getTerminalTamer } from "../terminal-tamer.js";
 import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
+import { readProgression } from "../progression.js";
 
 export async function uploadCommand(opts: { tamer?: string; name?: string; fakeIdentity?: boolean; sprite?: string; bodyType?: string }): Promise<void> {
   console.log(chalk.bold("\n  Generating fighter card...\n"));
 
   const agg = parseStats();
   const tamer = getTerminalTamer(opts.tamer);
-  const card = buildFighterCard(agg, tamer);
+  const progression = readProgression();
+  const card = buildFighterCard(agg, tamer, progression);
 
   if (opts.name) {
     card.buddyName = opts.name;

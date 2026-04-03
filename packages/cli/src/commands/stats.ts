@@ -3,17 +3,26 @@ import {
   parseStats,
   readCompanion,
   resolveClass,
-  computeStats,
-  computeLevel,
+  computeStatsFromLevel,
   computeToolGroupDistribution,
+  xpForLevel,
+  MAX_LEVEL,
+  CLASS_GROWTH_RATES,
 } from "@buddymon/shared";
+import { readProgression } from "../progression.js";
 
 export function statsCommand(): void {
   const agg = parseStats();
   const companion = readCompanion();
   const fighterClass = resolveClass(agg);
-  const stats = computeStats(agg, companion.baseStats);
-  const level = computeLevel(agg.totalSessions);
+  const progression = readProgression();
+  const level = progression.level;
+  const lateNightRatio = agg.totalSessionsFromMeta > 0
+    ? agg.lateNightSessions / agg.totalSessionsFromMeta
+    : 0;
+  const stats = companion.baseStats
+    ? computeStatsFromLevel(level, fighterClass, companion.baseStats, lateNightRatio)
+    : { hp: 80, attack: 1, defense: 1, speed: 1, critChance: 5, rageMode: false };
   const dist = computeToolGroupDistribution(agg.toolTotals);
 
   console.log(chalk.bold("\n  Stat Computation Breakdown\n"));
@@ -28,7 +37,7 @@ export function statsCommand(): void {
     console.log(`  CHAOS      ${String(bs.chaos).padStart(3)}  ${chalk.red("-> ATK base")}`);
     console.log(`  WISDOM     ${String(bs.wisdom).padStart(3)}  ${chalk.yellow("-> SPD base")}`);
     console.log(`  SNARK      ${String(bs.snark).padStart(3)}  ${chalk.magenta("-> CRIT base")}`);
-    console.log(chalk.gray("\n  Base stats = 60% weight, usage bonuses = 40% weight"));
+    console.log(chalk.gray("\n  Base stats + level growth = final stats (feed tokens to level up!)"));
   }
 
   // Class resolution
@@ -50,19 +59,35 @@ export function statsCommand(): void {
   console.log(`\n  Error rate: ${errorRate}% (>10% + good recovery = Debugger override)`);
   console.log(`  ${chalk.bold(`Result: ${fighterClass.toUpperCase()}`)}`);
 
-  // Level
-  console.log(chalk.bold.white("\n  Level"));
+  // Level & XP
+  console.log(chalk.bold.white("\n  Level & XP (Progression)"));
   console.log(chalk.gray("  " + "─".repeat(40)));
-  console.log(`  totalSessions / 7 = ${agg.totalSessions} / 7 = ${level}`);
+  console.log(`  Level:         ${chalk.bold(String(level))}`);
+  console.log(`  Total XP:      ${chalk.cyan(String(progression.totalXPEarned))}`);
+  console.log(`  Current XP:    ${progression.currentXP} / ${level >= MAX_LEVEL ? "MAX" : xpForLevel(level)}`);
+  console.log(`  Tokens fed:    ${chalk.cyan(String(progression.totalTokensFed))}`);
+  console.log(`  Last fed:      ${progression.lastFedAt ? new Date(progression.lastFedAt).toLocaleString() : chalk.gray("never")}`);
 
-  // Final stats
+  // Final stats (growth-rate based)
+  const growth = CLASS_GROWTH_RATES[fighterClass];
   console.log(chalk.bold.white("\n  Final Fighter Stats"));
   console.log(chalk.gray("  " + "─".repeat(40)));
-  console.log(`  HP       ${chalk.green.bold(String(stats.hp).padStart(3))}  ${companion.baseStats ? `(base: ${Math.round(80 + (companion.baseStats.patience / 100) * 140)} + usage bonus)` : "(pure usage)"}`);
-  console.log(`  ATK      ${chalk.red.bold(String(stats.attack).padStart(3))}  ${companion.baseStats ? `(base: ${Math.round(companion.baseStats.chaos * 0.6)} + usage bonus)` : "(pure usage)"}`);
-  console.log(`  DEF      ${chalk.cyan.bold(String(stats.defense).padStart(3))}  ${companion.baseStats ? `(base: ${Math.round(companion.baseStats.debugging * 0.6)} + usage bonus)` : "(pure usage)"}`);
-  console.log(`  SPD      ${chalk.yellow.bold(String(stats.speed).padStart(3))}  ${companion.baseStats ? `(base: ${Math.round(companion.baseStats.wisdom * 0.6)} + usage bonus)` : "(pure usage)"}`);
-  console.log(`  CRIT     ${chalk.magenta.bold(String(stats.critChance).padStart(3))}% ${companion.baseStats ? `(base: ${Math.round(5 + (companion.baseStats.snark / 100) * 15)} + streak bonus)` : "(pure usage)"}`);
+  if (companion.baseStats) {
+    const bs = companion.baseStats;
+    const hpBase = Math.round(80 + (bs.patience / 100) * 140);
+    const atkBase = Math.round(bs.chaos * 0.6);
+    const defBase = Math.round(bs.debugging * 0.6);
+    const spdBase = Math.round(bs.wisdom * 0.6);
+    const critBase = Math.round(5 + (bs.snark / 100) * 15);
+    console.log(`  HP       ${chalk.green.bold(String(stats.hp).padStart(3))}  (base: ${hpBase} + ${level} x ${growth.hp} = +${Math.floor(level * growth.hp)})`);
+    console.log(`  ATK      ${chalk.red.bold(String(stats.attack).padStart(3))}  (base: ${atkBase} + ${level} x ${growth.attack} = +${Math.floor(level * growth.attack)})`);
+    console.log(`  DEF      ${chalk.cyan.bold(String(stats.defense).padStart(3))}  (base: ${defBase} + ${level} x ${growth.defense} = +${Math.floor(level * growth.defense)})`);
+    console.log(`  SPD      ${chalk.yellow.bold(String(stats.speed).padStart(3))}  (base: ${spdBase} + ${level} x ${growth.speed} = +${Math.floor(level * growth.speed)})`);
+    console.log(`  CRIT     ${chalk.magenta.bold(String(stats.critChance).padStart(3))}% (base: ${critBase} + ${level} x ${growth.crit} = +${Math.floor(level * growth.crit)})`);
+  } else {
+    console.log(`  HP  ${stats.hp}  ATK  ${stats.attack}  DEF  ${stats.defense}  SPD  ${stats.speed}  CRIT  ${stats.critChance}%`);
+    console.log(chalk.gray("  (no base stats from companion — using defaults)"));
+  }
 
   // Rage
   const sessionCount = agg.totalSessionsFromMeta || 1;

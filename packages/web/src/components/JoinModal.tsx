@@ -44,24 +44,32 @@ export function JoinButton() {
               </div>
 
               <div>
-                <p className="text-cyan-400 font-bold mb-1">2. TRANSFORM YOUR BUDDY</p>
+                <p className="text-cyan-400 font-bold mb-1">2. FEED YOUR BUDDY</p>
+                <p className="text-gray-400 mb-2">Your buddy starts at Lv.1. Feed it burned tokens from your Claude Code sessions to gain XP:</p>
+                <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
+{`/buddymon feed`}
+                </pre>
+                <p className="text-gray-500 mt-1">The more you use Claude Code, the stronger your buddy gets.</p>
+              </div>
+
+              <div>
+                <p className="text-cyan-400 font-bold mb-1">3. TRANSFORM YOUR BUDDY</p>
                 <p className="text-gray-400 mb-2">Claude designs a unique full-body sprite based on your stats and class:</p>
                 <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
 {`/buddymon transform`}
                 </pre>
-                <p className="text-gray-500 mt-1">Your stats are generated from your Claude Code usage data.</p>
               </div>
 
               <div>
-                <p className="text-cyan-400 font-bold mb-1">3. UPLOAD TO THE ARENA</p>
-                <p className="text-gray-400 mb-2">Upload your transformed buddymon to the arena:</p>
+                <p className="text-cyan-400 font-bold mb-1">4. UPLOAD TO THE ARENA</p>
+                <p className="text-gray-400 mb-2">Upload your buddymon to the arena:</p>
                 <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
 {`/buddymon upload`}
                 </pre>
               </div>
 
               <div>
-                <p className="text-cyan-400 font-bold mb-1">4. BATTLE</p>
+                <p className="text-cyan-400 font-bold mb-1">5. BATTLE</p>
                 <p className="text-gray-400 mb-2">Challenge any fighter in the arena by name:</p>
                 <pre className="bg-black/40 rounded px-3 py-2 text-green-400 overflow-x-auto">
 {`/buddymon battle <opponent-name>`}

@@ -1,0 +1,135 @@
+- generic [active] [ref=e1]:
+  - navigation [ref=e2]:
+    - generic [ref=e3]:
+      - link "BUDDYMON" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - link "Arena" [ref=e5] [cursor=pointer]:
+        - /url: /arena
+      - link "Classes" [ref=e6] [cursor=pointer]:
+        - /url: /classes
+      - link "Leaderboard" [ref=e7] [cursor=pointer]:
+        - /url: /leaderboard
+  - main [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e12]: "\\^^^/ n______n ( ° ° ) ( oo ) `------´ ~?>~"
+        - heading "Rindwickmon" [level=1] [ref=e13]
+        - paragraph [ref=e14]: Lv.5 CAPYBARA | EXPLORER | TypeScript
+        - paragraph [ref=e15]: ★★ UNCOMMON
+        - paragraph [ref=e16]: The Deep Reader
+        - paragraph [ref=e17]: "Terminal Tamer: Mira"
+        - paragraph [ref=e18]: “A phlegmatic capybara who absorbs your debugging chaos with zen patience, then delivers the solution wrapped in dry, observational snark that makes you unsure whether you're being comforted or roasted.”
+        - generic [ref=e19]:
+          - generic [ref=e20]: 4wins
+          - generic [ref=e21]: 3losses
+          - generic [ref=e22]:
+            - generic [ref=e23]: 57%
+            - text: win rate
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - heading "STATS" [level=2] [ref=e26]
+          - img [ref=e28]:
+            - generic [ref=e43]: HP
+            - generic [ref=e44]: ATK
+            - generic [ref=e45]: DEF
+            - generic [ref=e46]: SPD
+            - generic [ref=e47]: CRT
+          - generic [ref=e48]:
+            - generic [ref=e49]:
+              - generic [ref=e50]: HP
+              - generic [ref=e51]: "95"
+            - generic [ref=e54]:
+              - generic [ref=e55]: ATK
+              - generic [ref=e56]: "58"
+            - generic [ref=e59]:
+              - generic [ref=e60]: DEF
+              - generic [ref=e61]: "15"
+            - generic [ref=e64]:
+              - generic [ref=e65]: SPD
+              - generic [ref=e66]: "18"
+            - generic [ref=e69]:
+              - generic [ref=e70]: CRIT
+              - generic [ref=e71]: 8%
+            - generic [ref=e74]: "Rage Mode: inactive"
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - heading "MOVES" [level=2] [ref=e77]
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - generic [ref=e80]:
+                  - generic [ref=e81]: Source Dive
+                  - generic [ref=e82]: READ
+                - generic [ref=e83]:
+                  - generic [ref=e84]: "PWR: 100"
+                  - generic [ref=e85]: "ACC: 70"
+                - paragraph [ref=e86]: Reads the opponent's entire codebase at once
+              - generic [ref=e87]:
+                - generic [ref=e88]:
+                  - generic [ref=e89]: Glob Storm
+                  - generic [ref=e90]: READ
+                - generic [ref=e91]:
+                  - generic [ref=e92]: "PWR: 50"
+                  - generic [ref=e93]: "ACC: 100"
+                - paragraph [ref=e94]: Scatters search patterns everywhere
+              - generic [ref=e95]:
+                - generic [ref=e96]:
+                  - generic [ref=e97]: Delegate
+                  - generic [ref=e98]: AGENT
+                - generic [ref=e99]:
+                  - generic [ref=e100]: "PWR: 65"
+                  - generic [ref=e101]: "ACC: 90"
+                - paragraph [ref=e102]: Summons a sub-agent to attack
+              - generic [ref=e103]:
+                - generic [ref=e104]:
+                  - generic [ref=e105]: Code Wall
+                  - generic [ref=e106]: WRITE
+                - generic [ref=e107]:
+                  - generic [ref=e108]: "PWR: 40"
+                  - generic [ref=e109]: "ACC: 100"
+                - paragraph [ref=e110]: Writes a defensive wall of code
+          - generic [ref=e111]:
+            - heading "PASSIVE" [level=2] [ref=e112]
+            - paragraph [ref=e113]: Reconnaissance
+            - paragraph [ref=e114]: "On dodge: debuff enemy defense for 2 turns"
+      - generic [ref=e115]:
+        - heading "BATTLE HISTORY" [level=2] [ref=e116]
+        - generic [ref=e117]:
+          - link "WIN vs Blazeclawmon 6 turns" [ref=e118] [cursor=pointer]:
+            - /url: /arena/1775166961910-fycyka
+            - generic [ref=e119]: WIN
+            - generic [ref=e120]: vs Blazeclawmon
+            - generic [ref=e121]: 6 turns
+          - link "LOSS vs Blazeclawmon 2 turns" [ref=e122] [cursor=pointer]:
+            - /url: /arena/1775166918352-a2k965
+            - generic [ref=e123]: LOSS
+            - generic [ref=e124]: vs Blazeclawmon
+            - generic [ref=e125]: 2 turns
+          - link "LOSS vs Blazeclawmon 3 turns" [ref=e126] [cursor=pointer]:
+            - /url: /arena/1775166837266-2uarbf
+            - generic [ref=e127]: LOSS
+            - generic [ref=e128]: vs Blazeclawmon
+            - generic [ref=e129]: 3 turns
+          - link "LOSS vs Blazeclawmon 3 turns" [ref=e130] [cursor=pointer]:
+            - /url: /arena/1775160103775-ardppe
+            - generic [ref=e131]: LOSS
+            - generic [ref=e132]: vs Blazeclawmon
+            - generic [ref=e133]: 3 turns
+          - link "WIN vs Blazeclawmon 4 turns" [ref=e134] [cursor=pointer]:
+            - /url: /arena/1775159801705-lbkm6p
+            - generic [ref=e135]: WIN
+            - generic [ref=e136]: vs Blazeclawmon
+            - generic [ref=e137]: 4 turns
+          - link "WIN vs Blazeclawmon 5 turns" [ref=e138] [cursor=pointer]:
+            - /url: /arena/1775159690979-d20lyq
+            - generic [ref=e139]: WIN
+            - generic [ref=e140]: vs Blazeclawmon
+            - generic [ref=e141]: 5 turns
+          - link "WIN vs Blazeclawmon 4 turns" [ref=e142] [cursor=pointer]:
+            - /url: /arena/1775159682126-kz5gtd
+            - generic [ref=e143]: WIN
+            - generic [ref=e144]: vs Blazeclawmon
+            - generic [ref=e145]: 4 turns
+      - generic [ref=e146]: "Sessions: 333 | Peak hour: 14:00 | Uploaded: 4/3/2026"
+  - button "Open Next.js Dev Tools" [ref=e152] [cursor=pointer]:
+    - img [ref=e153]
+  - alert [ref=e156]
