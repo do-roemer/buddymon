@@ -185,6 +185,7 @@ interface Props {
   fighterClass?: string;
   customSprite?: string[];
   bodyType?: BodyType;
+  level?: number;
 }
 
 export function BuddySprite({
@@ -198,6 +199,7 @@ export function BuddySprite({
   fighterClass,
   customSprite,
   bodyType,
+  level = 0,
 }: Props) {
   const color = SPECIES_COLORS[species] ?? "#F5F5F5";
 
@@ -212,7 +214,8 @@ export function BuddySprite({
     }
   }
 
-  if (customSprite && customSprite.length > 0) {
+  // Evolution: custom body sprite only shown at level 25+
+  if (customSprite && customSprite.length > 0 && level >= 25) {
     if (bodyType === "quadruped") {
       // Quadruped: head on the LEFT, body on the RIGHT (side by side)
       // 1. Right-align head lines so the right content edges are flush,

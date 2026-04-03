@@ -315,6 +315,7 @@ function FighterDisplay({
           fighterClass={card.class}
           customSprite={card.customSprite}
           bodyType={card.bodyType}
+          level={card.level}
         />
       </div>
 
