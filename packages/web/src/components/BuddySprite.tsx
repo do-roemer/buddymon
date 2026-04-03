@@ -133,15 +133,6 @@ const SPRITES: Record<BuddySpecies, string[]> = {
   ],
 };
 
-// Class-specific held items / accessories (appended below the sprite)
-const CLASS_ACCESSORIES: Record<string, string> = {
-  explorer:  "    ~?>~    ",   // spyglass
-  builder:   "   /|==|\\   ",   // hammer & nails
-  commander: "   -=/>=-   ",   // command sword
-  architect: "   |[##]|   ",   // blueprint scroll
-  debugger:  "   ~{!!}~   ",   // bug catcher
-};
-
 const HAT_LINES: Record<string, string> = {
   none:      "",
   crown:     "   \\^^^/    ",
@@ -151,6 +142,15 @@ const HAT_LINES: Record<string, string> = {
   wizard:    "    /^\\     ",
   beanie:    "   (___)    ",
   tinyduck:  "    ,>      ",
+};
+
+// Class-specific headgear (replaces rarity hats when class is known)
+const CLASS_HATS: Record<string, string> = {
+  explorer:  "    ~?>     ",   // spyglass / periscope
+  builder:   "   [===]    ",   // hard hat
+  commander: "   \\===/    ",   // military command cap
+  architect: "    /##\\    ",   // blueprint thinking cap
+  debugger:  "   d{!!}b   ",   // bug antenna headband
 };
 
 const SPECIES_COLORS: Record<BuddySpecies, string> = {
@@ -204,8 +204,12 @@ export function BuddySprite({
   // Always start with the species head (hat + eyes applied)
   const sprite = SPRITES[species] ?? SPRITES.blob;
   const lines = sprite.map((line) => line.replace(/\{E\}/g, eye));
-  if (hat !== "none" && !lines[0].trim()) {
-    lines[0] = HAT_LINES[hat] ?? "";
+  if (!lines[0].trim()) {
+    if (fighterClass && CLASS_HATS[fighterClass]) {
+      lines[0] = CLASS_HATS[fighterClass];
+    } else if (hat !== "none") {
+      lines[0] = HAT_LINES[hat] ?? "";
+    }
   }
 
   if (customSprite && customSprite.length > 0) {
@@ -253,9 +257,6 @@ export function BuddySprite({
       }
       lines.push(...customSprite);
     }
-  } else if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
-    // Fallback: class accessory icon
-    lines.push(CLASS_ACCESSORIES[fighterClass]);
   }
 
   // Scale font size relative to the size prop (size=8 is the default ~baseline)

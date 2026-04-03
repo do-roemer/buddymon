@@ -1,7 +1,7 @@
 import * as crypto from "node:crypto";
 import chalk from "chalk";
 import { buildFighterCard, parseStats } from "@buddymon/shared";
-import { getTerminalTamer } from "../terminal-tamer.js";
+import { getTerminalTamer, getCustomSprite, getBodyType } from "../terminal-tamer.js";
 import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
 import { readProgression } from "../progression.js";
 
@@ -19,6 +19,16 @@ export async function uploadCommand(opts: { tamer?: string; name?: string; fakeI
 
   if (!card.buddyName.toLowerCase().endsWith("mon")) {
     card.buddyName += "mon";
+  }
+
+  // Load saved sprite/body from config, then allow CLI flags to override
+  const savedSprite = getCustomSprite();
+  if (savedSprite) {
+    card.customSprite = savedSprite;
+  }
+  const savedBodyType = getBodyType();
+  if (savedBodyType === "biped" || savedBodyType === "quadruped") {
+    card.bodyType = savedBodyType;
   }
 
   if (opts.bodyType === "biped" || opts.bodyType === "quadruped") {

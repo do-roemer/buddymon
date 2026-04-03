@@ -133,15 +133,6 @@ const SPRITES: Record<BuddySpecies, string[]> = {
   ],
 };
 
-// Class-specific held items / accessories (appended below the sprite)
-const CLASS_ACCESSORIES: Record<FighterClass, string> = {
-  explorer:  "    ~?>~    ",   // spyglass
-  builder:   "   /|==|\\   ",   // hammer & nails
-  commander: "   -=/>=-   ",   // command sword
-  architect: "   |[##]|   ",   // blueprint scroll
-  debugger:  "   ~{!!}~   ",   // bug catcher
-};
-
 const HAT_LINES: Record<BuddyHat, string> = {
   none:      '',
   crown:     '   \\^^^/    ',
@@ -151,6 +142,15 @@ const HAT_LINES: Record<BuddyHat, string> = {
   wizard:    '    /^\\     ',
   beanie:    '   (___)    ',
   tinyduck:  '    ,>      ',
+};
+
+// Class-specific headgear (replaces rarity hats when class is known)
+const CLASS_HATS: Record<FighterClass, string> = {
+  explorer:  '    ~?>     ',   // spyglass / periscope
+  builder:   '   [===]    ',   // hard hat
+  commander: '   \\===/    ',   // military command cap
+  architect: '    /##\\    ',   // blueprint thinking cap
+  debugger:  '   d{!!}b   ',   // bug antenna headband
 };
 
 const SPECIES_COLORS: Record<BuddySpecies, ChalkInstance> = {
@@ -211,9 +211,13 @@ export function renderBuddy(
   const sprite = SPRITES[species] ?? SPRITES.blob;
   const lines = sprite.map((line) => line.replace(/\{E\}/g, eye));
 
-  // Apply hat overlay on line 0 if it's blank
-  if (hat !== "none" && !lines[0].trim()) {
-    lines[0] = HAT_LINES[hat];
+  // Apply headgear on line 0 if it's blank — class item takes priority over rarity hat
+  if (!lines[0].trim()) {
+    if (fighterClass && CLASS_HATS[fighterClass]) {
+      lines[0] = CLASS_HATS[fighterClass];
+    } else if (hat !== "none") {
+      lines[0] = HAT_LINES[hat];
+    }
   }
 
   if (customSprite && customSprite.length > 0) {
@@ -260,11 +264,6 @@ export function renderBuddy(
       }
     }
     lines.push(...customSprite);
-  } else if (fighterClass && CLASS_ACCESSORIES[fighterClass]) {
-    // Fallback: class accessory icon
-    const classColor = CLASS_COLORS[fighterClass];
-    lines.push(classColor(CLASS_ACCESSORIES[fighterClass]));
-    return lines.slice(0, -1).map((line) => color(line)).join("\n") + "\n" + lines[lines.length - 1];
   }
 
   return lines.map((line) => color(line)).join("\n");

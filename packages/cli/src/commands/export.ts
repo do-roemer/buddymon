@@ -2,7 +2,7 @@ import * as fs from "node:fs";
 import chalk from "chalk";
 import { parseStats, buildFighterCard } from "@buddymon/shared";
 import type { BodyType } from "@buddymon/shared";
-import { getTerminalTamer, saveCustomSprite, saveBodyType } from "../terminal-tamer.js";
+import { getTerminalTamer, getCustomSprite, getBodyType, saveCustomSprite, saveBodyType } from "../terminal-tamer.js";
 import { readProgression } from "../progression.js";
 
 export function exportCommand(outputPath: string, opts: { tamer?: string; sprite?: string; bodyType?: string }): void {
@@ -15,6 +15,16 @@ export function exportCommand(outputPath: string, opts: { tamer?: string; sprite
 
   if (!card.buddyName.toLowerCase().endsWith("mon")) {
     card.buddyName += "mon";
+  }
+
+  // Load saved sprite/body from config, then allow CLI flags to override
+  const savedSprite = getCustomSprite();
+  if (savedSprite) {
+    card.customSprite = savedSprite;
+  }
+  const savedBodyType = getBodyType();
+  if (savedBodyType === "biped" || savedBodyType === "quadruped") {
+    card.bodyType = savedBodyType;
   }
 
   if (opts.bodyType === "biped" || opts.bodyType === "quadruped") {
