@@ -37,6 +37,8 @@ export function getToolGroup(toolName: string): MoveType {
 
 // ── Type Effectiveness Chart ─────────────────────────────────────────
 // TYPE_CHART[attackMoveType][defenderClass] = multiplier
+// Each class has exactly 1 weakness (1.5x) and 1 resistance (0.75x).
+// Cycle: read → builder → bash → explorer → agent → architect → debug → commander → write → debugger → read
 export const TYPE_CHART: Record<MoveType, Record<FighterClass, number>> = {
   read: {
     explorer: 1.0,
@@ -50,28 +52,28 @@ export const TYPE_CHART: Record<MoveType, Record<FighterClass, number>> = {
     builder: 1.0,
     commander: 1.5,
     architect: 1.0,
-    debugger: 0.75,
+    debugger: 1.0,
   },
   bash: {
     explorer: 1.5,
     builder: 0.75,
     commander: 1.0,
-    architect: 1.5,
+    architect: 1.0,
     debugger: 1.0,
   },
   agent: {
     explorer: 1.0,
     builder: 1.0,
-    commander: 0.75,
-    architect: 1.0,
-    debugger: 1.5,
+    commander: 1.0,
+    architect: 1.5,
+    debugger: 0.75,
   },
   debug: {
     explorer: 1.0,
     builder: 1.0,
     commander: 1.0,
     architect: 0.75,
-    debugger: 1.0,
+    debugger: 1.5,
   },
 };
 

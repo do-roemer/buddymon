@@ -90,7 +90,7 @@ const CLASS_DATA: Record<
     accessory: "|[##]|",
 
     strengths: ["agent"],
-    weaknesses: ["debug"],
+    weaknesses: ["agent"],
   },
   debugger: {
     description:
@@ -107,16 +107,16 @@ const CLASS_DATA: Record<
     accessory: "~{!!}~",
 
     strengths: ["debug"],
-    weaknesses: ["agent"],
+    weaknesses: ["debug"],
   },
 };
 
 const TYPE_CHART: Record<MoveType, Record<FighterClass, number>> = {
   read: { explorer: 1.0, builder: 1.5, commander: 0.75, architect: 1.0, debugger: 1.0 },
-  write: { explorer: 0.75, builder: 1.0, commander: 1.5, architect: 1.0, debugger: 0.75 },
-  bash: { explorer: 1.5, builder: 0.75, commander: 1.0, architect: 1.5, debugger: 1.0 },
-  agent: { explorer: 1.0, builder: 1.0, commander: 0.75, architect: 1.0, debugger: 1.5 },
-  debug: { explorer: 1.0, builder: 1.0, commander: 1.0, architect: 0.75, debugger: 1.0 },
+  write: { explorer: 0.75, builder: 1.0, commander: 1.5, architect: 1.0, debugger: 1.0 },
+  bash: { explorer: 1.5, builder: 0.75, commander: 1.0, architect: 1.0, debugger: 1.0 },
+  agent: { explorer: 1.0, builder: 1.0, commander: 1.0, architect: 1.5, debugger: 0.75 },
+  debug: { explorer: 1.0, builder: 1.0, commander: 1.0, architect: 0.75, debugger: 1.5 },
 };
 
 const CLASSES: FighterClass[] = ["explorer", "builder", "commander", "architect", "debugger"];
