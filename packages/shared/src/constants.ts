@@ -314,11 +314,11 @@ export const NAME_PREFIXES: Record<FighterClass, string[]> = {
 
 // ── Class Growth Rates (stat gain per level) ────────────────────────
 export const CLASS_GROWTH_RATES: Record<FighterClass, GrowthRates> = {
-  explorer:  { hp: 1.0, attack: 0.7, defense: 0.7, speed: 1.2, crit: 0.15 },
-  builder:   { hp: 1.5, attack: 0.7, defense: 1.2, speed: 0.5, crit: 0.10 },
-  commander: { hp: 1.0, attack: 1.2, defense: 0.5, speed: 0.7, crit: 0.15 },
-  architect: { hp: 1.0, attack: 1.0, defense: 0.7, speed: 1.0, crit: 0.10 },
-  debugger:  { hp: 1.5, attack: 0.5, defense: 1.0, speed: 0.7, crit: 0.25 },
+  explorer:  { hp: 0.5,  attack: 0.35, defense: 0.35, speed: 0.6,  crit: 0.075 },
+  builder:   { hp: 0.75, attack: 0.35, defense: 0.6,  speed: 0.25, crit: 0.05  },
+  commander: { hp: 0.5,  attack: 0.6,  defense: 0.25, speed: 0.35, crit: 0.075 },
+  architect: { hp: 0.5,  attack: 0.5,  defense: 0.35, speed: 0.5,  crit: 0.05  },
+  debugger:  { hp: 0.75, attack: 0.25, defense: 0.5,  speed: 0.35, crit: 0.125 },
 };
 
 export const NAME_SUFFIXES = [

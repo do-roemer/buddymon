@@ -240,7 +240,7 @@ Otherwise, tool calls are grouped and the dominant group determines class:
 
 - **Token → XP rate:** 1 XP per 1000 tokens
 - **XP curve:** `floor(200 × 1.2^(level-1))` per level (exponential)
-- **Max level:** 50
+- **Max level:** 100
 - Progression state is stored in `~/.config/buddymon/progression.json`
 - `totalTokensFed` is always preserved, so the XP rate can be retuned without data loss
 
@@ -248,11 +248,11 @@ Otherwise, tool calls are grouped and the dominant group determines class:
 
 | Stat | Explorer | Builder | Commander | Architect | Debugger |
 |---|---|---|---|---|---|
-| HP | +1.0/lv | +1.5/lv | +1.0/lv | +1.0/lv | +1.5/lv |
-| ATK | +0.7/lv | +0.7/lv | +1.2/lv | +1.0/lv | +0.5/lv |
-| DEF | +0.7/lv | +1.2/lv | +0.5/lv | +0.7/lv | +1.0/lv |
-| SPD | +1.2/lv | +0.5/lv | +0.7/lv | +1.0/lv | +0.7/lv |
-| CRIT | +0.15/lv | +0.10/lv | +0.15/lv | +0.10/lv | +0.25/lv |
+| HP | +0.5/lv | +0.75/lv | +0.5/lv | +0.5/lv | +0.75/lv |
+| ATK | +0.35/lv | +0.35/lv | +0.6/lv | +0.5/lv | +0.25/lv |
+| DEF | +0.35/lv | +0.6/lv | +0.25/lv | +0.35/lv | +0.5/lv |
+| SPD | +0.6/lv | +0.25/lv | +0.35/lv | +0.5/lv | +0.35/lv |
+| CRIT | +0.075/lv | +0.05/lv | +0.075/lv | +0.05/lv | +0.125/lv |
 
 **Final stat ranges:** HP 80-300, ATK/DEF/SPD 1-100, CRIT 5-30%.
 

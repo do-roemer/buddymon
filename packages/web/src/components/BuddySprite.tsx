@@ -228,8 +228,8 @@ export function BuddySprite({
     }
   }
 
-  // Evolution: custom body sprite only shown at level 25+
-  if (customSprite && customSprite.length > 0 && level >= 25) {
+  // Evolution: custom body sprite only shown at level 50+
+  if (customSprite && customSprite.length > 0 && level >= 50) {
     if (bodyType === "quadruped") {
       // Quadruped: head on the LEFT, body on the RIGHT (side by side)
       // 1. Right-align head lines so the right content edges are flush,

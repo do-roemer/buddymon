@@ -4,7 +4,7 @@
 
 const BASE_XP = 200;
 const GROWTH_FACTOR = 1.2;
-export const MAX_LEVEL = 50;
+export const MAX_LEVEL = 100;
 export const XP_PER_TOKEN = 0.001; // 1 XP per 1000 tokens
 
 /** XP needed to go from `level` to `level + 1`. */

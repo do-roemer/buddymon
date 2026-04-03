@@ -1,5 +1,6 @@
 import type { FighterStats, RawAggregate, BuddyBaseStats, FighterClass } from "./types.js";
 import { CLASS_GROWTH_RATES } from "./constants.js";
+import { MAX_LEVEL } from "./progression.js";
 
 function clamp(min: number, val: number, max: number): number {
   return Math.max(min, Math.min(max, val));
@@ -118,7 +119,8 @@ export function computeLevel(totalSessions: number): number {
 }
 
 // ── Level-based stat computation (XP progression system) ────────────
-// Stats = base_stat (from companion) + floor(level * growth_rate), capped.
+// Base stats scale with level: Level 1 gets 10% of base, Level 50 gets 100%.
+// Growth per level is added on top. This keeps Level 1 weak and rewards leveling.
 export function computeStatsFromLevel(
   level: number,
   fighterClass: FighterClass,
@@ -128,11 +130,14 @@ export function computeStatsFromLevel(
   const base = baseToFighter(baseStats);
   const growth = CLASS_GROWTH_RATES[fighterClass];
 
-  const hp = clamp(80, base.hp + Math.floor(level * growth.hp), 300);
-  const attack = clamp(1, base.attack + Math.floor(level * growth.attack), 100);
-  const defense = clamp(1, base.defense + Math.floor(level * growth.defense), 100);
-  const speed = clamp(1, base.speed + Math.floor(level * growth.speed), 100);
-  const critChance = clamp(5, base.critBase + Math.floor(level * growth.crit), 30);
+  // Level scaling: 10% at L1, 100% at max level
+  const s = 0.1 + 0.9 * ((level - 1) / (MAX_LEVEL - 1));
+
+  const hp = clamp(80, Math.round(80 + (base.hp - 80) * s + level * growth.hp), 300);
+  const attack = clamp(1, Math.round(base.attack * s + level * growth.attack), 100);
+  const defense = clamp(1, Math.round(base.defense * s + level * growth.defense), 100);
+  const speed = clamp(1, Math.round(base.speed * s + level * growth.speed), 100);
+  const critChance = clamp(5, Math.round(5 + (base.critBase - 5) * s + level * growth.crit), 30);
   const rageMode = lateNightRatio > 0.15;
 
   return { hp, attack, defense, speed, critChance, rageMode };
