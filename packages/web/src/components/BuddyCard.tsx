@@ -2,6 +2,11 @@
 
 import type { FighterCard } from "@buddymon/shared-types";
 import { BuddySprite } from "./BuddySprite";
+
+/** Moves unlocked at a given level (1 at L1, +1 every 5 levels, max 4). */
+function unlockedMoves(level: number): number {
+  return Math.min(4, 1 + Math.floor(level / 5));
+}
 import { StatRadar } from "./StatRadar";
 
 const CLASS_COLORS: Record<string, string> = {
@@ -90,7 +95,7 @@ export function BuddyCard({ card, selected = false, onClick, showDetails = false
 
           <div className="space-y-1">
             <p className="text-[8px] text-gray-400 uppercase">Moves</p>
-            {card.moves.map((move, i) => (
+            {card.moves.slice(0, unlockedMoves(card.level)).map((move, i) => (
               <div
                 key={i}
                 className="flex items-center justify-between text-[8px] bg-black/20 rounded px-2 py-1"

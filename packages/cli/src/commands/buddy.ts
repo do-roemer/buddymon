@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { parseStats, buildFighterCard, xpForLevel, MAX_LEVEL } from "@buddymon/shared";
+import { parseStats, buildFighterCard, xpForLevel, MAX_LEVEL, unlockedMoves } from "@buddymon/shared";
 import type { BuddyHat } from "@buddymon/shared";
 import { renderBuddy, getClassColor, getClassEmoji, getSpeciesColor, getRarityColor, getRarityStars } from "../render/ascii-buddy.js";
 import { renderStatBars } from "../render/stat-bars.js";
@@ -63,7 +63,8 @@ export function buddyCommand(opts: { tamer?: string }): void {
   // Moves
   console.log(chalk.bold.white("  Moves"));
   console.log(chalk.gray("  " + "─".repeat(40)));
-  for (const move of card.moves) {
+  const moveCount = unlockedMoves(card.level);
+  for (const move of card.moves.slice(0, moveCount)) {
     const typeColor = {
       read: chalk.cyan,
       write: chalk.yellow,

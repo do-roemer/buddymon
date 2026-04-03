@@ -9,6 +9,7 @@ import type {
   Effectiveness,
 } from "./types.js";
 import { TYPE_CHART } from "./constants.js";
+import { unlockedMoves } from "./progression.js";
 
 const MAX_TURNS = 30;
 
@@ -111,7 +112,8 @@ function selectMove(
   defender: FighterState,
   rng: () => number,
 ): Move {
-  const moves = attacker.card.moves;
+  const allMoves = attacker.card.moves;
+  const moves = allMoves.slice(0, unlockedMoves(attacker.card.level));
   const weights = moves.map((m) => {
     const typeMult = TYPE_CHART[m.type][defender.card.class];
     return m.power * typeMult * (m.accuracy / 100);

@@ -1,4 +1,5 @@
 import { getBuddy, getBuddyBattles } from "@/lib/db";
+import { unlockedMoves } from "@buddymon/shared";
 import { BuddyCard } from "@/components/BuddyCard";
 import { StatRadar } from "@/components/StatRadar";
 import { BuddySprite } from "@/components/BuddySprite";
@@ -98,7 +99,7 @@ export default async function BuddyPage({ params }: Props) {
           <div className="bg-[var(--bg-card)] pixel-border border-[var(--border-subtle)] rounded-lg p-4">
             <h2 className="text-xs font-bold text-gray-400 mb-3">MOVES</h2>
             <div className="space-y-2">
-              {card.moves.map((move, i) => (
+              {card.moves.slice(0, unlockedMoves(card.level)).map((move, i) => (
                 <div
                   key={i}
                   className="bg-black/20 rounded p-2"

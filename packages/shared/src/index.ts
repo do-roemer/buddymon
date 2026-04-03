@@ -84,6 +84,7 @@ export {
   tokensToXP,
   XP_PER_TOKEN,
   MAX_LEVEL,
+  unlockedMoves,
 } from "./progression.js";
 
 // Battle engine
