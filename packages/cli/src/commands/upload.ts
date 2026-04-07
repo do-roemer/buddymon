@@ -2,7 +2,7 @@ import * as crypto from "node:crypto";
 import chalk from "chalk";
 import { buildFighterCard, parseStats } from "@buddymon/shared";
 import { getTerminalTamer, getCustomSprite, getBodyType } from "../terminal-tamer.js";
-import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
+import { ARENA_URL } from "../arena.js";
 import { readProgression } from "../progression.js";
 
 export async function uploadCommand(opts: { tamer?: string; name?: string; fakeIdentity?: boolean; sprite?: string; bodyType?: string }): Promise<void> {
@@ -50,12 +50,12 @@ export async function uploadCommand(opts: { tamer?: string; name?: string; fakeI
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(card),
     });
-  } catch {
+  } catch (err) {
     console.error(chalk.red("\n  Error: Could not connect to the arena.\n"));
-    if (isLocalArenaUrl()) {
-      console.error(chalk.gray("  Start it with 'npm run arena' from the buddymon project directory.\n"));
-    } else {
-      console.error(chalk.gray(`  Check BUDDYMON_ARENA_URL: ${ARENA_URL}\n`));
+    console.error(chalk.gray(`  Attempted URL: ${ARENA_URL}/api/upload`));
+    console.error(chalk.gray(`  Check your network or set BUDDYMON_ARENA_URL.\n`));
+    if (err instanceof Error) {
+      console.error(chalk.gray(`  Detail: ${err.message}\n`));
     }
     process.exit(1);
   }

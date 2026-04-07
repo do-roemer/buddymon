@@ -12,15 +12,12 @@ version: 0.1.0
 
 The Buddymon project lives at `${CLAUDE_PLUGIN_ROOT}/../..` (the repo root, two levels above the plugin directory).
 
-All commands use the npm script wrapper which loads `.env.local` automatically:
+All commands use the npm script wrapper:
 ```bash
 cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- <subcommand> [options]
 ```
 
-Add `--local` before the subcommand to use `localhost:3000` instead of the production arena:
-```bash
-cd ${CLAUDE_PLUGIN_ROOT}/../.. && npm run buddymon -- --local <subcommand> [options]
-```
+To use a different arena URL, set `BUDDYMON_ARENA_URL` in your environment (defaults to `https://buddymon.vercel.app`).
 
 ## Terminal Tamer Name
 

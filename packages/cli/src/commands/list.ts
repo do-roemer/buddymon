@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { ARENA_URL, isLocalArenaUrl } from "../arena.js";
+import { ARENA_URL } from "../arena.js";
 
 interface StoredBuddy {
   id: string;
@@ -15,12 +15,12 @@ export async function listCommand(): Promise<void> {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     buddies = data.buddies;
-  } catch {
+  } catch (err) {
     console.error(chalk.red("\n  Error: Could not connect to the arena.\n"));
-    if (isLocalArenaUrl()) {
-      console.error(chalk.gray("  Start it with 'npm run arena' from the buddymon project directory.\n"));
-    } else {
-      console.error(chalk.gray(`  Check BUDDYMON_ARENA_URL: ${ARENA_URL}\n`));
+    console.error(chalk.gray(`  Attempted URL: ${ARENA_URL}/api/buddymons`));
+    console.error(chalk.gray(`  Check your network or set BUDDYMON_ARENA_URL.\n`));
+    if (err instanceof Error) {
+      console.error(chalk.gray(`  Detail: ${err.message}\n`));
     }
     process.exit(1);
   }

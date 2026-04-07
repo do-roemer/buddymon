@@ -10,18 +10,12 @@ import { helpCommand } from "./commands/help.js";
 import { uploadCommand } from "./commands/upload.js";
 import { feedCommand } from "./commands/feed.js";
 import { generateSpriteCommand } from "./commands/generate-sprite.js";
-import { setLocal } from "./arena.js";
-
 const program = new Command();
 
 program
   .name("buddymon")
   .description("Generate your coding buddy from Claude Code usage stats and battle!")
-  .version("0.1.0")
-  .option("--local", "Use localhost:3000 instead of the configured arena URL")
-  .hook("preAction", (thisCommand) => {
-    if (thisCommand.opts().local) setLocal();
-  });
+  .version("0.1.0");
 
 program
   .command("scan")
